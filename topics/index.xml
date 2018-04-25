@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Topics on wonder of light</title>
-    <link>https://www.example.com/topics/</link>
+    <link>https://llhhbc.github.io/wonder/topics/</link>
     <description>Recent content in Topics on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     
-	<atom:link href="https://www.example.com/topics/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://llhhbc.github.io/wonder/topics/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

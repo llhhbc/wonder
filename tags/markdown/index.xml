@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Markdown on wonder of light</title>
-    <link>https://www.example.com/tags/markdown/</link>
+    <link>https://llhhbc.github.io/wonder/tags/markdown/</link>
     <description>Recent content in Markdown on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Wed, 25 Apr 2018 12:02:28 +0800</lastBuildDate>
     
-	<atom:link href="https://www.example.com/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://llhhbc.github.io/wonder/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Learn Md</title>
-      <link>https://www.example.com/post/learn-md/</link>
+      <link>https://llhhbc.github.io/wonder/post/learn-md/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
-      <guid>https://www.example.com/post/learn-md/</guid>
+      <guid>https://llhhbc.github.io/wonder/post/learn-md/</guid>
       <description>标题  利用=（最高阶标题） 和 - （第二阶标题） 在行首插入1到6个#，对应标题1到6阶  区块使用  在每行前面，或者段落最前面加上&amp;gt; 表示区块引用,如：   aa
  aa dsafas
   列表  用星号、加号或减号来表示无序列表 用数字加英文句点（不在乎数字是几）表示有序列表，数字会重新自动生成  代码区块  缩进4个空格或者一个制表符，就是代码区块 如果段内有一小段代码，可以用`号包起来，如  printf();   如果代码中也有`号，可以用多个来标记开始和结束如：  printf(&amp;quot;`&amp;quot;);   引用一段代码, 如：引用部分c++代码  int a=1; int b=2; int c= a+b;  分隔线  在一行中用3个以上的星号、减号、底线来建立一个分隔线  链接  链接文字用[方括号]来标记，后面紧接着用圆括号闰插入网上链接 如：test link 链接标记： 两个方括号 test link 前一个是链接文字，后一个是标记，然后在后面标记这个id  强调  使用星号、底线 作为标志强调字词的符号 （用一个*或_包围的字词会转成EM标签，用两个会转成strong this is em this is strong  图片  添加图片 !</description>
