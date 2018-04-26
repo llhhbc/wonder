@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="学习markdown格式的使用">
+  <meta name="description" content="kuber部署问题汇总">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Learn markdown &middot; wonder of light</title>
+  <title>kube问题汇总 &middot; wonder of light</title>
 
   
   
@@ -192,8 +192,8 @@
 
 
 <div class="header">
-  <h1>Learn markdown</h1>
-  <h2>学习markdown格式的使用</h2>
+  <h1>kube问题汇总</h1>
+  <h2>kuber部署问题汇总</h2>
 </div>
 <div class="content">
 
@@ -201,7 +201,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
+    <time>2018-04-26</time>
   </div>
 
   
@@ -214,7 +214,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/markdown">markdown</a>
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
     
   </div>
   
@@ -222,101 +222,43 @@
 
 </div>
 
-  
+  <ol>
+<li><p>虚拟机建议用virutalbox</p>
 
-<h4 id="标题">标题</h4>
+<p>当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s   老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改</p></li>
 
-<ul>
-<li>利用=（最高阶标题） 和 - （第二阶标题）</li>
-<li>在行首插入1到6个#，对应标题1到6阶</li>
-</ul>
+<li><p>virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络</p>
 
-<h4 id="区块使用">区块使用</h4>
+<p>然后每个主机在加一个hostonly的网卡，用于主机访问虚拟机</p></li>
 
-<ul>
-<li>在每行前面，或者段落最前面加上&gt; 表示区块引用,如：</li>
-</ul>
+<li><p>硬盘没空间：</p>
 
-<blockquote>
-<p>aa</p>
+<p>突然发现pod状态变成了：Evicted，还有挂起的，然后  通过 kubelet describe命令查看，发现是node空间满了，无法部署了：我看空间用了80%</p></li>
 
-<blockquote>
-<p>aa dsafas</p>
-</blockquote>
-</blockquote>
+<li><p>时间不同步：</p>
 
-<h4 id="列表">列表</h4>
+<p>时间不同步时，会出现
+Unable to authenticate the request due to an error: x509: certificate has expired or is not yet valid
+我同步机器时间后，问题解决。。。</p></li>
 
-<ul>
-<li>用星号、加号或减号来表示无序列表</li>
-<li>用数字加英文句点（不在乎数字是几）表示有序列表，数字会重新自动生成</li>
-</ul>
+<li><p>token不一致：</p>
 
-<h4 id="代码区块">代码区块</h4>
-
-<ul>
-<li>缩进4个空格或者一个制表符，就是代码区块</li>
-<li>如果段内有一小段代码，可以用`号包起来，如</li>
-</ul>
-
-<pre><code>printf();
-</code></pre>
-
-<ul>
-<li>如果代码中也有`号，可以用多个来标记开始和结束如：</li>
-</ul>
-
-<pre><code>printf(&quot;`&quot;);
-</code></pre>
-
-<ul>
-<li>引用一段代码, 如：引用部分c++代码</li>
-</ul>
-
-<pre><code class="language-c++">int a=1;
-int b=2;
-int c= a+b;
-</code></pre>
-
-<h4 id="分隔线">分隔线</h4>
-
-<ul>
-<li>在一行中用3个以上的星号、减号、底线来建立一个分隔线</li>
-</ul>
-
-<h4 id="链接">链接</h4>
-
-<ul>
-<li>链接文字用[方括号]来标记，后面紧接着用圆括号闰插入网上链接 如：<a href="http://localhost:1313/">test link</a></li>
-<li>链接标记： 两个方括号 <a href="http://localhost:1313/" title="my test link">test link</a>  前一个是链接文字，后一个是标记，然后在后面标记这个id</li>
-</ul>
-
-<h4 id="强调">强调</h4>
-
-<ul>
-<li>使用星号、底线 作为标志强调字词的符号 （用一个*或_包围的字词会转成EM标签，用两个会转成strong
-<em>this is em</em>  <strong>this is strong</strong></li>
-</ul>
-
-<h4 id="图片">图片</h4>
-
-<ul>
-<li>添加图片 <code>![Alt text](/path/to/img.jpg &quot;this is Optional&quot;)</code> <img src="https://llhhbc.github.io/wonder/path/to/img.jpg" alt="Alt text" title="this is Optional" /></li>
-<li>也可用链接的那种id方式：<code>![Alt text][linkId]</code> <img src="http://localhost:1313/" alt="Alt text" title="my test link" /></li>
-</ul>
+<p>配置文件bootstrap.kubeconfig中token不一致，会导致这个错
+failed to run Kubelet: cannot create certificate signing request: Unauthorized</p></li>
+</ol>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://llhhbc.github.io/wonder/post/use-hugo/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://llhhbc.github.io/wonder/post/source_list/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://llhhbc.github.io/wonder/post/use-hugo/">use hugo</a>
+      <a href="https://llhhbc.github.io/wonder/post/source_list/">open source list</a>
     </nav>
     
   </div>
@@ -326,13 +268,13 @@ int c= a+b;
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="https://llhhbc.github.io/wonder/post/source_list/">open source list</a>
+      <a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">kuberadm start</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="https://llhhbc.github.io/wonder/post/source_list/"><i class="fa fa-chevron-right"></i></a>
+    <a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Hugo &middot; wonder of light</title>
+  <title>Kuberadm &middot; wonder of light</title>
 
   
   
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/tags/hugo/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/tags/kuberadm/index.xml" />
   
 
   
@@ -101,7 +101,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/hugo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/kuberadm/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -198,20 +198,20 @@
 
 
 <div class="header">
-  <h1>Hugo</h1>
+  <h1>Kuberadm</h1>
 </div>
 
 <div class="content">
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/use-hugo/">use hugo</a></h2>
+    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">kuberadm start</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
+    <time>2018-04-26</time>
   </div>
 
   
@@ -224,13 +224,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/go">go</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kuberadm">kuberadm</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/hugo">hugo</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
     
   </div>
   
@@ -241,9 +237,19 @@
   </header>
 
   <p>
-   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
+  kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
+通过kubeadm安装 参考 官方文档
+1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
+ firewall-cmd &ndash;state 查看状态
+ systemctl stop firewalld.service # 停止firewall
+ systemctl disable firewalld.service # 禁止firewall开机启动
+  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)
   </p>
 
+  
+  <footer>
+    <a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
   
 </article>
 

@@ -7,13 +7,56 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 25 Apr 2018 12:02:28 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Apr 2018 10:46:49 +0800</lastBuildDate>
     
 	<atom:link href="https://llhhbc.github.io/wonder/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Learn Md</title>
+      <title>kuberadm start</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</link>
+      <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</guid>
+      <description>kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
+通过kubeadm安装 参考 官方文档
+1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
+ firewall-cmd &amp;ndash;state 查看状态
+ systemctl stop firewalld.service # 停止firewall
+ systemctl disable firewalld.service # 禁止firewall开机启动
+  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)</description>
+    </item>
+    
+    <item>
+      <title>kube问题汇总</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/kube_help/</link>
+      <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/kube_help/</guid>
+      <description> 虚拟机建议用virutalbox
+当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s 老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改
+ virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络
+然后每个主机在加一个hostonly的网卡，用于主机访问虚拟机
+ 硬盘没空间：
+突然发现pod状态变成了：Evicted，还有挂起的，然后 通过 kubelet describe命令查看，发现是node空间满了，无法部署了：我看空间用了80%
+ 时间不同步：
+时间不同步时，会出现 Unable to authenticate the request due to an error: x509: certificate has expired or is not yet valid 我同步机器时间后，问题解决。。。
+ token不一致：
+配置文件bootstrap.kubeconfig中token不一致，会导致这个错 failed to run Kubelet: cannot create certificate signing request: Unauthorized
+  </description>
+    </item>
+    
+    <item>
+      <title>open source list</title>
+      <link>https://llhhbc.github.io/wonder/post/source_list/</link>
+      <pubDate>Thu, 26 Apr 2018 10:38:52 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/source_list/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn markdown</title>
       <link>https://llhhbc.github.io/wonder/post/learn-md/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
@@ -29,7 +72,7 @@
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
       <guid>https://llhhbc.github.io/wonder/post/use-hugo/</guid>
-      <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
+      <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
     </item>
     
   </channel>

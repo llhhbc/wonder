@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="开源项目收集整理">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>kuberadm start &middot; wonder of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>kuberadm start</h1>
+  <h2>开源项目收集整理</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kuberadm">kuberadm</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）</p>
+
+<h1 id="通过kubeadm安装">通过kubeadm安装</h1>
+
+<p>参考 <a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/">官方文档</a></p>
+
+<h4 id="1-准备环境">1. 准备环境</h4>
+
+<h5 id="1-1-修改hostname">1.1 修改hostname</h5>
+
+<ul>
+<li>修改  /etc/hostname</li>
+</ul>
+
+<h5 id="1-2-关闭sellinux-关闭防火墙">1.2 关闭sellinux，关闭防火墙</h5>
+
+<ul>
+<li>setenforce 0</li>
+
+<li><p>编辑/etc/selinux/config</p></li>
+
+<li><p>firewall-cmd &ndash;state  查看状态</p></li>
+
+<li><p>systemctl stop firewalld.service # 停止firewall</p></li>
+
+<li><p>systemctl disable firewalld.service # 禁止firewall开机启动</p></li>
+</ul>
+
+<h5 id="1-3-关闭swap">1.3 关闭swap</h5>
+
+<pre><code>swapoff -a
+编辑 /etc/fstab 去掉swap配置（#号注释掉）
+</code></pre>
+
+<h4 id="1-4-安装crictl-可选">1.4 安装crictl (可选)</h4>
+
+<pre><code>go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
+GOARCH=amd64 GOOS=linux go build
+</code></pre>
+
+<h4 id="1-5-get-docker-image">1.5 get docker image</h4>
+
+<ul>
+<li>运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本</li>
+<li>通过hub.docker.com 中转，实现镜像的下载  具体方法请参考：<a href="https://mritd.me/2016/10/29/set-up-kubernetes-cluster-by-kubeadm/">kubeadm搭建（by mritd）</a></li>
+
+<li><p>重新tag镜像(以下是我使用的，可直接pull后使用)</p>
+
+<pre><code>docker tag llhhbc/dreba:api.1.10.0  k8s.gcr.io/kube-apiserver-amd64:v1.10.0
+docker tag llhhbc/dreba:etcd.3.1.12 k8s.gcr.io/etcd-amd64:3.1.12
+docker tag llhhbc/dreba:con.1.10.0  k8s.gcr.io/kube-controller-manager-amd64:v1.10.0
+docker tag llhhbc/dreba:sch.1.10.0  k8s.gcr.io/kube-scheduler-amd64:v1.10.0
+docker tag llhhbc/dreba:pau.3.1     k8s.gcr.io/pause-amd64:3.1
+docker tag llhhbc/dreba:proxy.1.10.0     k8s.gcr.io/kube-proxy-amd64:v1.10.0
+</code></pre></li>
+
+<li><p>打包镜像</p>
+
+<pre><code>docker save -o kube.tgz k8s.gcr.io/etcd-amd64:3.1.12 k8s.gcr.io/kube-apiserver-amd64:v1.10.0 k8s.gcr.io/kube-controller-manager-amd64:v1.10.0 k8s.gcr.io/kube-scheduler-amd64:v1.10.0 k8s.gcr.io/pause-amd64:3.1 k8s.gcr.io/kube-proxy-amd64:v1.10.0 
+</code></pre></li>
+
+<li><p>导入镜像</p>
+
+<pre><code>docker load -i kube.tgz
+</code></pre></li>
+</ul>
+
+<h4 id="1-6-安装kubeadm">1.6 安装kubeadm</h4>
+
+<pre><code>    #一定要修改这个
+    sed -i &quot;s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g&quot; /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+    cat &lt;&lt;EOF &gt;  /etc/sysctl.d/k8s.conf
+    net.bridge.bridge-nf-call-ip6tables = 1
+    net.bridge.bridge-nf-call-iptables = 1
+    EOF
+    sysctl --system
+
+    # 因为之前执行过 init，所以会报有些已经存在，可以先 kubeadm reset 重置
+    kubeadm init --pod-network-cidr=10.244.0.0/16
+</code></pre>
+
+<ul>
+<li><p>配置kubecfg， 不然kubectl会提示 localhost:8080 连接不上</p>
+
+<pre><code>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+</code></pre></li>
+</ul>
+
+<!-- #### 1.7 安装fannel
+
+    docker tag llhhbc/dreba:fan.0.9.1 quay.io/coreos/flannel:v0.9.1-amd64
+    docker save -o fan.tgz quay.io/coreos/flannel:v0.9.1-amd64
+    docker load -i fan.tgz
+
+    wget https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+    kubectl apply -f kube-fannel.yaml -->
+
+<h4 id="1-7-安装calio">1.7 安装calio</h4>
+
+<pre><code>    docker tag llhhbc/dreba:cal.etcd.3.1.10 quay.io/coreos/etcd:v3.1.10
+    docker tag llhhbc/dreba:cal.nod.3.0.4   quay.io/calico/node:v3.0.4
+    docker tag llhhbc/dreba:cal.cni.2.0.3   quay.io/calico/cni:v2.0.3
+    docker tag llhhbc/dreba:cal.kub.2.0.2   quay.io/calico/kube-controllers:v2.0.2
+    docker save -o cal.tgz quay.io/coreos/etcd:v3.1.10 quay.io/calico/node:v3.0.4 quay.io/calico/cni:v2.0.3 quay.io/calico/kube-controllers:v2.0.2
+
+    docker load -i cal.tgz
+
+    kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+</code></pre>
+
+<h4 id="1-8-dns">1.8 dns</h4>
+
+<pre><code>docker tag llhhbc/dreba:dns.1.14.8 k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.8
+docker tag llhhbc/dreba:dns.masq.1.14.8 k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.8
+docker tag llhhbc/dreba:dns.side.1.14.8 k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.8
+
+docker save -o dns.tgz k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.8 k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.8 k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.8
+
+docker load -i dns.tgz
+</code></pre>
+
+<h4 id="1-9-安装检查">1.9 安装检查</h4>
+
+<ul>
+<li><p>切换命名空间</p>
+
+<pre><code>kubectl config set-context $(kubectl config current-context) --namespace=kube-system
+kubectl config view | grep namespace:
+</code></pre></li>
+</ul>
+
+<h4 id="2-0-安装完成">2.0 安装完成</h4>
+
+<p>真心不容易</p>
+
+<pre><code>        kubectl get pods  #能看到所有进程都正常
+</code></pre>
+
+<h4 id="2-1-安装node">2.1 安装node</h4>
+
+<ul>
+<li>前5步都一样  （记住，主机名一定不能有冲突）</li>
+
+<li><p>第6步改为 kubectl join  (init成功后提示的命令)</p>
+
+<p>&ndash;ignore-preflight-errors=all  #加上这个，因为crictl会找/var/run/dockershim.sock文件，而这个文件只有当kubelet启动后，才会有</p></li>
+</ul>
+
+<h4 id="3-1-检查集群">3.1 检查集群</h4>
+
+<pre><code>kubectl get nodes
+kubectl get pods
+kubectl get cs
+</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/kuber/kube_help/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://llhhbc.github.io/wonder/post/kuber/kube_help/">kube问题汇总</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

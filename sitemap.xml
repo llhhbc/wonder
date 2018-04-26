@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</loc>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://llhhbc.github.io/wonder/post/kuber/kube_help/</loc>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://llhhbc.github.io/wonder/post/source_list/</loc>
+    <lastmod>2018-04-26T10:38:52+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://llhhbc.github.io/wonder/post/learn-md/</loc>
     <lastmod>2018-04-25T12:02:28+08:00</lastmod>
   </url>
@@ -19,7 +34,7 @@
   
   <url>
     <loc>https://llhhbc.github.io/wonder/tags/development/</loc>
-    <lastmod>2018-04-25T12:02:28+08:00</lastmod>
+    <lastmod>2018-04-26T10:38:52+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -42,20 +57,38 @@
   </url>
   
   <url>
+    <loc>https://llhhbc.github.io/wonder/tags/kuberadm/</loc>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://llhhbc.github.io/wonder/tags/kubernetes/</loc>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://llhhbc.github.io/wonder/tags/markdown/</loc>
     <lastmod>2018-04-25T12:02:28+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://llhhbc.github.io/wonder/tags/open-source/</loc>
+    <lastmod>2018-04-26T10:38:52+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://llhhbc.github.io/wonder/post/</loc>
-    <lastmod>2018-04-25T12:02:28+08:00</lastmod>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://llhhbc.github.io/wonder/tags/</loc>
-    <lastmod>2018-04-25T12:02:28+08:00</lastmod>
+    <lastmod>2018-04-26T10:38:52+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -66,7 +99,7 @@
   
   <url>
     <loc>https://llhhbc.github.io/wonder/</loc>
-    <lastmod>2018-04-25T12:02:28+08:00</lastmod>
+    <lastmod>2018-04-26T10:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
