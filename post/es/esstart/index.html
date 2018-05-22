@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="es 入门">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>es 入门 &middot; wonder of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>es 入门</h1>
+  <h2>es 入门</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/elastic">elastic</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h3 id="es安装">es安装</h3>
+
+<ul>
+<li>官网下载 es <a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a>
+```shell
+unzip elasticsearch-6.2.4.zip
+cd elasticsearch-6.2.4/config</li>
+</ul>
+
+<p>#修改集群名字和端口,数据目录等
+vi elasticsearch.yml</p>
+
+<h1 id="启动es">启动es</h1>
+
+<p>cd elasticsearch-6.2.4/bin
+./elasticsearch</p>
+
+<h1 id="验证启动状态">验证启动状态</h1>
+
+<p>curl <a href="http://127.0.0.1:9200">http://127.0.0.1:9200</a></p>
+
+<pre><code>### 安装中文分词
+&gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik
+&gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip
+
+
+### es简单使用
+#### 创建一个index mapping（相当于一个表）
+```shell
+curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d '
+{
+&quot;mappings&quot;: {
+	&quot;articles&quot;: {
+	&quot;properties&quot;: {
+	&quot;title&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;},
+	&quot;description&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;},
+	&quot;tags&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;},
+	&quot;date&quot;: {&quot;type&quot; : &quot;date&quot;},
+	&quot;categories&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;},
+	&quot;context&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}
+}
+}
+}
+}
+'
+
+</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">kbuernetes 学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://llhhbc.github.io/wonder/post/allmywonder/">学习汇总</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/allmywonder/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

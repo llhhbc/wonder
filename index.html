@@ -206,6 +206,356 @@
   
     <article>
   <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/selfupd/memorybase/">记忆基数</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/memory">memory</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   记忆基数  1 粉笔 2 鸭子 3 耳朵 4 红旗 5 秤钩 6 口哨 7 锄头 8 葫芦 9 气球 10 老师 11 双截棍 12 不倒翁 13  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/language/python/pythi/">tensorFlow入门</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/tensorflow">tensorflow</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  ipynb
+jupyter notebook  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/">tensorFlow入门</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/tensorflow">tensorflow</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
+conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
+tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&quot;hello, tensorflow&quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/allmywonder/">学习汇总</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/all">all</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &ndash; gin
+ kit
+ hydra
+  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/es/esstart/">es 入门</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/elastic">elastic</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
+启动es cd elasticsearch-6.2.4/bin ./elasticsearch
+验证启动状态 curl http://127.0.0.1:9200
+### 安装中文分词 &gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d ' { &quot;mappings&quot;: { &quot;articles&quot;: { &quot;properties&quot;: { &quot;title&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;description&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;tags&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;date&quot;: {&quot;type&quot; : &quot;date&quot;}, &quot;categories&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;context&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;} } } } } '  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
+apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
+Namespace 管理一组资源和对象
+Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
+apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test
+  </p>
+
+  
+  <footer>
+    <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/istio/">istio初尝试</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/istio">istio</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  说明  参考 http://istio.doczh.cn/
+ 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &ldquo;install/kubernetes/istio.yaml&rdquo; 的错误，删除后再重新执行一遍就好了
+ 部署bookinfo kubectl apply -f &lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}') #测试地址访问 curl -o /dev/null -s -w &quot;%{http_code}\n&quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.
+  </p>
+
+  
+  <footer>
+    <a href="https://llhhbc.github.io/wonder/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+ 设置主机名 &gt; sh etc/set_hosts.sh
+ 安装etcd &gt; sh rpms/install_etcd.sh
+ 安装etcd证书 &gt; sh keys/etcd/install_etc_key.sh
+ 修改etcd配置 &gt; sh etc/set_etcd.sh
+ 启动etcd &gt; sh run/start_etcd.sh
+ 安装kube 程序 &gt; sh rpms/install_kuber.sh
+ 安装kuber证书 &gt; sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置 &gt; #设置master结点 &gt; sh etc/kube_cfg/set_kuber_cfg.sh &gt; #设置node结点 &gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &gt; #如果master也作为node结点，则运行 &gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube &gt; sh run/start_kube.sh &gt; #在任意一台master上执行： 开启认证 &gt; kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap &gt; #如果master上要启动作为node，则 &gt; sh run/start_kube_master_node.
+  </p>
+
+  
+  <footer>
+    <a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">kuberadm start</a></h2>
 
     <div class="post-meta">
@@ -304,139 +654,20 @@
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/source_list/">open source list</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
 
   
 
-  
 
+<nav class="pagination" role="pagination">
   
+  <i class="fa fa-chevron-left"></i>
   
+  <span>&nbsp;1 / 2&nbsp;</span>
   
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/open-source">open source</a>
-    
-  </div>
+  <a href="https://llhhbc.github.io/wonder/page/2/"><i class="fa fa-chevron-right"></i></a>
   
-  
+</nav>
 
-</div>
-
-  </header>
-
-  <p>
-  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/learn-md/">Learn markdown</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/markdown">markdown</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  标题  利用=（最高阶标题） 和 - （第二阶标题） 在行首插入1到6个#，对应标题1到6阶  区块使用  在每行前面，或者段落最前面加上&gt; 表示区块引用,如：   aa
- aa dsafas
-  列表  用星号、加号或减号来表示无序列表 用数字加英文句点（不在乎数字是几）表示有序列表，数字会重新自动生成  代码区块  缩进4个空格或者一个制表符，就是代码区块 如果段内有一小段代码，可以用`号包起来，如  printf();   如果代码中也有`号，可以用多个来标记开始和结束如：  printf(&quot;`&quot;);   引用一段代码, 如：引用部分c++代码  int a=1; int b=2; int c= a+b;  分隔线  在一行中用3个以上的星号、减号、底线来建立一个分隔线  链接  链接文字用[方括号]来标记，后面紧接着用圆括号闰插入网上链接 如：test link 链接标记： 两个方括号 test link 前一个是链接文字，后一个是标记，然后在后面标记这个id  强调  使用星号、底线 作为标志强调字词的符号 （用一个*或_包围的字词会转成EM标签，用两个会转成strong this is em this is strong  图片  添加图片 !
-  </p>
-
-  
-  <footer>
-    <a href="https://llhhbc.github.io/wonder/post/learn-md/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/use-hugo/">use hugo</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/go">go</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/hugo">hugo</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
-  </p>
-
-  
-</article>
-
-  
-
-  
 
 
 </div>

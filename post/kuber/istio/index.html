@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="istio初尝试">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>istio初尝试 &middot; wonder of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>istio初尝试</h1>
+  <h2>istio初尝试</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/istio">istio</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h3 id="说明">说明</h3>
+
+<blockquote>
+<p>参考 <a href="http://istio.doczh.cn/">http://istio.doczh.cn/</a></p>
+</blockquote>
+
+<h3 id="安装istio">安装istio</h3>
+
+<blockquote>
+<p>kubectl apply -f install/kubernetes/istio.yaml
+#如果出现 unable to recognize &ldquo;install/kubernetes/istio.yaml&rdquo; 的错误，删除后再重新执行一遍就好了</p>
+</blockquote>
+
+<h3 id="部署bookinfo">部署bookinfo</h3>
+
+<pre><code class="language-shell">    kubectl apply -f &lt;(istioctl kube-inject -f bookinfo.yaml)
+
+    #获取访问地址
+    export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+    
+    #测试地址访问
+    curl -o /dev/null -s -w &quot;%{http_code}\n&quot; http://${GATEWAY_URL}/productpage
+</code></pre>
+
+<h4 id="1-1-验证路由访问">1.1 验证路由访问</h4>
+
+<pre><code class="language-shell">    #所有用户都访问v1
+    istioctl create -f route-rule-all-v1.yaml
+    #jason用户登录访问v2
+    istioctl create -f route-rule-reviews-test-v2.yaml
+</code></pre>
+
+<h4 id="1-2-记录日志">1.2 记录日志</h4>
+
+<pre><code class="language-yaml">    ##保存如下信息为 new_telemetry.yaml
+    # Configuration for metric instances
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: metric
+    metadata:
+      name: doublerequestcount
+      namespace: istio-system
+    spec:
+      value: &quot;2&quot; # count each request twice
+      dimensions:
+        source: source.service | &quot;unknown&quot;
+        destination: destination.service | &quot;unknown&quot;
+        message: '&quot;twice the fun!&quot;'
+      monitored_resource_type: '&quot;UNSPECIFIED&quot;'
+    ---
+    # Configuration for a Prometheus handler
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: prometheus
+    metadata:
+      name: doublehandler
+      namespace: istio-system
+    spec:
+      metrics:
+      - name: double_request_count # Prometheus metric name
+        instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
+        kind: COUNTER
+        label_names:
+        - source
+        - destination
+        - message
+    ---
+    # Rule to send metric instances to a Prometheus handler
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: rule
+    metadata:
+      name: doubleprom
+      namespace: istio-system
+    spec:
+      actions:
+      - handler: doublehandler.prometheus
+        instances:
+        - doublerequestcount.metric
+    ---
+    # Configuration for logentry instances
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: logentry
+    metadata:
+      name: newlog
+      namespace: istio-system
+    spec:
+      severity: '&quot;warning&quot;'
+      timestamp: request.time
+      variables:
+        source: source.labels[&quot;app&quot;] | source.service | &quot;unknown&quot;
+        user: source.user | &quot;unknown&quot;
+        destination: destination.labels[&quot;app&quot;] | destination.service | &quot;unknown&quot;
+        responseCode: response.code | 0
+        responseSize: response.size | 0
+        latency: response.duration | &quot;0ms&quot;
+      monitored_resource_type: '&quot;UNSPECIFIED&quot;'
+    ---
+    # Configuration for a stdio handler
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: stdio
+    metadata:
+      name: newhandler
+      namespace: istio-system
+    spec:
+     severity_levels:
+       warning: 1 # Params.Level.WARNING
+     outputAsJson: true
+    ---
+    # Rule to send logentry instances to a stdio handler
+    apiVersion: &quot;config.istio.io/v1alpha2&quot;
+    kind: rule
+    metadata:
+      name: newlogstdio
+      namespace: istio-system
+    spec:
+      match: &quot;true&quot; # match for all requests
+      actions:
+       - handler: newhandler.stdio
+         instances:
+         - newlog.logentry
+    ---
+
+    istioctl create -f new_telemetry.yaml
+</code></pre>
+
+<h4 id="1-2-安装grafana-可视化状态">1.2 安装grafana  可视化状态</h4>
+
+<ul>
+<li>记得先更新系统时间，查询信息是根据时间来看的，否则会因为时间不对而看不到数据</li>
+</ul>
+
+<pre><code class="language-shell">#修改时区
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+#更新时间
+ntpdate cn.pool.ntp.org
+
+kubectl apply -f prometheus.yaml
+kubectl apply -f grafana.yaml
+
+#设置访问代理端口
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &amp;
+
+### 由于grafana没有做端口映射，所以不能像bookinfo那样直接访问
+kubectl get svc    #可看出来区别
+
+##但是这样好伤，端口是监听在127.0.0.1的，要么用ssh代理，要么就只能本地访问了
+##所以我试着改下grafana.yaml，加一个端口映射
+  2 apiVersion: v1
+  3 kind: Service
+  4 metadata:
+  5   name: grafana
+  6   namespace: istio-system
+  7 spec:
+  8   type: LoadBalancer     ####添加这一行
+  9   ports:
+ 10   - port: 3000
+ 11     protocol: TCP
+ 12     name: http
+ 13   selector:
+ 14     app: grafana
+##重新建立grafana后，发现有端口映射了
+export GRAFA_URL=$(kubectl get po -l app=grafana -o 'jsoitems[0].status.hostIP}'):$(kubectl get svc grafana -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/">kuber手工搭建</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">kbuernetes 学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

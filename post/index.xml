@@ -7,10 +7,106 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 26 Apr 2018 10:46:49 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 16 May 2018 19:02:28 +0800</lastBuildDate>
     
 	<atom:link href="https://llhhbc.github.io/wonder/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>记忆基数</title>
+      <link>https://llhhbc.github.io/wonder/post/selfupd/memorybase/</link>
+      <pubDate>Wed, 16 May 2018 19:02:28 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/selfupd/memorybase/</guid>
+      <description> 记忆基数  1 粉笔 2 鸭子 3 耳朵 4 红旗 5 秤钩 6 口哨 7 锄头 8 葫芦 9 气球 10 老师 11 双截棍 12 不倒翁 13  </description>
+    </item>
+    
+    <item>
+      <title>tensorFlow入门</title>
+      <link>https://llhhbc.github.io/wonder/post/language/python/pythi/</link>
+      <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/language/python/pythi/</guid>
+      <description>ipynb
+jupyter notebook  </description>
+    </item>
+    
+    <item>
+      <title>tensorFlow入门</title>
+      <link>https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/</link>
+      <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/</guid>
+      <description> 环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
+conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
+tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&amp;quot;hello, tensorflow&amp;quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     </description>
+    </item>
+    
+    <item>
+      <title>学习汇总</title>
+      <link>https://llhhbc.github.io/wonder/post/allmywonder/</link>
+      <pubDate>Thu, 10 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/allmywonder/</guid>
+      <description> 学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
+ kit
+ hydra
+  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  </description>
+    </item>
+    
+    <item>
+      <title>es 入门</title>
+      <link>https://llhhbc.github.io/wonder/post/es/esstart/</link>
+      <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/es/esstart/</guid>
+      <description> es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
+启动es cd elasticsearch-6.2.4/bin ./elasticsearch
+验证启动状态 curl http://127.0.0.1:9200
+### 安装中文分词 &amp;gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &amp;gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT &#39;localhost:9200/wonderbook?pretty&#39; -H &#39;Content-type:application/json&#39; -d &#39; { &amp;quot;mappings&amp;quot;: { &amp;quot;articles&amp;quot;: { &amp;quot;properties&amp;quot;: { &amp;quot;title&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;description&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;tags&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;date&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;date&amp;quot;}, &amp;quot;categories&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;context&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;} } } } } &#39;  </description>
+    </item>
+    
+    <item>
+      <title>kbuernetes 学习</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</link>
+      <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</guid>
+      <description>Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
+apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
+Namespace 管理一组资源和对象
+Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
+apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test</description>
+    </item>
+    
+    <item>
+      <title>istio初尝试</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/istio/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/istio/</guid>
+      <description>说明  参考 http://istio.doczh.cn/
+ 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &amp;ldquo;install/kubernetes/istio.yaml&amp;rdquo; 的错误，删除后再重新执行一遍就好了
+ 部署bookinfo kubectl apply -f &amp;lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o &#39;jsonpath={.items[0].status.hostIP}&#39;):$(kubectl get svc istio-ingress -n istio-system -o &#39;jsonpath={.spec.ports[0].nodePort}&#39;) #测试地址访问 curl -o /dev/null -s -w &amp;quot;%{http_code}\n&amp;quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.</description>
+    </item>
+    
+    <item>
+      <title>kuber手工搭建</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</guid>
+      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+ 设置主机名 &amp;gt; sh etc/set_hosts.sh
+ 安装etcd &amp;gt; sh rpms/install_etcd.sh
+ 安装etcd证书 &amp;gt; sh keys/etcd/install_etc_key.sh
+ 修改etcd配置 &amp;gt; sh etc/set_etcd.sh
+ 启动etcd &amp;gt; sh run/start_etcd.sh
+ 安装kube 程序 &amp;gt; sh rpms/install_kuber.sh
+ 安装kuber证书 &amp;gt; sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置 &amp;gt; #设置master结点 &amp;gt; sh etc/kube_cfg/set_kuber_cfg.sh &amp;gt; #设置node结点 &amp;gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &amp;gt; #如果master也作为node结点，则运行 &amp;gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube &amp;gt; sh run/start_kube.sh &amp;gt; #在任意一台master上执行： 开启认证 &amp;gt; kubectl create clusterrolebinding kubelet-bootstrap &amp;ndash;clusterrole=system:node-bootstrapper &amp;ndash;user=kubelet-bootstrap &amp;gt; #如果master上要启动作为node，则 &amp;gt; sh run/start_kube_master_node.</description>
+    </item>
     
     <item>
       <title>kuberadm start</title>

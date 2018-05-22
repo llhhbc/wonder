@@ -7,10 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 26 Apr 2018 10:46:49 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 27 Apr 2018 09:01:00 +0800</lastBuildDate>
     
 	<atom:link href="https://llhhbc.github.io/wonder/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kbuernetes 学习</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</link>
+      <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</guid>
+      <description>Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
+apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
+Namespace 管理一组资源和对象
+Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
+apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test</description>
+    </item>
+    
+    <item>
+      <title>istio初尝试</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/istio/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/istio/</guid>
+      <description>说明  参考 http://istio.doczh.cn/
+ 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &amp;ldquo;install/kubernetes/istio.yaml&amp;rdquo; 的错误，删除后再重新执行一遍就好了
+ 部署bookinfo kubectl apply -f &amp;lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o &#39;jsonpath={.items[0].status.hostIP}&#39;):$(kubectl get svc istio-ingress -n istio-system -o &#39;jsonpath={.spec.ports[0].nodePort}&#39;) #测试地址访问 curl -o /dev/null -s -w &amp;quot;%{http_code}\n&amp;quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.</description>
+    </item>
+    
+    <item>
+      <title>kuber手工搭建</title>
+      <link>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</guid>
+      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+ 设置主机名 &amp;gt; sh etc/set_hosts.sh
+ 安装etcd &amp;gt; sh rpms/install_etcd.sh
+ 安装etcd证书 &amp;gt; sh keys/etcd/install_etc_key.sh
+ 修改etcd配置 &amp;gt; sh etc/set_etcd.sh
+ 启动etcd &amp;gt; sh run/start_etcd.sh
+ 安装kube 程序 &amp;gt; sh rpms/install_kuber.sh
+ 安装kuber证书 &amp;gt; sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置 &amp;gt; #设置master结点 &amp;gt; sh etc/kube_cfg/set_kuber_cfg.sh &amp;gt; #设置node结点 &amp;gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &amp;gt; #如果master也作为node结点，则运行 &amp;gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube &amp;gt; sh run/start_kube.sh &amp;gt; #在任意一台master上执行： 开启认证 &amp;gt; kubectl create clusterrolebinding kubelet-bootstrap &amp;ndash;clusterrole=system:node-bootstrapper &amp;ndash;user=kubelet-bootstrap &amp;gt; #如果master上要启动作为node，则 &amp;gt; sh run/start_kube_master_node.</description>
+    </item>
     
     <item>
       <title>kuberadm start</title>

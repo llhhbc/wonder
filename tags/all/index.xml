@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>All on wonder of light</title>
+    <link>https://llhhbc.github.io/wonder/tags/all/</link>
+    <description>Recent content in All on wonder of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 10 May 2018 20:02:28 +0800</lastBuildDate>
+    
+	<atom:link href="https://llhhbc.github.io/wonder/tags/all/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>学习汇总</title>
+      <link>https://llhhbc.github.io/wonder/post/allmywonder/</link>
+      <pubDate>Thu, 10 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>https://llhhbc.github.io/wonder/post/allmywonder/</guid>
+      <description> 学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
+ kit
+ hydra
+  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  </description>
+    </item>
+    
+  </channel>
+</rss>
