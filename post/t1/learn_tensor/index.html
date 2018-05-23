@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="tensorFlow 入门">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Tensorflow &middot; wonder of light</title>
+  <title>tensorFlow 入门 &middot; wonder of light</title>
 
   
   
@@ -39,8 +39,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
-  
-  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/tags/tensorflow/index.xml" />
   
 
   
@@ -99,10 +97,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/tensorflow/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -198,16 +192,12 @@
 
 
 <div class="header">
-  <h1>Tensorflow</h1>
+  <h1>tensorFlow 入门</h1>
+  <h2>tensorFlow 入门</h2>
 </div>
-
 <div class="content">
-  
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/t1/learn_tensor/">tensorFlow 入门</a></h2>
 
-    <div class="post-meta">
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
@@ -232,18 +222,169 @@
 
 </div>
 
-  </header>
+  
 
-  <p>
-   环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
-conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
-tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&quot;hello, tensorflow&quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     
-  </p>
+<h2 id="环境搭建">环境搭建</h2>
+
+<h4 id="pyenv搭建">pyenv搭建</h4>
+
+<p>1.安装pyenv
+1.安装pip  virtualenv
+1.创建虚拟环境
+python3 -m venv ./env
+1.切换环境
+. env/bin/activate</p>
+
+<h4 id="conda搭建">conda搭建</h4>
+
+<p>1.安装anaconda3
+1.创建虚拟环境
+<code>conda create --name py3 python=3</code>
+1.环境切换
+<code>source activate py3</code></p>
+
+<h2 id="tensorflow安装-下面操作都在python3环境下操作">tensorflow安装(下面操作都在python3环境下操作)</h2>
+
+<pre><code class="language-shell">##我本地环境如下搭建
+# conda create --name mytensor python=3.6
+# source activate mytensor
+# source deactivate   #退出环境
+
+pip install tensorflow
+pip install tensorlayer
+
+</code></pre>
+
+<h3 id="验证环境安装">验证环境安装</h3>
+
+<pre><code class="language-python">import tensorflow as tf
+
+hello = tf.constant(&quot;hello, tensorflow&quot;)
+sess = tf.Session()
+print(sess.run(hello))
+
+</code></pre>
+
+<h2 id="简单入门">简单入门</h2>
+
+<ul>
+<li>参考资料 <a href="http://www.tensorfly.cn/">中文社区</a></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>session</td>
+<td>会话</td>
+<td>一次流程执行的会话，包含上下文信息</td>
+</tr>
+
+<tr>
+<td>graph</td>
+<td>描述计算过程</td>
+<td>在session中启动，图形显示</td>
+</tr>
+
+<tr>
+<td>tensor</td>
+<td>数据</td>
+<td>数据类型</td>
+</tr>
+
+<tr>
+<td>op</td>
+<td>操作</td>
+<td>数据之间的操作</td>
+</tr>
+
+<tr>
+<td>variable</td>
+<td>变量</td>
+<td>数据类型，运行中可改变，用于维护状态</td>
+</tr>
+
+<tr>
+<td>feed</td>
+<td>赋值</td>
+<td>为op的tensor赋值</td>
+</tr>
+
+<tr>
+<td>fetch</td>
+<td>取值</td>
+<td>从op的tensor中取值</td>
+</tr>
+
+<tr>
+<td>constant</td>
+<td>常量</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 
   
-</article>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/allmywonder/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://llhhbc.github.io/wonder/post/allmywonder/">学习汇总</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://llhhbc.github.io/wonder/post/language/python/pythi/">python 简单使用</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://llhhbc.github.io/wonder/post/language/python/pythi/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
 
   
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
 </div>
 
 </div>
@@ -257,3 +398,4 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
 
 </body>
 </html>
+
