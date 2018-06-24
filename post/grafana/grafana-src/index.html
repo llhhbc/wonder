@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="grafana源码学习">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>grafana源码学习 &middot; wonder of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">wonder</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>grafana源码学习</h1>
+  <h2>grafana源码学习</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/grafana">grafana</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="grafana学习">grafana学习</h2>
+
+<h3 id="1-整体流程了解">1.整体流程了解</h3>
+
+<h4 id="grafana-server-从main开始">grafana-server(从main开始)</h4>
+
+<ol>
+<li>根据profile标志判断是否开启pprof</li>
+<li>初始化版本、时间缀信息</li>
+
+<li><p>初始化metrics包的版本信息</p>
+
+<ul>
+<li>在prometheus 中记录版本值1</li>
+</ul></li>
+
+<li><p>创建grafanaServer</p>
+
+<ol>
+<li><p>init加载的清单</p>
+
+<ol>
+<li>api
+
+<ol>
+<li>通过registry.RegisterService注册http服务：HTTPServer</li>
+</ol></li>
+<li>log
+
+<ol>
+<li>创建根root日志对象</li>
+</ol></li>
+<li>login
+
+<ol>
+<li>在bus上注册句柄：&rdquo;auth&rdquo;, UpsertUser  扩展用户管理</li>
+</ol></li>
+
+<li><p>setting</p>
+
+<ol>
+<li>记录系统标志（是否是windows）</li>
+</ol></li>
+
+<li><p>extensions</p>
+
+<ol>
+<li>errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息</li>
+</ol></li>
+
+<li><p>metrics</p>
+
+<ol>
+<li>初始化prometheus统计变量</li>
+</ol></li>
+
+<li><p>plugins</p>
+
+<ol>
+<li>通过registry.RegisterService注册插件管理器：PluginManager
+<code>
+type Service interface {
+    Init() error
+}
+</code>
+所有的插件都实现这个接口</li>
+<li>在bus上注册句柄：&rdquo;plugins&rdquo;：ImportDashboard</li>
+<li>在bus上注册事件监听：handlePluginStateChanged</li>
+</ol></li>
+
+<li><p>services/alerting</p>
+
+<ol>
+<li>在bus上注册句柄：&rdquo;alerting&rdquo;, updateDashboardAlerts</li>
+<li>在bus上注册句柄：&rdquo;alerting&rdquo;, validateDashboardAlerts</li>
+<li>通过registry.RegisterService注册告警服务：AlertingService</li>
+<li>在bus上注册句柄：&rdquo;alerting&rdquo;, handleNotificationTestCommand</li>
+<li>在bus上注册句柄：&rdquo;alerting&rdquo;, handleAlertTestCommand</li>
+</ol></li>
+
+<li><p>services/cleanup</p>
+
+<ol>
+<li>注册清理服务：CleanUpService</li>
+</ol></li>
+
+<li><p>services/notifications</p>
+
+<ol>
+<li>注册通知服务：NotificationService</li>
+</ol></li>
+
+<li><p>services/provisionint</p>
+
+<ol>
+<li>注册供给服务：ProvisioningService （提供界面和数据源）</li>
+</ol></li>
+
+<li><p>services/renderint</p>
+
+<ol>
+<li>注册展现服务：RenderingService （插件展示，phantomjs的调用）</li>
+</ol></li>
+
+<li><p>services/search</p>
+
+<ol>
+<li>注册搜索服务：SearchService
+&gt; 搜索有它自己的专有bus</li>
+<li>在专有bus上注册句柄：searchHandler 用于搜索显示面板</li>
+</ol></li>
+
+<li><p>services/sqlstore</p>
+
+<ol>
+<li>以高优先级方式注册数据库管理服务：SqlStore （用xorm来管理数据库连接）
+&gt; alert类句柄</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;, SaveAlerts</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：HandleAlertsQuery</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：GetAlertById</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：GetAllAlertQueryHandler</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：SetAlertState</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：GetAlertStatesForDashboard</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：PauseAlert</li>
+<li>在bus上注册句柄： &ldquo;sql&rdquo;：PauseAllAlerts
+&gt; ntoi类句柄</li>
+<li>&ldquo;sql&rdquo;, GetAlertNotifications</li>
+<li>&ldquo;sql&rdquo;, CreateAlertNotificationCommand</li>
+<li>&ldquo;sql&rdquo;, UpdateAlertNotification</li>
+<li>&ldquo;sql&rdquo;, DeleteAlertNotification</li>
+<li>&ldquo;sql&rdquo;, GetAlertNotificationsToSend</li>
+<li>&ldquo;sql&rdquo;, GetAllAlertNotifications
+&gt; apikey类句柄</li>
+<li>&ldquo;sql&rdquo;, GetApiKeys</li>
+<li>&ldquo;sql&rdquo;, GetApiKeyById</li>
+<li>&ldquo;sql&rdquo;, GetApiKeyByName</li>
+<li>&ldquo;sql&rdquo;, DeleteApiKey</li>
+<li>&ldquo;sql&rdquo;, AddApiKey
+&gt; 面板类句柄</li>
+<li>&ldquo;sql&rdquo;, SaveDashboard</li>
+<li>&ldquo;sql&rdquo;, GetDashboard</li>
+<li>&ldquo;sql&rdquo;, GetDashboards</li>
+<li>&ldquo;sql&rdquo;, DeleteDashboard</li>
+<li>&ldquo;sql&rdquo;, SearchDashboards</li>
+<li>&ldquo;sql&rdquo;, GetDashboardTags</li>
+<li>&ldquo;sql&rdquo;, GetDashboardSlugById</li>
+<li>&ldquo;sql&rdquo;, GetDashboardUIDById</li>
+<li>&ldquo;sql&rdquo;, GetDashboardsByPluginId</li>
+<li>&ldquo;sql&rdquo;, GetDashboardPermissionsForUser</li>
+<li>&ldquo;sql&rdquo;, GetDashboardsBySlug</li>
+<li>&ldquo;sql&rdquo;, ValidateDashboardBeforeSave</li>
+<li>&ldquo;sql&rdquo;, HasEditPermissionInFolders
+&gt; 面板权限类句柄</li>
+<li>&ldquo;sql&rdquo;, UpdateDashboardAcl</li>
+<li>&ldquo;sql&rdquo;, GetDashboardAclInfoList
+&gt; 面板数据供给类句柄</li>
+<li>&ldquo;sql&rdquo;, GetProvisionedDashboardDataQuery</li>
+<li>&ldquo;sql&rdquo;, SaveProvisionedDashboard</li>
+<li>&ldquo;sql&rdquo;, GetProvisionedDataByDashboardId
+&gt; 面板快照类句柄</li>
+<li>&ldquo;sql&rdquo;, CreateDashboardSnapshot</li>
+<li>&ldquo;sql&rdquo;, GetDashboardSnapshot</li>
+<li>&ldquo;sql&rdquo;, DeleteDashboardSnapshot</li>
+<li>&ldquo;sql&rdquo;, SearchDashboardSnapshots</li>
+<li>&ldquo;sql&rdquo;, DeleteExpiredSnapshots
+&gt; 面板版本类句柄</li>
+<li>&ldquo;sql&rdquo;, GetDashboardVersion</li>
+<li>&ldquo;sql&rdquo;, GetDashboardVersions</li>
+<li>&ldquo;sql&rdquo;, DeleteExpiredVersions
+&gt; 数据源类句柄</li>
+<li>&ldquo;sql&rdquo;, GetDataSources</li>
+<li>&ldquo;sql&rdquo;, GetAllDataSources</li>
+<li>&ldquo;sql&rdquo;, AddDataSource</li>
+<li>&ldquo;sql&rdquo;, DeleteDataSourceById</li>
+<li>&ldquo;sql&rdquo;, DeleteDataSourceByName</li>
+<li>&ldquo;sql&rdquo;, UpdateDataSource</li>
+<li>&ldquo;sql&rdquo;, GetDataSourceById</li>
+<li>&ldquo;sql&rdquo;, GetDataSourceByName
+&gt; 数据库健康检查类句柄</li>
+<li>&ldquo;sql&rdquo;, GetDBHealthQuery
+&gt; 登录尝试类句柄</li>
+<li>&ldquo;sql&rdquo;, CreateLoginAttempt</li>
+<li>&ldquo;sql&rdquo;, DeleteOldLoginAttempts</li>
+<li>&ldquo;sql&rdquo;, GetUserLoginAttemptCount
+&gt; 组织类句柄</li>
+<li>&ldquo;sql&rdquo;, GetOrgById</li>
+<li>&ldquo;sql&rdquo;, CreateOrg</li>
+<li>&ldquo;sql&rdquo;, UpdateOrg</li>
+<li>&ldquo;sql&rdquo;, UpdateOrgAddress</li>
+<li>&ldquo;sql&rdquo;, GetOrgByName</li>
+<li>&ldquo;sql&rdquo;, SearchOrgs</li>
+<li>&ldquo;sql&rdquo;, DeleteOrg
+&gt; 组织用户句柄</li>
+<li>&ldquo;sql&rdquo;, AddOrgUser</li>
+<li>&ldquo;sql&rdquo;, RemoveOrgUser</li>
+<li>&ldquo;sql&rdquo;, GetOrgUsers</li>
+<li>&ldquo;sql&rdquo;, UpdateOrgUser
+&gt; 播放类句柄</li>
+<li>&ldquo;sql&rdquo;, CreatePlaylist</li>
+<li>&ldquo;sql&rdquo;, UpdatePlaylist</li>
+<li>&ldquo;sql&rdquo;, DeletePlaylist</li>
+<li>&ldquo;sql&rdquo;, SearchPlaylists</li>
+<li>&ldquo;sql&rdquo;, GetPlaylist</li>
+<li>&ldquo;sql&rdquo;, GetPlaylistItem
+&gt; 插件管理类句柄</li>
+<li>&ldquo;sql&rdquo;, GetPluginSettings</li>
+<li>&ldquo;sql&rdquo;, GetPluginSettingById</li>
+<li>&ldquo;sql&rdquo;, UpdatePluginSetting</li>
+<li>&ldquo;sql&rdquo;, UpdatePluginSettingVersion
+&gt; 偏爱类句柄</li>
+<li>&ldquo;sql&rdquo;, GetPreferences</li>
+<li>&ldquo;sql&rdquo;, GetPreferencesWithDefaults</li>
+<li>&ldquo;sql&rdquo;, SavePreferences
+&gt; 限额控制类句柄（控制组织、用户限额）</li>
+<li>&ldquo;sql&rdquo;, GetOrgQuotaByTarget</li>
+<li>&ldquo;sql&rdquo;, GetOrgQuotas</li>
+<li>&ldquo;sql&rdquo;, UpdateOrgQuota</li>
+<li>&ldquo;sql&rdquo;, GetUserQuotaByTarget</li>
+<li>&ldquo;sql&rdquo;, GetUserQuotas</li>
+<li>&ldquo;sql&rdquo;, UpdateUserQuota</li>
+<li>&ldquo;sql&rdquo;, GetGlobalQuotaByTarget
+&gt;  测试类</li>
+<li>&ldquo;sql&rdquo;, InsertSqlTestData
+&gt; 评分类句柄</li>
+<li>&ldquo;sql&rdquo;, StarDashboard</li>
+<li>&ldquo;sql&rdquo;, UnstarDashboard</li>
+<li>&ldquo;sql&rdquo;, GetUserStars</li>
+<li>&ldquo;sql&rdquo;, IsStarredByUser
+&gt; 状态类句柄</li>
+<li>&ldquo;sql&rdquo;, GetSystemStats</li>
+<li>&ldquo;sql&rdquo;, GetDataSourceStats</li>
+<li>&ldquo;sql&rdquo;, GetDataSourceAccessStats</li>
+<li>&ldquo;sql&rdquo;, GetAdminStats</li>
+<li>&ldquo;sql&rdquo;, GetSystemUserCountStats
+&gt; 队类句柄</li>
+<li>&ldquo;sql&rdquo;, CreateTeam</li>
+<li>&ldquo;sql&rdquo;, UpdateTeam</li>
+<li>&ldquo;sql&rdquo;, DeleteTeam</li>
+<li>&ldquo;sql&rdquo;, SearchTeams</li>
+<li>&ldquo;sql&rdquo;, GetTeamById</li>
+
+<li><p>&ldquo;sql&rdquo;, GetTeamsByUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, AddTeamMember</p></li>
+
+<li><p>&ldquo;sql&rdquo;, RemoveTeamMember</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetTeamMembers
+&gt; 临时用户类句柄</p></li>
+
+<li><p>&ldquo;sql&rdquo;, CreateTempUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetTempUsersQuery</p></li>
+
+<li><p>&ldquo;sql&rdquo;, UpdateTempUserStatus</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetTempUserByCode</p></li>
+
+<li><p>&ldquo;sql&rdquo;, UpdateTempUserWithEmailSent
+&gt; 用户类句柄</p></li>
+
+<li><p>&ldquo;sql&rdquo;, CreateUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserById</p></li>
+
+<li><p>&ldquo;sql&rdquo;, UpdateUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, ChangeUserPassword</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserByLogin</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserByEmail</p></li>
+
+<li><p>&ldquo;sql&rdquo;, SetUsingOrg</p></li>
+
+<li><p>&ldquo;sql&rdquo;, UpdateUserLastSeenAt</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserProfile</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetSignedInUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, SearchUsers</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserOrgList</p></li>
+
+<li><p>&ldquo;sql&rdquo;, DeleteUser</p></li>
+
+<li><p>&ldquo;sql&rdquo;, UpdateUserPermissions</p></li>
+
+<li><p>&ldquo;sql&rdquo;, SetUserHelpFlag
+&gt; 用户权限类句柄</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetUserByAuthInfo</p></li>
+
+<li><p>&ldquo;sql&rdquo;, GetAuthInfo</p></li>
+
+<li><p>&ldquo;sql&rdquo;, SetAuthInfo</p></li>
+
+<li><p>&ldquo;sql&rdquo;, DeleteAuthInfo</p></li>
+</ol></li>
+
+<li><p>tracing</p>
+
+<ul>
+<li>注册跟踪 ：TracingService</li>
+</ul></li>
+</ol></li>
+
+<li><p>创建根上下文</p></li>
+
+<li><p>创建childRoutines组，组上下文</p></li>
+
+<li><p>创建grafanaServerImpl对象</p></li>
+</ol></li>
+
+<li><p>创建协程监听信号</p></li>
+
+<li><p>启动服务</p>
+
+<ol>
+<li>加载全局配置信息</li>
+<li>如果设置pid文件，则写入pid进程信息</li>
+<li>注册权限句柄 AuthenticateUser， 初始化LDAP目录配置</li>
+<li>初始化OAuther 第三方登录服务</li>
+<li>创建一个图（对象注入图）</li>
+<li>图中添加总线bus、配置cfg、路由中间件</li>
+<li>获取所有registry中的服务清单</li>
+<li>将所有服务，并注入图中</li>
+<li>将grafanaServer注入图中</li>
+<li>完成图的初始化（初始化所有对象，包括信赖的对象）</li>
+<li>调用所有服务的Init方法来初始化所有服务</li>
+
+<li><p>后台运行所有实现了后台服务接口 registry.BackgroundService{ Run(ctx context.Context) error} 的服务（调用Run方法），统一管理在childRoutines组中</p></li>
+
+<li><p>发送系统状态通知（启动成功）</p></li>
+
+<li><p>等待所有子协程执行</p></li>
+</ol></li>
+
+<li><p>停止trace（保证trace能正常写入文件）</p></li>
+
+<li><p>关闭日志</p></li>
+
+<li><p>服务退出</p></li>
+</ol>
+
+<h5 id="总结">总结</h5>
+
+<blockquote>
+<p>启动过程中所看到的代码，都是在pkg目录下的，主要有如下：（按程序中引入包的顺序来）
+1. bus
+    设计很独特的bus结构，可以在上面挂载功能函数，分3种：不带上下文函数、带上下文函数、监听函数。各个模块提前将功能注册后，根据调用的函数类型来自动调用对应的函数，而监听函数是会在触发监听后全部调用
+1. middleware
+    请求拦截器管理，实现了：macaron.Handler，用于登录拦截、权限拦截等
+1. registry
+    服务注册包，用于提供服务统一注册
+1. api
+    http服务在这里注册，包括路由、登录、页面展示、用户管理等
+1. log
+    日志库的管理，以log15为原型，在这个基础上对日志做了封装
+1. login
+    登录模块的管理，包括扩展用户的管理
+1. setting
+    程序加载的配置文件管理，用到的配置都从这管理
+1. social
+    第三方授权登录的管理
+1. extensions
+    做的扩展，主要是针对error库，将错误时候，带上错误的堆栈信息，更好的跟踪错误
+1. metrics
+    统计信息管理，主要是prometheus统计信息初始化
+1. plugins
+    注册插件管理器
+1. services/alerting
+    管理警告模块，在监控设置中，管理触发的警告
+1. services/cleanup
+    服务清理，清理临时文件、其它的快照、过期的组件版本、过期的登录临时文件
+1. services/notifications
+    通知服务管理，管理邮件通知等功能，还包括通过邮件重置密码功能
+1. services/provisioning
+    供给服务，提供页面和数据库源信息
+1. services/rendering
+    展现服务，提供页面的渲染
+1. services/search
+    提供组件搜索功能
+1. services/sqlstore
+    数据库数据库源管理
+1. tracing
+    程序性能跟踪</p>
+
+<p>代码总结
+* 通过整体启动流程的梳理，对grafana的整体有了一个大慨的了解：
+* 通过bus来管理所有的服务和事件，各个服务之前，也是通过bus来相互沟通。</p>
+</blockquote>
+
+<h4 id="服务分析">服务分析</h4>
+
+<ul>
+<li>从前面可看出，所有的注册都是通过 registry.RegisterService来注册的，我为了验证服务是否有遗漏，我在这个函数中增加了一行输出：
+<code>fmt.Println(&quot;registry:&quot;, reflect.TypeOf(instance))</code>， 我自己编译运行，能看到如下输出：
+<code>shell
+registry: *search.SearchService
+registry: *plugins.PluginManager
+registry: *metrics.InternalMetricsService
+registry: *rendering.RenderingService
+registry: *alerting.AlertingService
+registry: *api.HTTPServer
+registry: *cleanup.CleanUpService
+registry: *notifications.NotificationService
+registry: *provisioning.ProvisioningService
+registry: *tracing.TracingService
+</code>
+&gt; 以程序输出的服务清单为索引，也了解各个服务的功能(都实现了接口registry.Service和registry.BackgroundService)，所以从Init和Run方法入手</li>
+</ul>
+
+<h5 id="search-searchservice-搜索服务">search.SearchService 搜索服务</h5>
+
+<blockquote>
+<p>search在Init中在专用bus上注册了搜索句柄，用于搜索面板信息
+由于search服务未实现Run，所以无运行内容</p>
+</blockquote>
+
+<h5 id="plugins-pluginmanager-插件管理服务">plugins.PluginManager 插件管理服务</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化日志对象
+    1. 扫描项目目录app/plugins,加载所有插件
+        根据插件类型寻找相应的加载器，加载插件配置
+    1. 遍历所有面板插件，完成初始化
+    1. 遍历所有数据源插件，完成初始化
+    1. 遍历所有app插件，完成初始化
+Run
+    1. 遍历所有面板，将需要后台启动的启动
+    1. 检查新加载的插件和系统中的存量插件版本是否不同，如果不同则更新为新加载的
+    1. 如果配置了检查更新，则访问官网，检查插件版本
+    1. 每10分钟尝试一次，更新插件信息
+    1. 收到退出信号（ctx完成），关闭所有后台运行的插件
+    1. 服务退出</p>
+</blockquote>
+
+<h5 id="metrics-internalmetricsservice-性能参数收集">metrics.InternalMetricsService 性能参数收集</h5>
+
+<blockquote>
+<p>Init
+    1. 从cfg中按section为metrics读取配置信息
+    1. 加载图表配置信息
+Run
+    1. 如果图表配置信息不为空，则根据图表配置构建一个桥梁（完成Prometheus参数到图表中的数据交互）， 启动这个桥梁，按配置的间隔时间，推送参数指标
+    1. 启动参数指标统计
+    1. 调用bus上的参数指标查询函数，查询参数指标：面板、总用户、在线用户、总组织 （首次更新）
+    1. 之后每分钟更新一次参数指标，每24小时上报一次参数指标（匿名上报给grafana，如果设置不上报，则不会上报）</p>
+</blockquote>
+
+<h5 id="rendering-renderingservice-页面渲染">rendering.RenderingService 页面渲染</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化rs专用日志
+Run
+    1. 如果配置RendererUrl，则支持远端生成页面（相当于页面代理）
+    1. 如果插件中页面渲染未配置，则用默认的phantomJS
+    1. 启动页面渲染插件，插件和主服务之前，通过rpc来通讯
+    1. 每一秒检查一次，如果插件退出，则重新启动</p>
+</blockquote>
+
+<h5 id="alerting-alertingservice-警报服务">alerting.AlertingService 警报服务</h5>
+
+<blockquote>
+<p>Init
+    1. 创建时钟
+    1. 创建执行队列（1000个）
+    1. 创建调试器
+    1. 创建评价句柄
+    1. 创建规则解析
+    1. 创建alert日志
+    1. 创建结果渲染服务
+Run
+    1. 创建一个routine组
+    1. 组内运行时钟
+        1. 当收到10次心跳后，从规则解析中取出所有报警规则，将规则放到调度器中
+        1. 调度任务，将任务按情况放到执行队列中（按经常性、是否已报警过等）
+    1. 组内运行任务分发
+        1. 从队列中取出任务，执行
+    1. 等待执行结束</p>
+</blockquote>
+
+<h5 id="api-httpserver-主服务">api.HTTPServer 主服务</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化http服务日志
+    1. 创建gocache（默认保存5分钟，每10分钟清理一次）
+Run
+    1. 记录主上下文
+    1. 创建流管理器
+    1. 创建macaron（http路由管理）
+        1. 加载所有插件的静态文件目录
+        1. 加载主静态目录 public/build
+        1. 加载主目录 public
+        1. 加载robots.txt
+        1. 如果图片上传设置为本地，则加载图片目录，默认为 public/img/attachments
+        1. 设置主渲染器：静态目录为views，测试会生成json结构
+        1. 注册心跳处理句柄 /api/health
+        1. 注册性能参数句柄：/metrics
+        1. 注册一般性检查句柄
+            1. 检查renderKey合法性
+            1. 检查Authorization 合法性
+            1. 根据Authorization检查基本权限
+            1. 如果设置了权限代理，则检查权限代理
+            1. 检查用户会话id
+            1. 允许匿名登录的话，检查匿名用户
+            1. 初始化上下文日志
+            1. 每5分钟更新一次用户会话场景
+        1. 注册session超时管理句柄
+        1. 根据orgId做组织重定向
+        1. 如果配置了主机检查，注册主机检查句柄
+        1. 注册默认应答head设置句柄（设置api请求和get请求的应答head参数）
+    1. 注册初始路由  &mdash;-
+    1. 启动流管理器  &mdash;-
+    1. 创建http监听（支持http，https，socket）</p>
+</blockquote>
+
+<h5 id="cleanup-cleanupservice-清理服务">cleanup.CleanUpService 清理服务</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化清理日志
+Run
+    1. 首次清理临时文件
+    1. 创建心跳，10分钟一次
+    1. 每10分钟清理一次临时文件、过期的快照、过期的面板版本、旧的用户日志</p>
+</blockquote>
+
+<h5 id="notifications-notificationservice-通知服务">notifications.NotificationService 通知服务</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化通知日志
+    1. 创建消费队列（10个）
+    1. 创建hook队列（10个）
+    &gt; 通知有它自己的专有bus，在专有bus上注册自己的句柄
+        1. 专有bus上注册句柄：sendResetPasswordEmail
+        1. 专有bus上注册句柄：validateResetPasswordCode
+        1. 专有bus上注册句柄：sendEmailCommandHandler
+        1. 专有bus上注册上下文句柄：sendEmailCommandHandlerSync
+        1. 专有bus上注册上下文句柄：SendWebhookSync
+        1. 专有bus上注册监听：signUpStartedHandler
+        1. 专有bus上注册监听：signUpCompletedHandler
+    1. 创建邮件发送模板
+    1. 初始化邮件发送参数信息
+Run
+    1. 从webhook中读取钩子，发送web请求
+    1. 从邮件队列中读取邮件，发送邮件</p>
+</blockquote>
+
+<h5 id="provisioning-provisioningservice-供给服务">provisioning.ProvisioningService 供给服务</h5>
+
+<blockquote>
+<p>Init
+    1. 读取数据源配置，加载数据源
+Run
+    1. 读取面板配置，加载面板信息
+    1. 提供面板信息</p>
+</blockquote>
+
+<h5 id="tracing-tracingservice-跟踪服务">tracing.TracingService 跟踪服务</h5>
+
+<blockquote>
+<p>Init
+    1. 初始化日志
+    1. 加载配置信息
+    1. 如果开启跟踪，则初始化全局跟踪
+Run
+    1. 无（等待上下文退出）</p>
+</blockquote>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="http://wonder.zxcsoft.com/post/learn-md/">Learn markdown</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://wonder.zxcsoft.com/post/learn-md/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pprof on wonder of light</title>
+    <link>http://wonder.zxcsoft.com/tags/pprof/</link>
+    <description>Recent content in Pprof on wonder of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Mon, 28 May 2018 20:02:28 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/pprof/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>golang pprof使用</title>
+      <link>http://wonder.zxcsoft.com/post/language/go/pprof/</link>
+      <pubDate>Mon, 28 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/language/go/pprof/</guid>
+      <description>启用pprof  带有http的服务，只需要引入 import _ &amp;quot;net/http/pprof&amp;quot; 就可以通过访问http://ip:port/debug/pprof 查看了
+ 没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）
+  import ( _ &amp;quot;net/http/pprof&amp;quot; &amp;quot;net/http&amp;quot; ) func InitModel() { var ppaddr string if config.HasModuleInit() { ppaddr = config.StringDefault(&amp;quot;ppaddr&amp;quot;, &amp;quot;&amp;quot;) if ppaddr != &amp;quot;&amp;quot; { go http.ListenAndServe(ppaddr, nil) } } }  pprof使用 1.代码优化 curl http://ip:port/debug/pprof/profile &amp;gt; /tmp/a.profile go tool pprof 可执行程序 /tmp/a.profile (pprof) top #可查看占用资源最多的函数  pprof各字段的含义依次是：  采样点执行时间 采样点落在该函数中的百分比 上一项的累积百分比 采样点落在该函数，以及被它调用的函数执行的总时间 采样点落在该函数，以及被它调用的函数中的百分比 函数名 文件名  pprof分析  / 访问根目录，里面有几个链接：</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="golang pprof使用">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>golang pprof使用 &middot; wonder of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">wonder</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>golang pprof使用</h1>
+  <h2>golang pprof使用</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/pprof">pprof</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="启用pprof">启用pprof</h2>
+
+<ul>
+<li><p>带有http的服务，只需要引入 <code>import _ &quot;net/http/pprof&quot;</code> 就可以通过访问<code>http://ip:port/debug/pprof</code> 查看了</p></li>
+
+<li><p>没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）</p></li>
+</ul>
+
+<pre><code class="language-golang">import (
+	_ &quot;net/http/pprof&quot;
+	&quot;net/http&quot;
+)
+
+func InitModel() {
+	var ppaddr string
+	if config.HasModuleInit() {
+		ppaddr = config.StringDefault(&quot;ppaddr&quot;, &quot;&quot;)
+		if ppaddr != &quot;&quot; {
+			go http.ListenAndServe(ppaddr, nil)
+		}
+	}
+
+}
+</code></pre>
+
+<h2 id="pprof使用">pprof使用</h2>
+
+<h3 id="1-代码优化">1.代码优化</h3>
+
+<pre><code class="language-shell">curl http://ip:port/debug/pprof/profile &gt; /tmp/a.profile
+go tool pprof  可执行程序  /tmp/a.profile
+(pprof) top    #可查看占用资源最多的函数
+
+</code></pre>
+
+<h4 id="pprof各字段的含义依次是">pprof各字段的含义依次是：</h4>
+
+<ol>
+<li>采样点执行时间</li>
+<li>采样点落在该函数中的百分比</li>
+<li>上一项的累积百分比</li>
+<li>采样点落在该函数，以及被它调用的函数执行的总时间</li>
+<li>采样点落在该函数，以及被它调用的函数中的百分比</li>
+<li>函数名</li>
+<li>文件名</li>
+</ol>
+
+<h2 id="pprof分析">pprof分析</h2>
+
+<ol>
+<li>/</li>
+
+<li><p>访问根目录，里面有几个链接：</p>
+
+<ol>
+<li><p>bolck</p>
+
+<ul>
+<li>锁说明</li>
+</ul></li>
+
+<li><p>goroutine</p>
+
+<ul>
+<li>当前协程清单</li>
+<li>debug为0时，下载的是文件打包信息</li>
+<li>访问heap时，debug为1时是简写，最开始的数字是协程数（同类的协程会合并），@后面是单个协程的栈，对应的是各个函数的地址，可通过symbol来查询对应的函数
+debug大于等于2时，是详细描述，会详细打印每个routine的号，支持状态，等待的routine会显示等待时间，还有详细的堆栈信息</li>
+</ul></li>
+
+<li><p>heap</p>
+
+<ul>
+<li>当前使用的内存信息</li>
+<li>第一行： 当前使用对象数:当前使用字节数 [总申请对象数:总申请字节数]</li>
+
+<li><p>后面是单个routine的使用情况，还有对应的堆栈信息</p></li>
+
+<li><p>最后总结信息：</p>
+
+<ol>
+<li>Alloc  同HeapAlloc，当前申请对象字节数</li>
+<li>TotalAlloc  累计申请对象字节数，包括已经释放的</li>
+<li>Sys     从系统中申请到的内存字节数（包括未归还的虚拟内存）</li>
+<li>Lookups  debug本身使用的指针数</li>
+<li>Mallocs  累计申请的对象数</li>
+<li>Frees    累计释放的对象数</li>
+</ol>
+
+<h1 id="go把虚拟内存地址分成几块-每块可能8k更大-每块有3种状态-idle空闲-in-use使用中-stack">go把虚拟内存地址分成几块，每块可能8k更大，每块有3种状态：idle空闲 in use使用中，stack</h1>
+
+<blockquote>
+<p>idle是虚拟地址可再重复使用，对应的物理地址可能被操作系统回收
+in use 是至少有一个使用中的堆对象，有可能还有备用的空闲空间
+stack 保存的是goroutine的运行栈，会在堆和栈之间做切换，统计时，不作为堆统计</p>
+
+<h1 id="堆内存统计">堆内存统计</h1>
+
+<ol>
+<li>HeapAlloc  包含所有使用的对象，还有未被回收的不使用的对象(字节数)</li>
+<li>HeapSys    从系统申请的堆空间，包括已经归还的物理空间（虚拟地址还在用）(字节数)</li>
+<li>HeapIdle   状态为idle的块(字节数)</li>
+<li>HeapInuse   状态为in use的块(字节数)</li>
+<li>HeapReleased  已经归还给系统的块(字节数)</li>
+<li>HeapObjects   堆中的对象数</li>
+</ol>
+</blockquote>
+
+<h1 id="栈内存统计">栈内存统计</h1>
+
+<h1 id="栈不作为堆来统计-不再使用的栈会归还给堆">栈不作为堆来统计，不再使用的栈会归还给堆</h1>
+
+<ol>
+<li>Stack   stack块 / 从系统中申请的栈 (字节数)</li>
+<li>MSpan   使用中的专用结构（主要用于统计堆的） /  从系统申请的专用结构 (字节数)</li>
+<li>MCache  使用中的专用缓存 /  从系统申请的专用缓存  (字节数)</li>
+<li>BuckHashSys  统计profile申请的hash桶内存  (字节数)</li>
+<li>GCSys     gc回收使用的内存（记录gc信息用的） (字节数)</li>
+<li>OtherSys  其它未使用的堆空间 (字节数)</li>
+</ol>
+
+<h1 id="gc回收统计">gc回收统计</h1>
+
+<ol>
+<li>NextGC  下一次gc的堆大小，会保证：HeapAlloc ≤ NextGC (字节数)</li>
+<li>LastGC  最后一次gc时间，unix时间格式</li>
+<li>PauseNs  记录最后的256次暂停的时间 ns（一次gc可能会暂停多次）</li>
+<li>PauseEnd 记录最后的256次暂停的时候 unix格式</li>
+<li>NumGc    完成的gc次数</li>
+<li>NumForcedGC  程序主动调用gc的次数</li>
+<li>GCCPUFraction  gc使用的cpu时间占程序使用的cpu时间百分比</li>
+<li>DebugGC   保留，暂未使用，固定false</li>
+</ol></li>
+</ul></li>
+
+<li><p>mutex</p>
+
+<h1 id="锁信息">锁信息</h1></li>
+
+<li><p>threadcreate</p>
+
+<h1 id="创建的线程数">创建的线程数</h1></li>
+
+<li><p>full goroutine stack dump</p>
+
+<h1 id="同goroutine-debug-2">同goroutine, debug=2</h1></li>
+</ol></li>
+
+<li><p>cmdline
+&gt; curl <a href="http://ip:port/debug/pprof/cmdline">http://ip:port/debug/pprof/cmdline</a>    #获取程序启动参数</p></li>
+
+<li><p>profile
+#可带参数seconds，获取从当前开始seconds秒后的性能分析报告（默认30秒）
+&gt; curl <a href="http://ip:port/debug/pprof/profile?seconds=100">http://ip:port/debug/pprof/profile?seconds=100</a> &gt; /tmp/a.profile
+&gt; go tool pprof  可执行程序  /tmp/a.profile
+&gt; top  #查看最点资源函数
+&gt; list 函数名   #查看函数详情</p>
+
+<blockquote>
+<p>curl <a href="http://ip:port/debug/pprof/heap">http://ip:port/debug/pprof/heap</a> &gt; /tmp/a.heap
+go tool pprof -alloc_objects  可执行程序 /tmp/a.heap
+top</p>
+
+<p>go build -gcflags=&lsquo;-m&rsquo; .   #显示内存分配情况</p>
+</blockquote></li>
+
+<li><p>symbol
+&gt; #根据内存地址找对应的函数符号, 内存地址通过访问：<a href="http://ip:port/debug/pprof/heap?debug=1可看到">http://ip:port/debug/pprof/heap?debug=1可看到</a>
+&gt; curl <a href="http://ip:port/debug/pprof/symbol">http://ip:port/debug/pprof/symbol</a> -d &lsquo;0x4316b4+0x438608&rsquo;
+&gt; curl <a href="http://ip:port/debug/pprof/symbol?0x4316b4+0x438608">http://ip:port/debug/pprof/symbol?0x4316b4+0x438608</a></p></li>
+
+<li><p>trace
+#（用法和profile类似）可带参数seconds，获取从当前开始seconds秒后的性能分析报告（默认1秒）
+&gt; curl <a href="http://ip:port/debug/pprof/trace?seconds=100">http://ip:port/debug/pprof/trace?seconds=100</a> &gt; /tmp/a.trace
+&gt; go tool trace 可执行程序 /tmp/a.trace    #会启动一个http监听，访问可查看具体信息</p></li>
+</ol>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/selfupd/memorybase/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/selfupd/memorybase/">记忆基数</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'wonder of llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

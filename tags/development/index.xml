@@ -2,31 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Development on wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/tags/development/</link>
+    <link>http://wonder.zxcsoft.com/tags/development/</link>
     <description>Recent content in Development on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 26 Apr 2018 10:38:52 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/tags/development/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/development/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>open source list</title>
-      <link>https://llhhbc.github.io/wonder/post/source_list/</link>
+      <link>http://wonder.zxcsoft.com/post/source_list/</link>
       <pubDate>Thu, 26 Apr 2018 10:38:52 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/source_list/</guid>
+      <guid>http://wonder.zxcsoft.com/post/source_list/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>use hugo</title>
-      <link>https://llhhbc.github.io/wonder/post/use-hugo/</link>
+      <title>grafana源码学习</title>
+      <link>http://wonder.zxcsoft.com/post/grafana/grafana-src/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/use-hugo/</guid>
+      <guid>http://wonder.zxcsoft.com/post/grafana/grafana-src/</guid>
+      <description>grafana学习 1.整体流程了解 grafana-server(从main开始)  根据profile标志判断是否开启pprof 初始化版本、时间缀信息 初始化metrics包的版本信息
+ 在prometheus 中记录版本值1  创建grafanaServer
+ init加载的清单
+ api  通过registry.RegisterService注册http服务：HTTPServer  log  创建根root日志对象  login  在bus上注册句柄：&amp;rdquo;auth&amp;rdquo;, UpsertUser 扩展用户管理  setting
+ 记录系统标志（是否是windows）  extensions
+ errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息  metrics
+ 初始化prometheus统计变量  plugins
+ 通过registry.RegisterService注册插件管理器：PluginManager  type Service interface { Init() error }  所有的插件都实现这个接口 在bus上注册句柄：&amp;rdquo;plugins&amp;rdquo;：ImportDashboard 在bus上注册事件监听：handlePluginStateChanged  services/alerting
+ 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, updateDashboardAlerts 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, validateDashboardAlerts 通过registry.RegisterService注册告警服务：AlertingService 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleNotificationTestCommand 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleAlertTestCommand  services/cleanup</description>
+    </item>
+    
+    <item>
+      <title>use hugo</title>
+      <link>http://wonder.zxcsoft.com/post/hugo/use-hugo/</link>
+      <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/hugo/use-hugo/</guid>
+      <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
+    </item>
+    
+    <item>
+      <title>use hugo</title>
+      <link>http://wonder.zxcsoft.com/post/use-hugo/</link>
+      <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/use-hugo/</guid>
       <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
     </item>
     

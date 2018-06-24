@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>All on wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/tags/all/</link>
+    <link>http://wonder.zxcsoft.com/tags/all/</link>
     <description>Recent content in All on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 10 May 2018 20:02:28 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/tags/all/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/all/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>学习汇总</title>
-      <link>https://llhhbc.github.io/wonder/post/allmywonder/</link>
+      <link>http://wonder.zxcsoft.com/post/allmywonder/</link>
       <pubDate>Thu, 10 May 2018 20:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/allmywonder/</guid>
+      <guid>http://wonder.zxcsoft.com/post/allmywonder/</guid>
       <description> 学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
  kit
  hydra

@@ -2,41 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/</link>
+    <link>http://wonder.zxcsoft.com/</link>
     <description>Recent content on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 16 May 2018 19:02:28 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 28 May 2018 20:02:28 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>golang pprof使用</title>
+      <link>http://wonder.zxcsoft.com/post/language/go/pprof/</link>
+      <pubDate>Mon, 28 May 2018 20:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/language/go/pprof/</guid>
+      <description>启用pprof  带有http的服务，只需要引入 import _ &amp;quot;net/http/pprof&amp;quot; 就可以通过访问http://ip:port/debug/pprof 查看了
+ 没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）
+  import ( _ &amp;quot;net/http/pprof&amp;quot; &amp;quot;net/http&amp;quot; ) func InitModel() { var ppaddr string if config.HasModuleInit() { ppaddr = config.StringDefault(&amp;quot;ppaddr&amp;quot;, &amp;quot;&amp;quot;) if ppaddr != &amp;quot;&amp;quot; { go http.ListenAndServe(ppaddr, nil) } } }  pprof使用 1.代码优化 curl http://ip:port/debug/pprof/profile &amp;gt; /tmp/a.profile go tool pprof 可执行程序 /tmp/a.profile (pprof) top #可查看占用资源最多的函数  pprof各字段的含义依次是：  采样点执行时间 采样点落在该函数中的百分比 上一项的累积百分比 采样点落在该函数，以及被它调用的函数执行的总时间 采样点落在该函数，以及被它调用的函数中的百分比 函数名 文件名  pprof分析  / 访问根目录，里面有几个链接：</description>
+    </item>
+    
+    <item>
       <title>记忆基数</title>
-      <link>https://llhhbc.github.io/wonder/post/selfupd/memorybase/</link>
+      <link>http://wonder.zxcsoft.com/post/selfupd/memorybase/</link>
       <pubDate>Wed, 16 May 2018 19:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/selfupd/memorybase/</guid>
+      <guid>http://wonder.zxcsoft.com/post/selfupd/memorybase/</guid>
       <description> 记忆基数  1 粉笔 2 鸭子 3 耳朵 4 红旗 5 秤钩 6 口哨 7 锄头 8 葫芦 9 气球 10 老师 11 双截棍 12 不倒翁 13  </description>
     </item>
     
     <item>
       <title>python 简单使用</title>
-      <link>https://llhhbc.github.io/wonder/post/language/python/pythi/</link>
+      <link>http://wonder.zxcsoft.com/post/language/python/pythi/</link>
       <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/language/python/pythi/</guid>
+      <guid>http://wonder.zxcsoft.com/post/language/python/pythi/</guid>
       <description>ipynb
 jupyter notebook  </description>
     </item>
     
     <item>
       <title>tensorFlow 入门</title>
-      <link>https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/</link>
+      <link>http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/</link>
       <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/</guid>
+      <guid>http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/</guid>
       <description> 环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
 conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
 tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&amp;quot;hello, tensorflow&amp;quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     </description>
@@ -44,10 +55,10 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
     
     <item>
       <title>学习汇总</title>
-      <link>https://llhhbc.github.io/wonder/post/allmywonder/</link>
+      <link>http://wonder.zxcsoft.com/post/allmywonder/</link>
       <pubDate>Thu, 10 May 2018 20:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/allmywonder/</guid>
+      <guid>http://wonder.zxcsoft.com/post/allmywonder/</guid>
       <description> 学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
  kit
  hydra
@@ -56,10 +67,10 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
     
     <item>
       <title>es 入门</title>
-      <link>https://llhhbc.github.io/wonder/post/es/esstart/</link>
+      <link>http://wonder.zxcsoft.com/post/es/esstart/</link>
       <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/es/esstart/</guid>
+      <guid>http://wonder.zxcsoft.com/post/es/esstart/</guid>
       <description> es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
 启动es cd elasticsearch-6.2.4/bin ./elasticsearch
 验证启动状态 curl http://127.0.0.1:9200
@@ -68,10 +79,10 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
     
     <item>
       <title>kbuernetes 学习</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/learn_kuber/</link>
       <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/learn_kuber/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/learn_kuber/</guid>
       <description>Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
 apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
 Namespace 管理一组资源和对象
@@ -80,11 +91,24 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
     </item>
     
     <item>
+      <title>linux下socket的复用</title>
+      <link>http://wonder.zxcsoft.com/post/linux/linux_socket/</link>
+      <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/linux/linux_socket/</guid>
+      <description> linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
+ SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
+ SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
+ SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
+  </description>
+    </item>
+    
+    <item>
       <title>istio初尝试</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/istio/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/istio/</link>
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/istio/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/istio/</guid>
       <description>说明  参考 http://istio.doczh.cn/
  安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &amp;ldquo;install/kubernetes/istio.yaml&amp;rdquo; 的错误，删除后再重新执行一遍就好了
  部署bookinfo kubectl apply -f &amp;lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o &#39;jsonpath={.items[0].status.hostIP}&#39;):$(kubectl get svc istio-ingress -n istio-system -o &#39;jsonpath={.spec.ports[0].nodePort}&#39;) #测试地址访问 curl -o /dev/null -s -w &amp;quot;%{http_code}\n&amp;quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.</description>
@@ -92,10 +116,10 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
     
     <item>
       <title>kuber手工搭建</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/</link>
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/</guid>
       <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
  设置主机名 &amp;gt; sh etc/set_hosts.sh
  安装etcd &amp;gt; sh rpms/install_etcd.sh
@@ -110,10 +134,10 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
     
     <item>
       <title>kuberadm start</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/kubeadm_start/</link>
       <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/kubeadm_start/</guid>
       <description>kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
 通过kubeadm安装 参考 官方文档
 1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
@@ -125,10 +149,10 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
     
     <item>
       <title>kube问题汇总</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/kube_help/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/kube_help/</link>
       <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/kube_help/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/kube_help/</guid>
       <description> 虚拟机建议用virutalbox
 当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s 老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改
  virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络
@@ -144,40 +168,75 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
     
     <item>
       <title>open source list</title>
-      <link>https://llhhbc.github.io/wonder/post/source_list/</link>
+      <link>http://wonder.zxcsoft.com/post/source_list/</link>
       <pubDate>Thu, 26 Apr 2018 10:38:52 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/source_list/</guid>
+      <guid>http://wonder.zxcsoft.com/post/source_list/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Learn markdown</title>
-      <link>https://llhhbc.github.io/wonder/post/learn-md/</link>
+      <link>http://wonder.zxcsoft.com/post/learn-md/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/learn-md/</guid>
+      <guid>http://wonder.zxcsoft.com/post/learn-md/</guid>
       <description>标题  利用=（最高阶标题） 和 - （第二阶标题） 在行首插入1到6个#，对应标题1到6阶  区块使用  在每行前面，或者段落最前面加上&amp;gt; 表示区块引用,如：   aa
  aa dsafas
   列表  用星号、加号或减号来表示无序列表 用数字加英文句点（不在乎数字是几）表示有序列表，数字会重新自动生成  代码区块  缩进4个空格或者一个制表符，就是代码区块 如果段内有一小段代码，可以用`号包起来，如  printf();   如果代码中也有`号，可以用多个来标记开始和结束如：  printf(&amp;quot;`&amp;quot;);   引用一段代码, 如：引用部分c++代码  int a=1; int b=2; int c= a+b;  分隔线  在一行中用3个以上的星号、减号、底线来建立一个分隔线  链接  链接文字用[方括号]来标记，后面紧接着用圆括号闰插入网上链接 如：test link 链接标记： 两个方括号 test link 前一个是链接文字，后一个是标记，然后在后面标记这个id  强调  使用星号、底线 作为标志强调字词的符号 （用一个*或_包围的字词会转成EM标签，用两个会转成strong this is em this is strong  图片  添加图片 !</description>
     </item>
     
     <item>
-      <title>use hugo</title>
-      <link>https://llhhbc.github.io/wonder/post/use-hugo/</link>
+      <title>grafana源码学习</title>
+      <link>http://wonder.zxcsoft.com/post/grafana/grafana-src/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/use-hugo/</guid>
+      <guid>http://wonder.zxcsoft.com/post/grafana/grafana-src/</guid>
+      <description>grafana学习 1.整体流程了解 grafana-server(从main开始)  根据profile标志判断是否开启pprof 初始化版本、时间缀信息 初始化metrics包的版本信息
+ 在prometheus 中记录版本值1  创建grafanaServer
+ init加载的清单
+ api  通过registry.RegisterService注册http服务：HTTPServer  log  创建根root日志对象  login  在bus上注册句柄：&amp;rdquo;auth&amp;rdquo;, UpsertUser 扩展用户管理  setting
+ 记录系统标志（是否是windows）  extensions
+ errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息  metrics
+ 初始化prometheus统计变量  plugins
+ 通过registry.RegisterService注册插件管理器：PluginManager  type Service interface { Init() error }  所有的插件都实现这个接口 在bus上注册句柄：&amp;rdquo;plugins&amp;rdquo;：ImportDashboard 在bus上注册事件监听：handlePluginStateChanged  services/alerting
+ 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, updateDashboardAlerts 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, validateDashboardAlerts 通过registry.RegisterService注册告警服务：AlertingService 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleNotificationTestCommand 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleAlertTestCommand  services/cleanup</description>
+    </item>
+    
+    <item>
+      <title>use hugo</title>
+      <link>http://wonder.zxcsoft.com/post/hugo/use-hugo/</link>
+      <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/hugo/use-hugo/</guid>
+      <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
+    </item>
+    
+    <item>
+      <title>use hugo</title>
+      <link>http://wonder.zxcsoft.com/post/use-hugo/</link>
+      <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/use-hugo/</guid>
       <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://llhhbc.github.io/wonder/about/</link>
+      <link>http://wonder.zxcsoft.com/about/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/about/</guid>
+      <guid>http://wonder.zxcsoft.com/about/</guid>
       <description>My Wonder of light blogs</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://wonder.zxcsoft.com/post/des/des_pin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
+      <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
     </item>
     
   </channel>

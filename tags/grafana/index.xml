@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grafana on wonder of light</title>
+    <link>http://wonder.zxcsoft.com/tags/grafana/</link>
+    <description>Recent content in Grafana on wonder of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 25 Apr 2018 12:02:28 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>grafana源码学习</title>
+      <link>http://wonder.zxcsoft.com/post/grafana/grafana-src/</link>
+      <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/grafana/grafana-src/</guid>
+      <description>grafana学习 1.整体流程了解 grafana-server(从main开始)  根据profile标志判断是否开启pprof 初始化版本、时间缀信息 初始化metrics包的版本信息
+ 在prometheus 中记录版本值1  创建grafanaServer
+ init加载的清单
+ api  通过registry.RegisterService注册http服务：HTTPServer  log  创建根root日志对象  login  在bus上注册句柄：&amp;rdquo;auth&amp;rdquo;, UpsertUser 扩展用户管理  setting
+ 记录系统标志（是否是windows）  extensions
+ errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息  metrics
+ 初始化prometheus统计变量  plugins
+ 通过registry.RegisterService注册插件管理器：PluginManager  type Service interface { Init() error }  所有的插件都实现这个接口 在bus上注册句柄：&amp;rdquo;plugins&amp;rdquo;：ImportDashboard 在bus上注册事件监听：handlePluginStateChanged  services/alerting
+ 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, updateDashboardAlerts 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, validateDashboardAlerts 通过registry.RegisterService注册告警服务：AlertingService 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleNotificationTestCommand 在bus上注册句柄：&amp;rdquo;alerting&amp;rdquo;, handleAlertTestCommand  services/cleanup</description>
+    </item>
+    
+  </channel>
+</rss>

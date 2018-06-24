@@ -21,13 +21,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="http://wonder.zxcsoft.com/index.xml" />
   
 
   
@@ -50,7 +50,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
 
   
   
@@ -69,7 +69,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">wonder</a>
 
 
   <div class="pure-menu">
@@ -77,19 +77,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
       
         </li>
       
@@ -101,7 +101,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -206,7 +206,7 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/source_list/">open source list</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">kuberadm start</a></h2>
 
     <div class="post-meta">
 
@@ -225,9 +225,109 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kuberadm">kuberadm</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/open-source">open source</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
+通过kubeadm安装 参考 官方文档
+1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
+ firewall-cmd &ndash;state 查看状态
+ systemctl stop firewalld.service # 停止firewall
+ systemctl disable firewalld.service # 禁止firewall开机启动
+  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kube_help/">kube问题汇总</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   虚拟机建议用virutalbox
+当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s 老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改
+ virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络
+然后每个主机在加一个hostonly的网卡，用于主机访问虚拟机
+ 硬盘没空间：
+突然发现pod状态变成了：Evicted，还有挂起的，然后 通过 kubelet describe命令查看，发现是node空间满了，无法部署了：我看空间用了80%
+ 时间不同步：
+时间不同步时，会出现 Unable to authenticate the request due to an error: x509: certificate has expired or is not yet valid 我同步机器时间后，问题解决。。。
+ token不一致：
+配置文件bootstrap.kubeconfig中token不一致，会导致这个错 failed to run Kubelet: cannot create certificate signing request: Unauthorized
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/source_list/">open source list</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/open-source">open source</a>
     
   </div>
   
@@ -247,7 +347,7 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/learn-md/">Learn markdown</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/learn-md/">Learn markdown</a></h2>
 
     <div class="post-meta">
 
@@ -266,7 +366,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/markdown">markdown</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/markdown">markdown</a>
     
   </div>
   
@@ -284,7 +384,7 @@
 
   
   <footer>
-    <a href="https://llhhbc.github.io/wonder/post/learn-md/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/learn-md/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -292,7 +392,7 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/use-hugo/">use hugo</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">grafana源码学习</a></h2>
 
     <div class="post-meta">
 
@@ -311,13 +411,70 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/go">go</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/golang">golang</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/hugo">hugo</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/grafana">grafana</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  grafana学习 1.整体流程了解 grafana-server(从main开始)  根据profile标志判断是否开启pprof 初始化版本、时间缀信息 初始化metrics包的版本信息
+ 在prometheus 中记录版本值1  创建grafanaServer
+ init加载的清单
+ api  通过registry.RegisterService注册http服务：HTTPServer  log  创建根root日志对象  login  在bus上注册句柄：&rdquo;auth&rdquo;, UpsertUser 扩展用户管理  setting
+ 记录系统标志（是否是windows）  extensions
+ errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息  metrics
+ 初始化prometheus统计变量  plugins
+ 通过registry.RegisterService注册插件管理器：PluginManager  type Service interface { Init() error }  所有的插件都实现这个接口 在bus上注册句柄：&rdquo;plugins&rdquo;：ImportDashboard 在bus上注册事件监听：handlePluginStateChanged  services/alerting
+ 在bus上注册句柄：&rdquo;alerting&rdquo;, updateDashboardAlerts 在bus上注册句柄：&rdquo;alerting&rdquo;, validateDashboardAlerts 通过registry.RegisterService注册告警服务：AlertingService 在bus上注册句柄：&rdquo;alerting&rdquo;, handleNotificationTestCommand 在bus上注册句柄：&rdquo;alerting&rdquo;, handleAlertTestCommand  services/cleanup
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
     
   </div>
   
@@ -335,13 +492,87 @@
 </article>
 
   
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/use-hugo/">use hugo</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/des/des_pin/"></a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>0001-01-01</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  </header>
+
+  <p>
+  pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98
+  </p>
+
+  
+</article>
+
+  
 
   
 
 
 <nav class="pagination" role="pagination">
   
-  <a href="https://llhhbc.github.io/wonder/"><i class="fa fa-chevron-left"></i></a>
+  <a href="http://wonder.zxcsoft.com/"><i class="fa fa-chevron-left"></i></a>
   
   <span>&nbsp;2 / 2&nbsp;</span>
   
@@ -355,7 +586,7 @@
 
 </div>
 </div>
-<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
 
 
 

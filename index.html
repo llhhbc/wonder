@@ -21,13 +21,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="http://wonder.zxcsoft.com/index.xml" />
   
 
   
@@ -50,7 +50,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
 
   
   
@@ -69,7 +69,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">wonder</a>
 
 
   <div class="pure-menu">
@@ -77,19 +77,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
       
         </li>
       
@@ -101,7 +101,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -206,7 +206,54 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/selfupd/memorybase/">记忆基数</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/pprof/">golang pprof使用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/pprof">pprof</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  启用pprof  带有http的服务，只需要引入 import _ &quot;net/http/pprof&quot; 就可以通过访问http://ip:port/debug/pprof 查看了
+ 没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）
+  import ( _ &quot;net/http/pprof&quot; &quot;net/http&quot; ) func InitModel() { var ppaddr string if config.HasModuleInit() { ppaddr = config.StringDefault(&quot;ppaddr&quot;, &quot;&quot;) if ppaddr != &quot;&quot; { go http.ListenAndServe(ppaddr, nil) } } }  pprof使用 1.代码优化 curl http://ip:port/debug/pprof/profile &gt; /tmp/a.profile go tool pprof 可执行程序 /tmp/a.profile (pprof) top #可查看占用资源最多的函数  pprof各字段的含义依次是：  采样点执行时间 采样点落在该函数中的百分比 上一项的累积百分比 采样点落在该函数，以及被它调用的函数执行的总时间 采样点落在该函数，以及被它调用的函数中的百分比 函数名 文件名  pprof分析  / 访问根目录，里面有几个链接：
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/language/go/pprof/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/selfupd/memorybase/">记忆基数</a></h2>
 
     <div class="post-meta">
 
@@ -225,7 +272,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/memory">memory</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/memory">memory</a>
     
   </div>
   
@@ -245,7 +292,7 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/language/python/pythi/">python 简单使用</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/python/pythi/">python 简单使用</a></h2>
 
     <div class="post-meta">
 
@@ -264,7 +311,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/python">python</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/python">python</a>
     
   </div>
   
@@ -285,7 +332,7 @@ jupyter notebook
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/tensorflow/learn_tensor/">tensorFlow 入门</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/">tensorFlow 入门</a></h2>
 
     <div class="post-meta">
 
@@ -304,7 +351,7 @@ jupyter notebook
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/tensorflow">tensorflow</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/tensorflow">tensorflow</a>
     
   </div>
   
@@ -326,7 +373,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/allmywonder/">学习汇总</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/allmywonder/">学习汇总</a></h2>
 
     <div class="post-meta">
 
@@ -345,7 +392,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/all">all</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/all">all</a>
     
   </div>
   
@@ -368,7 +415,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/es/esstart/">es 入门</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/es/esstart/">es 入门</a></h2>
 
     <div class="post-meta">
 
@@ -387,7 +434,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/elastic">elastic</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
     
   </div>
   
@@ -410,7 +457,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
 
     <div class="post-meta">
 
@@ -429,7 +476,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
     
   </div>
   
@@ -449,7 +496,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
 
   
   <footer>
-    <a href="https://llhhbc.github.io/wonder/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -457,7 +504,52 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/istio/">istio初尝试</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/socket">socket</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
+ SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
+ SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
+ SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/istio/">istio初尝试</a></h2>
 
     <div class="post-meta">
 
@@ -476,9 +568,9 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/istio">istio</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/istio">istio</a>
     
   </div>
   
@@ -496,7 +588,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
 
   
   <footer>
-    <a href="https://llhhbc.github.io/wonder/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -504,7 +596,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
 
     <div class="post-meta">
 
@@ -523,7 +615,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
     
   </div>
   
@@ -548,108 +640,8 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
 
   
   <footer>
-    <a href="https://llhhbc.github.io/wonder/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">kuberadm start</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kuberadm">kuberadm</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
-通过kubeadm安装 参考 官方文档
-1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
- firewall-cmd &ndash;state 查看状态
- systemctl stop firewalld.service # 停止firewall
- systemctl disable firewalld.service # 禁止firewall开机启动
-  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)
-  </p>
-
-  
-  <footer>
-    <a href="https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/kuber/kube_help/">kube问题汇总</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   虚拟机建议用virutalbox
-当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s 老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改
- virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络
-然后每个主机在加一个hostonly的网卡，用于主机访问虚拟机
- 硬盘没空间：
-突然发现pod状态变成了：Evicted，还有挂起的，然后 通过 kubelet describe命令查看，发现是node空间满了，无法部署了：我看空间用了80%
- 时间不同步：
-时间不同步时，会出现 Unable to authenticate the request due to an error: x509: certificate has expired or is not yet valid 我同步机器时间后，问题解决。。。
- token不一致：
-配置文件bootstrap.kubeconfig中token不一致，会导致这个错 failed to run Kubelet: cannot create certificate signing request: Unauthorized
-  
-  </p>
-
   
 </article>
 
@@ -664,7 +656,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
   
   <span>&nbsp;1 / 2&nbsp;</span>
   
-  <a href="https://llhhbc.github.io/wonder/page/2/"><i class="fa fa-chevron-right"></i></a>
+  <a href="http://wonder.zxcsoft.com/page/2/"><i class="fa fa-chevron-right"></i></a>
   
 </nav>
 
@@ -674,7 +666,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
 
 </div>
 </div>
-<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
 
 
 

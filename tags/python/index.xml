@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/tags/python/</link>
+    <link>http://wonder.zxcsoft.com/tags/python/</link>
     <description>Recent content in Python on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Fri, 11 May 2018 20:02:28 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>python 简单使用</title>
-      <link>https://llhhbc.github.io/wonder/post/language/python/pythi/</link>
+      <link>http://wonder.zxcsoft.com/post/language/python/pythi/</link>
       <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/language/python/pythi/</guid>
+      <guid>http://wonder.zxcsoft.com/post/language/python/pythi/</guid>
       <description>ipynb
 jupyter notebook  </description>
     </item>

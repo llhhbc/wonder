@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kuberadm on wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/tags/kuberadm/</link>
+    <link>http://wonder.zxcsoft.com/tags/kuberadm/</link>
     <description>Recent content in Kuberadm on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 26 Apr 2018 10:46:49 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/tags/kuberadm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/kuberadm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>kuberadm start</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/kubeadm_start/</link>
       <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/kubeadm_start/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/kubeadm_start/</guid>
       <description>kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
 通过kubeadm安装 参考 官方文档
 1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config

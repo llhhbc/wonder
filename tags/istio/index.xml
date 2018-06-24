@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Istio on wonder of light</title>
-    <link>https://llhhbc.github.io/wonder/tags/istio/</link>
+    <link>http://wonder.zxcsoft.com/tags/istio/</link>
     <description>Recent content in Istio on wonder of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 26 Apr 2018 20:46:49 +0800</lastBuildDate>
     
-	<atom:link href="https://llhhbc.github.io/wonder/tags/istio/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/istio/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>istio初尝试</title>
-      <link>https://llhhbc.github.io/wonder/post/kuber/istio/</link>
+      <link>http://wonder.zxcsoft.com/post/kuber/istio/</link>
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
-      <guid>https://llhhbc.github.io/wonder/post/kuber/istio/</guid>
+      <guid>http://wonder.zxcsoft.com/post/kuber/istio/</guid>
       <description>说明  参考 http://istio.doczh.cn/
  安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &amp;ldquo;install/kubernetes/istio.yaml&amp;rdquo; 的错误，删除后再重新执行一遍就好了
  部署bookinfo kubectl apply -f &amp;lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o &#39;jsonpath={.items[0].status.hostIP}&#39;):$(kubectl get svc istio-ingress -n istio-system -o &#39;jsonpath={.spec.ports[0].nodePort}&#39;) #测试地址访问 curl -o /dev/null -s -w &amp;quot;%{http_code}\n&amp;quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.</description>

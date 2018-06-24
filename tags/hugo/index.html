@@ -21,13 +21,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/side-menu.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="https://llhhbc.github.io/wonder/css/blackburn.css">
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="https://llhhbc.github.io/wonder/tags/hugo/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="wonder of light" href="http://wonder.zxcsoft.com/tags/hugo/index.xml" />
   
 
   
@@ -50,7 +50,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://llhhbc.github.io/wonder/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
 
   
   
@@ -69,7 +69,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="https://llhhbc.github.io/wonder/">wonder</a>
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">wonder</a>
 
 
   <div class="pure-menu">
@@ -77,19 +77,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
       
         </li>
       
@@ -101,7 +101,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://llhhbc.github.io/wonder/tags/hugo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/hugo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -205,7 +205,7 @@
   
     <article>
   <header>
-    <h2><a href="https://llhhbc.github.io/wonder/post/use-hugo/">use hugo</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a></h2>
 
     <div class="post-meta">
 
@@ -224,13 +224,58 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/go">go</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/golang">golang</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/hugo">hugo</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://llhhbc.github.io/wonder/tags/development">development</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/use-hugo/">use hugo</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
     
   </div>
   
@@ -252,7 +297,7 @@
 
 </div>
 </div>
-<script src="https://llhhbc.github.io/wonder/js/ui.js"></script>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
 
 
 
