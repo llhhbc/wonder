@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Caddy on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/caddy/</link>
+    <description>Recent content in Caddy on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Fri, 29 Jun 2018 20:01:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/caddy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>caddy</title>
+      <link>http://wonder.zxcsoft.com/post/tools/caddy-src/</link>
+      <pubDate>Fri, 29 Jun 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/tools/caddy-src/</guid>
+      <description> caddy  caddy是个网站搭建工具  </description>
+    </item>
+    
+  </channel>
+</rss>

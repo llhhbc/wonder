@@ -7,10 +7,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 28 May 2018 20:02:28 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Jun 2018 20:01:00 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>caddy</title>
+      <link>http://wonder.zxcsoft.com/post/tools/caddy-src/</link>
+      <pubDate>Fri, 29 Jun 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/tools/caddy-src/</guid>
+      <description> caddy  caddy是个网站搭建工具  </description>
+    </item>
+    
+    <item>
+      <title>gorm源码分析</title>
+      <link>http://wonder.zxcsoft.com/post/gorm/gorm-src/</link>
+      <pubDate>Wed, 27 Jun 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/gorm/gorm-src/</guid>
+      <description>总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
+ 源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
+  main   定义了DB结构：
+ Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
+后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
+main 大致过了一遍，对整个有点了解，再回看目录下的文件：
+1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6.</description>
+    </item>
+    
+    <item>
+      <title>es 基本使用</title>
+      <link>http://wonder.zxcsoft.com/post/es/esuse/</link>
+      <pubDate>Mon, 25 Jun 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/es/esuse/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>golang pprof使用</title>
@@ -228,6 +261,15 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       
       <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
       <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</guid>
+      <description></description>
     </item>
     
   </channel>

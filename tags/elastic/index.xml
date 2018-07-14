@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 27 Apr 2018 09:01:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jun 2018 20:01:00 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/tags/elastic/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>es 基本使用</title>
+      <link>http://wonder.zxcsoft.com/post/es/esuse/</link>
+      <pubDate>Mon, 25 Jun 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/es/esuse/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>es 入门</title>

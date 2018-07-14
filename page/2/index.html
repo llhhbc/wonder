@@ -206,6 +206,150 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/socket">socket</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
+ SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
+ SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
+ SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/istio/">istio初尝试</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/istio">istio</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  说明  参考 http://istio.doczh.cn/
+ 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &ldquo;install/kubernetes/istio.yaml&rdquo; 的错误，删除后再重新执行一遍就好了
+ 部署bookinfo kubectl apply -f &lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}') #测试地址访问 curl -o /dev/null -s -w &quot;%{http_code}\n&quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+ 设置主机名 &gt; sh etc/set_hosts.sh
+ 安装etcd &gt; sh rpms/install_etcd.sh
+ 安装etcd证书 &gt; sh keys/etcd/install_etc_key.sh
+ 修改etcd配置 &gt; sh etc/set_etcd.sh
+ 启动etcd &gt; sh run/start_etcd.sh
+ 安装kube 程序 &gt; sh rpms/install_kuber.sh
+ 安装kuber证书 &gt; sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置 &gt; #设置master结点 &gt; sh etc/kube_cfg/set_kuber_cfg.sh &gt; #设置node结点 &gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &gt; #如果master也作为node结点，则运行 &gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube &gt; sh run/start_kube.sh &gt; #在任意一台master上执行： 开启认证 &gt; kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap &gt; #如果master上要启动作为node，则 &gt; sh run/start_kube_master_node.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">kuberadm start</a></h2>
 
     <div class="post-meta">
@@ -537,35 +681,6 @@
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/des/des_pin/"></a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>0001-01-01</time>
-  </div>
-
-  
-
-  
-
-  
-
-</div>
-
-  </header>
-
-  <p>
-  pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98
-  </p>
-
-  
-</article>
-
-  
 
   
 
@@ -574,9 +689,9 @@
   
   <a href="http://wonder.zxcsoft.com/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;2 / 2&nbsp;</span>
+  <span>&nbsp;2 / 3&nbsp;</span>
   
-  <i class="fa fa-chevron-right"></i>
+  <a href="http://wonder.zxcsoft.com/page/3/"><i class="fa fa-chevron-right"></i></a>
   
 </nav>
 

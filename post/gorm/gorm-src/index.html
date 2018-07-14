@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="gorm源码分析">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>gorm源码分析 &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>gorm源码分析</h1>
+  <h2>gorm源码分析</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-06-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/gorm">gorm</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="总体分析">总体分析</h2>
+
+<blockquote>
+<p>使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码</p>
+</blockquote>
+
+<h2 id="源码分析">源码分析</h2>
+
+<blockquote>
+<p>由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始</p>
+</blockquote>
+
+<ol>
+<li>main</li>
+</ol>
+
+<blockquote>
+<p>定义了DB结构：</p>
+</blockquote>
+
+<pre><code class="language-golang">Value //是接口类型，可放任何数据
+Error //是记录错误
+RowsAffected //记录生效行数
+
+//单个db私有属性
+db  //定义的公共接口（Exec，Prepare，Query，QueryRow）  
+	//暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的
+blockGlobalUpdate  //记录全局更新标志
+			//从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错
+logMode  //日志开关  2打开，1关闭
+logger   //自定义日志接口(print)
+search   //search结构指针（用来拼接sql语句的）
+values   //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么
+
+//全局db属性
+parent //父DB对象
+callbacks  //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片）
+dialet  //sql格式化接口（针对不同的数据库定制化的差异）
+singularTable  //bool类型，暂时不知道干什么的
+</code></pre>
+
+<blockquote>
+<p>open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接</p>
+
+<p>后面就是一些DB的常规set和get方法，还有就是拼接sql的方法
+* 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用</p>
+
+<p>main 大致过了一遍，对整个有点了解，再回看目录下的文件：</p>
+
+<pre><code>1. association 处理表关系的，针对外键
+2. callback 开头的文件，处理回调函数的（等会重点看的）
+3. dialect 开头的文件，处理各种数据库之前语法差异的
+4. errors 定义了错误管理，所有的错误都在切片中
+5. interface 定义了公共类的接口
+6. join_table_handler 定义了n*n的表的关系接口
+7. logger 定义了默认日志打印
+8. scope 数据库操作的作用域管理
+9. search sql语句管理
+10. utils 基本工具类
+</code></pre>
+</blockquote>
+
+<ol>
+<li>callback</li>
+</ol>
+
+<blockquote>
+<p>CallbackProcessor中记录了所有回调函数的信息，然后排好序后，分类分别放到各个切片中</p>
+
+<p>通过查看回调，我发现，callback中的回调，并不是真的实现的地方，只是将回调分类、排序（还包括一些配置检查），然后通过scope.CallMethod来调用真正的回调实现函数</p>
+</blockquote>
+
+<ol>
+<li>scope</li>
+</ol>
+
+<blockquote>
+<p>由于通过callback中可看到，回调在scope中实现，所以转而先看scope, scope中定义了当前操作信息</p>
+</blockquote>
+
+<pre><code class="language-golang">func (scope *Scope) callMethod(methodName string, reflectValue reflect.Value) {
+	// Only get address from non-pointer
+	if reflectValue.CanAddr() &amp;&amp; reflectValue.Kind() != reflect.Ptr {
+		reflectValue = reflectValue.Addr()
+	}
+
+	if methodValue := reflectValue.MethodByName(methodName); methodValue.IsValid() {
+		switch method := methodValue.Interface().(type) {
+		case func():
+			method()
+		case func(*Scope):
+			method(scope)
+		case func(*DB):
+			newDB := scope.NewDB()
+			method(newDB)
+			scope.Err(newDB.Error)
+		case func() error:
+			scope.Err(method())
+		case func(*Scope) error:
+			scope.Err(method(scope))
+		case func(*DB) error:
+			newDB := scope.NewDB()
+			scope.Err(method(newDB))
+			scope.Err(newDB.Error)
+		default:
+			scope.Err(fmt.Errorf(&quot;unsupported function %v&quot;, methodName))
+		}
+	}
+}
+</code></pre>
+
+<ul>
+<li>看着这个函数，我大慨了解了，它把一个结构体当成了一个有许多函数的容器，通过反射和名字，去调用这个容器中的函数，虽然函数模型就这几个，但是已经很全面了，而这个容器，是在创建scope的时候传入的</li>
+<li>为了知道scope创建的时候，传入的是什么，我再看db的创建，发现没有，再看使用过程，比如查一条sql：db.First(&amp;aa) 发现first中，把aa作为创建scope的传入参数了。但是aa并没有它定义的那些回调方法，这就很奇怪了</li>
+<li>我想起更新表的时候，会自动设置时间辍：
+<code>golang
+func updateTimeStampForUpdateCallback(scope *Scope) {
+	if _, ok := scope.Get(&quot;gorm:update_column&quot;); !ok {
+		scope.SetColumn(&quot;UpdatedAt&quot;, NowFunc())
+	}
+}
+</code></li>
+<li>所以我决定跟踪这个函数的情况
+<code>golang
+DefaultCallback.Update().Register(&quot;gorm:update_time_stamp&quot;, updateTimeStampForUpdateCallback)
+</code></li>
+<li>整个工程下，就只有这一处用了</li>
+<li>然后，我想到，在创建DB对象的时候，DefaultCallback已经存到DB中了，于是我去查DB的callback变量的使用情况
+<code>golang
+func (s *DB) Updates(values interface{}, ignoreProtectedAttrs ...bool) *DB {
+	return s.clone().NewScope(s.Value).
+		Set(&quot;gorm:ignore_protected_attrs&quot;, len(ignoreProtectedAttrs) &gt; 0).
+		InstanceSet(&quot;gorm:update_interface&quot;, values).
+		callCallbacks(s.parent.callbacks.updates).db
+}
+</code></li>
+<li>通过查询callbacks变量的使用，我再结合Updates的编写（因为我知道更新的时候会触发回调：设置时间），发现，库自带的回调是通过callCallbacks来调用的，他们有统一的一个方法头： <code>f(scope *Scope)</code>， 而上面看的callMethod，确实是由我们使用者自己定义的，所以我调用First(&amp;aa)，它把aa作为scope创建的传入参数，完全是正常的。只是这个预留给我们自定义的回调，从来没用过。系统的回调两个之前不冲突，完全分离了。</li>
+<li>下面这个是我模仿回调中的例子，自己写的自定义回调，由于我的时间列名和库自带的不相同，所以我自己写了这个回调，会在创建之前自动调用</li>
+</ul>
+
+<pre><code class="language-golang">func (t *DbBase) BeforeCreate(scope *gorm.Scope) (err error) {
+	log.Debug(&quot;get in BeforeCreate&quot;)
+	scope.SetColumn(&quot;RecUpdTs&quot;, time.Now().UTC())
+	scope.SetColumn(&quot;RecCrtTs&quot;, time.Now().UTC())
+	return nil
+}
+</code></pre>
+
+<ul>
+<li>回调函数名称，在文档 <code>http://gorm.book.jasperxu.com/callbacks.html</code>中有明确说明：</li>
+</ul>
+
+<pre><code class="language-golang">//****创建
+// begin transaction 开始事物
+BeforeSave
+BeforeCreate
+// save before associations 保存前关联
+// update timestamp `CreatedAt`, `UpdatedAt` 更新`CreatedAt`, `UpdatedAt`时间戳
+// save self 保存自己
+// reload fields that have default value and its value is blank 重新加载具有默认值且其值为空的字段
+// save after associations 保存后关联
+AfterCreate
+AfterSave
+// commit or rollback transaction 提交或回滚事务
+
+//****更新
+// begin transaction 开始事物
+BeforeSave
+BeforeUpdate
+// save before associations 保存前关联
+// update timestamp `UpdatedAt` 更新`UpdatedAt`时间戳
+// save self 保存自己
+// save after associations 保存后关联
+AfterUpdate
+AfterSave
+// commit or rollback transaction 提交或回滚事务
+
+//****删除
+// begin transaction 开始事物
+BeforeDelete
+// delete self 删除自己
+AfterDelete
+// commit or rollback transaction 提交或回滚事务
+
+//****查询
+// load data from database 从数据库加载数据
+// Preloading (edger loading) 预加载（加载）
+AfterFind
+
+//****高级用法
+//如果想替换库自带的回调，可能通过：
+db.Callback().Create().Replace(&quot;gorm:create&quot;, newCreateFunction)
+// 使用新函数`newCreateFunction`替换回调`gorm:create`用于创建过程
+
+//如果要自定义回调函数
+db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+//在callback_system_test.go 中有很多的关于回调函数测试的例子，当然，这里的函数只有一个原型： f(s *Scope)，也就是用callCallbacks来调用的。
+
+</code></pre>
+
+<blockquote>
+<p>作用域就像一个大的上下文，每个作用域之前，只有db的数据库连接是共用的，其它都是各自独立的。等会看完search，我想再和它比较下。作用域里面，定义的是列、属性、表名、引号等的处理，还有语句的执行、变量的替换、防sql注入。search作为scope的成员，所有的信息在scope这汇聚，然后去完成相应的功能。</p>
+</blockquote>
+
+<ol>
+<li>search</li>
+</ol>
+
+<blockquote>
+<p>search比较简单，它是个信息收集模块，所有的函数调用都会再返回自身，而错误都通过db.AddError来管理。有一点要注意，search的clone，虽然创建的是新的search对象，但里面的切片、指针、map都原样拷贝，是对应的同一个地址，修改的时候是一起生效，只有基本类型（表名）会不同</p>
+</blockquote>
+
+<ol>
+<li>dialet</li>
+</ol>
+
+<blockquote>
+<p>dialet针对不同的数据库，对接口做了不同的实现，在打开数据库连接的时候，根据数据库类型做初始化</p>
+</blockquote>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/es/esuse/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/es/esuse/">es 基本使用</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://wonder.zxcsoft.com/post/tools/caddy-src/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+
