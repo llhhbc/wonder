@@ -205,6 +205,53 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_use/">goadesign 学习之adder</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  goadesign 学习  一次接触中，了解到了goa，根据dsl做巧妙的翻译，自动完成统一代码的生成
+ github上搜索goadesign，可以看到他有的代码库，出于学习，我把它的样例库下载下来了，我决定从样例代码开始，结合官方的文档来学习
+先从第一个例子开始  第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了  // adder/design/design.go var _ = API(&quot;adder&quot;, func() { //api定义说明，一个文件只可以有一个api Title(&quot;The adder API&quot;) Description(&quot;A teaser for goa&quot;) Host(&quot;localhost:8080&quot;) Scheme(&quot;http&quot;) }) var _ = Resource(&quot;operands&quot;, func() { //资源说明，resource对应一个service Action(&quot;add&quot;, func() { //动作说明，api请求动作 Routing(GET(&quot;add/:left/:right&quot;)) //定义访问地址格式 Description(&quot;add returns the sum of the left and right parameters in the response body&quot;) Params(func() { //定义请求url中参数说明 Param(&quot;left&quot;, Integer, &quot;Left operand&quot;) Param(&quot;right&quot;, Integer, &quot;Right operand&quot;) }) Response(OK, &quot;text/plain&quot;) //定义应答报文样式 }) })   根据design文件生成代码  goagen bootstrap -d github.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/goa/goa_use/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a></h2>
 
     <div class="post-meta">

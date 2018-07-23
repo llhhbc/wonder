@@ -206,6 +206,63 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">grafana源码学习</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/grafana">grafana</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  grafana学习 1.整体流程了解 grafana-server(从main开始)  根据profile标志判断是否开启pprof 初始化版本、时间缀信息 初始化metrics包的版本信息
+ 在prometheus 中记录版本值1  创建grafanaServer
+ init加载的清单
+ api  通过registry.RegisterService注册http服务：HTTPServer  log  创建根root日志对象  login  在bus上注册句柄：&rdquo;auth&rdquo;, UpsertUser 扩展用户管理  setting
+ 记录系统标志（是否是windows）  extensions
+ errors 引入github.com/pkg/errors包，在出错时，会记录栈信息，还有详细的函数信息  metrics
+ 初始化prometheus统计变量  plugins
+ 通过registry.RegisterService注册插件管理器：PluginManager  type Service interface { Init() error }  所有的插件都实现这个接口 在bus上注册句柄：&rdquo;plugins&rdquo;：ImportDashboard 在bus上注册事件监听：handlePluginStateChanged  services/alerting
+ 在bus上注册句柄：&rdquo;alerting&rdquo;, updateDashboardAlerts 在bus上注册句柄：&rdquo;alerting&rdquo;, validateDashboardAlerts 通过registry.RegisterService注册告警服务：AlertingService 在bus上注册句柄：&rdquo;alerting&rdquo;, handleNotificationTestCommand 在bus上注册句柄：&rdquo;alerting&rdquo;, handleAlertTestCommand  services/cleanup
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a></h2>
 
     <div class="post-meta">

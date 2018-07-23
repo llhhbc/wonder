@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="goadesign 学习">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>goadesign 学习之adder &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>goadesign 学习之adder</h1>
+  <h2>goadesign 学习</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="goadesign-学习">goadesign 学习</h2>
+
+<blockquote>
+<p>一次接触中，了解到了goa，根据dsl做巧妙的翻译，自动完成统一代码的生成</p>
+</blockquote>
+
+<p>github上搜索goadesign，可以看到他有的代码库，出于学习，我把它的样<a href="https://github.com/goadesign/examples.git">例库</a>下载下来了，我决定从样例代码开始，结合官方的<a href="https://goa.design/learn/guide/">文档</a>来学习</p>
+
+<h3 id="先从第一个例子开始">先从第一个例子开始</h3>
+
+<ul>
+<li>第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了</li>
+</ul>
+
+<pre><code class="language-golang">// adder/design/design.go
+
+var _ = API(&quot;adder&quot;, func() {   //api定义说明，一个文件只可以有一个api
+	Title(&quot;The adder API&quot;)
+	Description(&quot;A teaser for goa&quot;)
+	Host(&quot;localhost:8080&quot;)
+	Scheme(&quot;http&quot;)
+})
+
+var _ = Resource(&quot;operands&quot;, func() {  //资源说明，resource对应一个service
+	Action(&quot;add&quot;, func() {  //动作说明，api请求动作
+		Routing(GET(&quot;add/:left/:right&quot;)) //定义访问地址格式
+		Description(&quot;add returns the sum of the left and right parameters in the response body&quot;)
+		Params(func() {  //定义请求url中参数说明
+			Param(&quot;left&quot;, Integer, &quot;Left operand&quot;)
+			Param(&quot;right&quot;, Integer, &quot;Right operand&quot;)
+		})
+		Response(OK, &quot;text/plain&quot;)  //定义应答报文样式
+	})
+
+})
+</code></pre>
+
+<ul>
+<li>根据design文件生成代码</li>
+</ul>
+
+<pre><code class="language-sh">goagen bootstrap -d github.com/goadesign/examples/adder/design   #这里的目录需要的是从GOPATH开始的目录
+</code></pre>
+
+<blockquote>
+<p>由于我想看看自动生成的operands.go文件，所以我先删除它，然后通过git来比较它</p>
+</blockquote>
+
+<pre><code class="language-diff">diff --git a/adder/operands.go b/adder/operands.go
+index 6cc3671..a09bb49 100644
+--- a/adder/operands.go
++++ b/adder/operands.go
+@@ -1,9 +1,6 @@
+-//go:generate goagen bootstrap -d github.com/goadesign/examples/adder/design
+ package main
+
+ import (
+-       &quot;strconv&quot;
+-
+        &quot;github.com/goadesign/examples/adder/app&quot;
+        &quot;github.com/goadesign/goa&quot;
+ )
+@@ -15,10 +12,15 @@ type OperandsController struct {
+
+ // NewOperandsController creates a operands controller.
+ func NewOperandsController(service *goa.Service) *OperandsController {
+-       return &amp;OperandsController{Controller: service.NewController(&quot;operands&quot;)}
++       return &amp;OperandsController{Controller: service.NewController(&quot;OperandsController&quot;)}
+ }
+
+ // Add runs the add action.
+ func (c *OperandsController) Add(ctx *app.AddOperandsContext) error {
+-       return ctx.OK([]byte(strconv.Itoa(ctx.Left + ctx.Right)))
++       // OperandsController_Add: start_implement
++
++       // Put your logic here
++
++       return nil
++       // OperandsController_Add: end_implement
+ }
+</code></pre>
+
+<ul>
+<li><p>通过git diff比较发现，修改有两个地方：</p>
+
+<ol>
+<li>返回的控制器名字变了</li>
+<li>原本提示增加逻辑的Add函数，改为了加法，并返回相加后的值</li>
+</ol></li>
+
+<li><p>还生成了很多其它文件，我先不管它，也看这个，大致了解了，就是它通过design里面的描述，知道里面有个Action：add，然后生成了操作文件，并定义好了Add方法，自己只需要实现它的内部逻辑，而其它的，都通过程序自动生成了。虽然还不太清楚自动实现了哪些，不过，一个服务api，我能定义好访问地址，然后去实现它的功能，其它的比如程序启动、加载配置、日志跟踪等统一化的功能，我如果都能自动实现，实现统一化、标准化，这是一个很好的期望</p></li>
+</ul>
+
+<pre><code class="language-sh"># 将操作文件还原，完成加法功能
+git checkout -- operands.go
+</code></pre>
+
+<ul>
+<li>测试程序功能</li>
+</ul>
+
+<pre><code class="language-sh">#在adder目录下编译程序
+go build
+#启动程序
+./adder
+
+#通过启动日志，可以后台程序监听到了8080端口，绑定了add动作，访问地址为：/add/:left/:right
+# 测试程序
+curl http://localhost:8080/add/1/2
+# 可以看到，测试返回3，并且，服务端打印了处理请求的日志，还有应答时间
+
+# 相当于我们定义了一个接口规则，配置了访问端口，定义了功能操作内容，其它都通过程序自动完成了，一个简单的服务就这样搭建了
+</code></pre>
+
+<h3 id="分析自动生成的代码">分析自动生成的代码</h3>
+
+<ul>
+<li><p>通过查看自动生成的文件，多了几个目录：</p>
+
+<ul>
+<li>app目录：定义了上下文、控制器，hrefs、media、user这三个还是空的，还不清楚是做什么的</li>
+<li>client目录：定义了客户端访问方式、操作方法，media和user还是空的</li>
+<li>swagger目录：以yaml和json格式定义了说明文档</li>
+<li>tool目录：定义了客户端测试工具，可通过：adder-cli add operands /add/1/2 完成交易测试（会自动生成http请求，完成接口服务测试）</li>
+</ul></li>
+
+<li><p>详细看app目录</p>
+
+<ul>
+<li>contexts 定义了AddOperandsContext上下文，主要包括3块：系统上下文、goa请求应答数据、url参数数据变量。定义了生成上下文的函数：解析请求参数，构造请求上下文，定义了ok函数：设置返回报文格式和信息</li>
+<li>controllers 定义了OperandsController控制接口，并定义了挂载控制器的函数：MountOperandsController，初始化解码服务函数，并注册默认用json来解析，同时挂载add方法</li>
+</ul></li>
+
+<li><p>client目录</p>
+
+<ul>
+<li>client 定义了客户端访问：goa客户端、编码工具、解码工具，并在New中注册编码、解码工具</li>
+<li>operands 定义了请求操作函数，完成http请求</li>
+</ul></li>
+
+<li><p>tool目录</p>
+
+<ul>
+<li>adder-cli 定义了客户端程序的启动参数，并的挂载add命令</li>
+<li>cli 定义了add命令的相关功能</li>
+</ul></li>
+
+<li><p>main</p>
+
+<ul>
+<li>main是服务的组合，goa.New来创建一个服务，然后自动挂载了4个中间服务：请求唯一id处理（用于跟踪请求），日志处理，错误处理，异常捕获，然后创建add操作控制，挂载add服务，启动监听</li>
+</ul></li>
+
+<li><p>就这样，一个微服务的简单模型就构造出来了。</p></li>
+</ul>
+
+<h3 id="分析design中各个名称和代码的关系">分析design中各个名称和代码的关系</h3>
+
+<ul>
+<li>再回过头看最初的design，里面有一些名称，比如最好理解的Action(&ldquo;add&rdquo;，表示定义了一个add的动作，还有其它的名称，我想测试他们之间的关系，所以我在adder下创建一个git库，然后把所有文件归档，这样，当有文件变化，直接git diff就能看出来。（记录删除.gitignore）</li>
+
+<li><p>一次测试之前，要确保git下无修改文件，重新生成前，要先删除main.go operands.go，这两个文件如果已经存在则不会重新生成。还有一点要注意：测试url地址，返回200就表示成功，因为默认生成的代码是不会有返回内容的，就是add方法中是空的，需要自己添加逻辑</p></li>
+
+<li><p>我先改了 Api(&ldquo;add1&rdquo;, func(){ &hellip;})，把add改成了add1，然后重新生成，发现，所有文件都只是注释变了，还有就是add-cli目录的名称变成了add1-cli，所以说，这个各称只和注释说明、命令目录有关。其它Title、Description也是和注释相关的，Host和Scheme也好理解，当然也可以自己测试试下</p></li>
+
+<li><p>我再改了 Resource里面的名字，发现，控制器的名字、上下文的名字都变了</p></li>
+
+<li><p>我再改了Action对应的名称，发现上下文、控制器的名字都有变化，操作函数名也变化了，我编译后访问，发现服务不正常了：我访问add/1/2，提示找不到操作函数，返回404，如果访问add2/1/2，发现正常。 生成的控制器中，服务注册是这样的：service.Mux.Handle(&ldquo;GET&rdquo;, &ldquo;/add/:left/:right&rdquo;, ctrl.MuxHandler(&ldquo;add2&rdquo;, h, nil))， 所以说，action的名称，只是用于生成上下文、控制器的名字，访问地址还是按router来匹配</p></li>
+
+<li><p>修改routing的目录，测试发现，访问目录对应调整，服务正常</p></li>
+
+<li><p>我改了参数说明，把left改成left1，路由中的不变，发现功能正常，它自动给我做名称转换了，操作函数有了这个不同，多了个left到left1的映射：</p></li>
+</ul>
+
+<pre><code class="language-golang">-func Add2Operands1OK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.Operands1Controller, left int, right int) http.ResponseWriter {
++func AddOperands1OK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.Operands1Controller, left string, right int, left1 *int) http.ResponseWriter
+</code></pre>
+
+<ul>
+<li><p>最后个response，就是一个返回http头的指定</p></li>
+
+<li><p>整理下来，发现，api是个标志，主要描述服务功能，定义启动相关。资源的动作，按两个维度把router来分组。</p></li>
+</ul>
+
+<h3 id="设想的测试">设想的测试</h3>
+
+<ul>
+<li>针对动作，做两个测试：同一个资源下，有两个action，但他们对应的router是相同，我看看会怎么样：
+测试发现，生成代码成功，但启动服务出错，因为相同的router已经注册。由于action名称不同，生成的controller是两个，但他们对应的router是同一个，所以不行</li>
+<li>同样的，资源不同，action相同时，也会出同样的错误。</li>
+<li>也就是匹配的入口都是router，通过上下文来匹配，然后找到对应的action，再找对应的resource，然后定位对应的控制器、操作方法</li>
+</ul>
+
+<h3 id="总结">总结</h3>
+
+<ul>
+<li>add功能虽然简单，但也正因为简单，所以才能更好的理解它的功能。</li>
+</ul>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/language/go/quest/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+
