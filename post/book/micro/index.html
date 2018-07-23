@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="caddy">
+  <meta name="description" content="读《微服务架构与实践》总结">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>caddy &middot; miracle of light</title>
+  <title>读《微服务架构与实践》总结 &middot; miracle of light</title>
 
   
   
@@ -192,8 +192,8 @@
 
 
 <div class="header">
-  <h1>caddy</h1>
-  <h2>caddy</h2>
+  <h1>读《微服务架构与实践》总结</h1>
+  <h2>读《微服务架构与实践》总结</h2>
 </div>
 <div class="content">
 
@@ -201,7 +201,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-29</time>
+    <time>2018-07-17</time>
   </div>
 
   
@@ -214,9 +214,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/readbook">readbook</a>
     
   </div>
   
@@ -226,24 +224,139 @@
 
   
 
-<h3 id="caddy">caddy</h3>
+<h3 id="微服务的特征">微服务的特征</h3>
 
-<ol>
-<li>caddy是个网站搭建工具</li>
-</ol>
+<ul>
+<li>业务独立性</li>
+<li>轭人自主性</li>
+<li>单一职责</li>
+
+<li><p>轻量级通信</p></li>
+
+<li><p>服务作为组件</p></li>
+
+<li><p>围绕业务组织团队</p></li>
+
+<li><p>关注产品而非项目</p></li>
+
+<li><p>技术多样性</p></li>
+
+<li><p>业务数据独立</p></li>
+
+<li><p>基础设施自动化</p></li>
+
+<li><p>演进式架构</p></li>
+</ul>
+
+<h3 id="构建微服务考虑的问题">构建微服务考虑的问题</h3>
+
+<ul>
+<li><p>任务拆分</p>
+
+<p>尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务</p>
+
+<ul>
+<li>同一时间聚焦一个任务</li>
+<li>能对每次完成的部分做持续集成</li>
+<li>整体的进度容易追踪</li>
+</ul>
+
+<p>一般任务分为如下几个过程：
+* 服务实现
+* 代码测试与静态检查
+* Docker镜像构建
+* docker镜像部署
+* 功能迭代
+* 日志聚合
+* 监控与告警
+* 持续集成与交付</p></li>
+</ul>
+
+<h3 id="微服务设计">微服务设计</h3>
+
+<h4 id="开发">开发</h4>
+
+<ul>
+<li>独立代码库</li>
+<li>服务说明文件
+
+<ul>
+<li>服务介绍</li>
+<li>服务维护者</li>
+<li>服务可用期</li>
+<li>定义环境：生产环境、类生产环境、测试环境</li>
+<li>开发说明：如果搭建开发环境、如何运行服务、如何定位问题</li>
+<li>测试说明：测试策略、如何运行测试、如果查看测试结果</li>
+<li>构建说明：集成访问的url、集成流程描述、构建的部署包</li>
+<li>部署说明：如何部署到不同环境、部署后功能验证</li>
+<li>运维说明：日志聚合的访问、告警信息的访问、监控信息的访问</li>
+</ul></li>
+<li>代码所有权归团队：不能让代码只有一个人熟悉</li>
+<li>有效的代码版本管理</li>
+<li>代码静态检查工具</li>
+<li>代码易于本地运行</li>
+</ul>
+
+<h4 id="测试">测试</h4>
+
+<ul>
+<li>接口测试</li>
+<li>测试的有效性</li>
+</ul>
+
+<h4 id="构建">构建</h4>
+
+<ul>
+<li>每个服务都是一个可独立部署的业务单元</li>
+</ul>
+
+<h4 id="部署">部署</h4>
+
+<ul>
+<li>部署环境说明</li>
+</ul>
+
+<h4 id="运维">运维</h4>
+
+<ul>
+<li>监控</li>
+<li>告警</li>
+<li>日志聚合</li>
+</ul>
+
+<h3 id="微服务之前的通讯">微服务之前的通讯</h3>
+
+<ul>
+<li>同步通讯、异步通讯</li>
+<li>rpc</li>
+<li>rest：资源、表述、状态转移、统一接口
+
+<ul>
+<li>get用来获取资源</li>
+<li>post来新建资源</li>
+<li>put来更新资源</li>
+<li>delete来删除资源</li>
+</ul></li>
+<li>hal
+
+<ul>
+<li>基于rest，但把每个资源分成三部分：状态、链接、子资源</li>
+</ul></li>
+<li>消息队列</li>
+</ul>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/tools/caddy-src/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a>
+      <a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a>
     </nav>
     
   </div>
@@ -253,13 +366,13 @@
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a>
+      <a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="http://wonder.zxcsoft.com/post/book/micro/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/language/go/quest/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

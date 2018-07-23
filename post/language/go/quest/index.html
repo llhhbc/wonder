@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="caddy">
+  <meta name="description" content="golang 总结">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>caddy &middot; miracle of light</title>
+  <title>golang 总结 &middot; miracle of light</title>
 
   
   
@@ -192,8 +192,8 @@
 
 
 <div class="header">
-  <h1>caddy</h1>
-  <h2>caddy</h2>
+  <h1>golang 总结</h1>
+  <h2>golang 总结</h2>
 </div>
 <div class="content">
 
@@ -201,7 +201,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-29</time>
+    <time>2018-07-18</time>
   </div>
 
   
@@ -214,9 +214,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
     
   </div>
   
@@ -226,24 +224,34 @@
 
   
 
-<h3 id="caddy">caddy</h3>
+<h3 id="ready-go">Ready go</h3>
 
-<ol>
-<li>caddy是个网站搭建工具</li>
-</ol>
+<h4 id="1-goroutine">1. goroutine</h4>
+
+<ul>
+<li>goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的</li>
+<li>golang采用的是一种多对多的方案，m个用户线程对应n个系统线程</li>
+<li>golang有3个角色：
+
+<ul>
+<li>M：代表系统线程，由操作系统管理</li>
+<li>G：goroutine的实体，包括的调用栈，重要的调度信息</li>
+<li>P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列</li>
+</ul></li>
+</ul>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/book/micro/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a>
+      <a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a>
     </nav>
     
   </div>
@@ -252,14 +260,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="http://wonder.zxcsoft.com/post/book/micro/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

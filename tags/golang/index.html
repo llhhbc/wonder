@@ -205,6 +205,45 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   Ready go 1. goroutine  goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的 golang采用的是一种多对多的方案，m个用户线程对应n个系统线程 golang有3个角色：  M：代表系统线程，由操作系统管理 G：goroutine的实体，包括的调用栈，重要的调度信息 P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列   
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a></h2>
 
     <div class="post-meta">

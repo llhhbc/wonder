@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 27 Jun 2018 20:01:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 18 Jul 2018 20:02:28 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang 总结</title>
+      <link>http://wonder.zxcsoft.com/post/language/go/quest/</link>
+      <pubDate>Wed, 18 Jul 2018 20:02:28 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/language/go/quest/</guid>
+      <description> Ready go 1. goroutine  goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的 golang采用的是一种多对多的方案，m个用户线程对应n个系统线程 golang有3个角色：  M：代表系统线程，由操作系统管理 G：goroutine的实体，包括的调用栈，重要的调度信息 P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列   </description>
+    </item>
     
     <item>
       <title>gorm源码分析</title>

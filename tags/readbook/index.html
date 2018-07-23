@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="caddy">
+  <meta name="description" content="">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>caddy &middot; miracle of light</title>
+  <title>Readbook &middot; miracle of light</title>
 
   
   
@@ -39,6 +39,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
+  
+  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/readbook/index.xml" />
   
 
   
@@ -97,6 +99,10 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/readbook/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
     
 
     
@@ -192,16 +198,20 @@
 
 
 <div class="header">
-  <h1>caddy</h1>
-  <h2>caddy</h2>
+  <h1>Readbook</h1>
 </div>
-<div class="content">
 
-  <div class="post-meta">
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a></h2>
+
+    <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-29</time>
+    <time>2018-07-17</time>
   </div>
 
   
@@ -214,9 +224,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/readbook">readbook</a>
     
   </div>
   
@@ -224,68 +232,27 @@
 
 </div>
 
-  
+  </header>
 
-<h3 id="caddy">caddy</h3>
-
-<ol>
-<li>caddy是个网站搭建工具</li>
-</ol>
-
-
-  
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="http://wonder.zxcsoft.com/post/book/micro/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
+  <p>
+   微服务的特征  业务独立性 轭人自主性 单一职责 轻量级通信
+ 服务作为组件
+ 围绕业务组织团队
+ 关注产品而非项目
+ 技术多样性
+ 业务数据独立
+ 基础设施自动化
+ 演进式架构
+  构建微服务考虑的问题  任务拆分
+尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务
+ 同一时间聚焦一个任务 能对每次完成的部分做持续集成 整体的进度容易追踪  一般任务分为如下几个过程： * 服务实现 * 代码测试与静态检查 * Docker镜像构建 * docker镜像部署 * 功能迭代 * 日志聚合 * 监控与告警 * 持续集成与交付
+  微服务设计 开发  独立代码库 服务说明文件  服务介绍 服务维护者 服务可用期 定义环境：生产环境、类生产环境、测试环境 开发说明：如果搭建开发环境、如何运行服务、如何定位问题 测试说明：测试策略、如何运行测试、如果查看测试结果 构建说明：集成访问的url、集成流程描述、构建的部署包 部署说明：如何部署到不同环境、部署后功能验证 运维说明：日志聚合的访问、告警信息的访问、监控信息的访问  代码所有权归团队：不能让代码只有一个人熟悉 有效的代码版本管理 代码静态检查工具 代码易于本地运行  测试  接口测试 测试的有效性  构建  每个服务都是一个可独立部署的业务单元  部署  部署环境说明  运维  监控 告警 日志聚合  微服务之前的通讯  同步通讯、异步通讯 rpc rest：资源、表述、状态转移、统一接口  get用来获取资源 post来新建资源 put来更新资源 delete来删除资源  hal  基于rest，但把每个资源分成三部分：状态、链接、子资源  消息队列  
+  </p>
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
+</article>
 
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'llh';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
+  
 </div>
 
 </div>
@@ -299,4 +266,3 @@
 
 </body>
 </html>
-

@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://wonder.zxcsoft.com/post/language/go/quest/</loc>
+    <lastmod>2018-07-18T20:02:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/post/book/micro/</loc>
+    <lastmod>2018-07-17T20:01:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/post/tools/caddy-src/</loc>
     <lastmod>2018-06-29T20:01:00+08:00</lastmod>
   </url>
@@ -147,7 +157,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/tags/golang/</loc>
-    <lastmod>2018-06-27T20:01:00+08:00</lastmod>
+    <lastmod>2018-07-18T20:02:28+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -219,7 +229,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/post/</loc>
-    <lastmod>2018-06-29T20:01:00+08:00</lastmod>
+    <lastmod>2018-07-18T20:02:28+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -232,6 +242,12 @@
   <url>
     <loc>http://wonder.zxcsoft.com/tags/python/</loc>
     <lastmod>2018-05-11T20:02:28+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/tags/readbook/</loc>
+    <lastmod>2018-07-17T20:01:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -260,7 +276,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/</loc>
-    <lastmod>2018-06-29T20:01:00+08:00</lastmod>
+    <lastmod>2018-07-18T20:02:28+08:00</lastmod>
     <priority>0</priority>
   </url>
   

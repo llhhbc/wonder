@@ -206,6 +206,95 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/es/esstart/">es 入门</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
+启动es cd elasticsearch-6.2.4/bin ./elasticsearch
+验证启动状态 curl http://127.0.0.1:9200
+### 安装中文分词 &gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d ' { &quot;mappings&quot;: { &quot;articles&quot;: { &quot;properties&quot;: { &quot;title&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;description&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;tags&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;date&quot;: {&quot;type&quot; : &quot;date&quot;}, &quot;categories&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;context&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;} } } } } '  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
+apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
+Namespace 管理一组资源和对象
+Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
+apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
 
     <div class="post-meta">
@@ -587,96 +676,6 @@
   <footer>
     <a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/use-hugo/">use hugo</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
-  </p>
-
   
 </article>
 

@@ -206,6 +206,95 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   Ready go 1. goroutine  goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的 golang采用的是一种多对多的方案，m个用户线程对应n个系统线程 golang有3个角色：  M：代表系统线程，由操作系统管理 G：goroutine的实体，包括的调用栈，重要的调度信息 P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列   
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/readbook">readbook</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   微服务的特征  业务独立性 轭人自主性 单一职责 轻量级通信
+ 服务作为组件
+ 围绕业务组织团队
+ 关注产品而非项目
+ 技术多样性
+ 业务数据独立
+ 基础设施自动化
+ 演进式架构
+  构建微服务考虑的问题  任务拆分
+尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务
+ 同一时间聚焦一个任务 能对每次完成的部分做持续集成 整体的进度容易追踪  一般任务分为如下几个过程： * 服务实现 * 代码测试与静态检查 * Docker镜像构建 * docker镜像部署 * 功能迭代 * 日志聚合 * 监控与告警 * 持续集成与交付
+  微服务设计 开发  独立代码库 服务说明文件  服务介绍 服务维护者 服务可用期 定义环境：生产环境、类生产环境、测试环境 开发说明：如果搭建开发环境、如何运行服务、如何定位问题 测试说明：测试策略、如何运行测试、如果查看测试结果 构建说明：集成访问的url、集成流程描述、构建的部署包 部署说明：如何部署到不同环境、部署后功能验证 运维说明：日志聚合的访问、告警信息的访问、监控信息的访问  代码所有权归团队：不能让代码只有一个人熟悉 有效的代码版本管理 代码静态检查工具 代码易于本地运行  测试  接口测试 测试的有效性  构建  每个服务都是一个可独立部署的业务单元  部署  部署环境说明  运维  监控 告警 日志聚合  微服务之前的通讯  同步通讯、异步通讯 rpc rest：资源、表述、状态转移、统一接口  get用来获取资源 post来新建资源 put来更新资源 delete来删除资源  hal  基于rest，但把每个资源分成三部分：状态、链接、子资源  消息队列  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a></h2>
 
     <div class="post-meta">
@@ -540,95 +629,6 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  
   </p>
 
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/es/esstart/">es 入门</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
-启动es cd elasticsearch-6.2.4/bin ./elasticsearch
-验证启动状态 curl http://127.0.0.1:9200
-### 安装中文分词 &gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d ' { &quot;mappings&quot;: { &quot;articles&quot;: { &quot;properties&quot;: { &quot;title&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;description&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;tags&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;date&quot;: {&quot;type&quot; : &quot;date&quot;}, &quot;categories&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;context&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;} } } } } '  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
-apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
-Namespace 管理一组资源和对象
-Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
-apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
