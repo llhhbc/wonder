@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 27 Apr 2018 09:01:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Jul 2018 19:01:00 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nginx配置</title>
+      <link>http://wonder.zxcsoft.com/post/linux/nginx/</link>
+      <pubDate>Thu, 26 Jul 2018 19:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/linux/nginx/</guid>
+      <description> nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  </description>
+    </item>
     
     <item>
       <title>linux下socket的复用</title>

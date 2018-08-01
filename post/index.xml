@@ -7,10 +7,49 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 22 Jul 2018 20:01:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Jul 2018 16:46:49 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kuber应用搭建</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber_myapp/</link>
+      <pubDate>Sun, 29 Jul 2018 16:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber_myapp/</guid>
+      <description>dreammap搭建 1. 应用打包docker容器 1.1 前端界面  dockerfile  from nginx:1.15.2-alpine COPY wonder-dream /usr/share/nginx/html EXPOSE 80   build.sh  function build(){ cp -rp ../dist/wonder-dream . docker rmi wonderdream:v0.0.1 docker build -t wonderdream:v0.0.1 . } function run(){ docker run -itd -p 8091:80 wonderdream:v0.0.1 } function tar(){ docker save -o wonder_ng.tgz wonderdream:v0.0.1 } $1   kuber部署yaml，这里就用service实现了访问，没有做单独的ingress  apiVersion: v1 kind: Service metadata: name: wonderng labels: app: wonderng spec: type: LoadBalancer ports: - port: 80 name: http selector: app: wonderng --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: wonderdream-v0.</description>
+    </item>
+    
+    <item>
+      <title>traefik服务搭建</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/traefik/</link>
+      <pubDate>Sun, 29 Jul 2018 16:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/traefik/</guid>
+      <description>Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
+1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
+    </item>
+    
+    <item>
+      <title>nginx配置</title>
+      <link>http://wonder.zxcsoft.com/post/linux/nginx/</link>
+      <pubDate>Thu, 26 Jul 2018 19:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/linux/nginx/</guid>
+      <description> nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  </description>
+    </item>
+    
+    <item>
+      <title>kuber单机部署</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</link>
+      <pubDate>Wed, 25 Jul 2018 20:00:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</guid>
+      <description>kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
+安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  安装etcd  生成根证书  { &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 4096 }, &amp;quot;names&amp;quot;: [ { &amp;quot;O&amp;quot;: &amp;quot;wonder&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;wonder Security&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot; } ], &amp;quot;CN&amp;quot;: &amp;quot;wonder-root-ca&amp;quot; }  自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP &#39;echo &amp;quot;export PATH=\$PATH:/opt/kubernetes/bin/&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&#39; done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .</description>
+    </item>
     
     <item>
       <title>goadesign 学习之adder</title>
@@ -21,6 +60,15 @@
       <description>goadesign 学习  一次接触中，了解到了goa，根据dsl做巧妙的翻译，自动完成统一代码的生成
  github上搜索goadesign，可以看到他有的代码库，出于学习，我把它的样例库下载下来了，我决定从样例代码开始，结合官方的文档来学习
 先从第一个例子开始  第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了  // adder/design/design.go var _ = API(&amp;quot;adder&amp;quot;, func() { //api定义说明，一个文件只可以有一个api Title(&amp;quot;The adder API&amp;quot;) Description(&amp;quot;A teaser for goa&amp;quot;) Host(&amp;quot;localhost:8080&amp;quot;) Scheme(&amp;quot;http&amp;quot;) }) var _ = Resource(&amp;quot;operands&amp;quot;, func() { //资源说明，resource对应一个service Action(&amp;quot;add&amp;quot;, func() { //动作说明，api请求动作 Routing(GET(&amp;quot;add/:left/:right&amp;quot;)) //定义访问地址格式 Description(&amp;quot;add returns the sum of the left and right parameters in the response body&amp;quot;) Params(func() { //定义请求url中参数说明 Param(&amp;quot;left&amp;quot;, Integer, &amp;quot;Left operand&amp;quot;) Param(&amp;quot;right&amp;quot;, Integer, &amp;quot;Right operand&amp;quot;) }) Response(OK, &amp;quot;text/plain&amp;quot;) //定义应答报文样式 }) })   根据design文件生成代码  goagen bootstrap -d github.</description>
+    </item>
+    
+    <item>
+      <title>goadesign 学习之dsl</title>
+      <link>http://wonder.zxcsoft.com/post/goa/goa_dsl/</link>
+      <pubDate>Sun, 22 Jul 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/goa/goa_dsl/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -132,10 +180,10 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
       <pubDate>Thu, 10 May 2018 20:02:28 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/allmywonder/</guid>
-      <description> 学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
+      <description>学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &amp;ndash; gin
  kit
  hydra
-  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  </description>
+  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  工具收藏 linux shell on-my-zsh spf13-vim</description>
     </item>
     
     <item>
@@ -193,8 +241,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/</guid>
-      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
- 设置主机名 &amp;gt; sh etc/set_hosts.sh
+      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm   设置主机名 &amp;gt; sh etc/set_hosts.sh
  安装etcd &amp;gt; sh rpms/install_etcd.sh
  安装etcd证书 &amp;gt; sh keys/etcd/install_etc_key.sh
  修改etcd配置 &amp;gt; sh etc/set_etcd.sh
@@ -202,7 +249,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
  安装kube 程序 &amp;gt; sh rpms/install_kuber.sh
  安装kuber证书 &amp;gt; sh keys/k8s/install_k8s_key.sh
  修改kuber配置 &amp;gt; #设置master结点 &amp;gt; sh etc/kube_cfg/set_kuber_cfg.sh &amp;gt; #设置node结点 &amp;gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &amp;gt; #如果master也作为node结点，则运行 &amp;gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
- 启动kube &amp;gt; sh run/start_kube.sh &amp;gt; #在任意一台master上执行： 开启认证 &amp;gt; kubectl create clusterrolebinding kubelet-bootstrap &amp;ndash;clusterrole=system:node-bootstrapper &amp;ndash;user=kubelet-bootstrap &amp;gt; #如果master上要启动作为node，则 &amp;gt; sh run/start_kube_master_node.</description>
+ 启动kube &amp;gt; sh run/start_kube.</description>
     </item>
     
     <item>
@@ -245,7 +292,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       <pubDate>Thu, 26 Apr 2018 10:38:52 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/source_list/</guid>
-      <description></description>
+      <description> 开源项目整理  kubernetes istio knative  </description>
     </item>
     
     <item>
@@ -301,6 +348,15 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       
       <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
       <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</guid>
+      <description>oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char(b.bytes/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char((1 - b.bytes/a.bytes)*100,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(d.bytes_used/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char(d.bytes_used*100/c.bytes,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.</description>
     </item>
     
     <item>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Traefik on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/traefik/</link>
+    <description>Recent content in Traefik on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 29 Jul 2018 16:46:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/traefik/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>traefik服务搭建</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/traefik/</link>
+      <pubDate>Sun, 29 Jul 2018 16:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/traefik/</guid>
+      <description>Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
+1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
+    </item>
+    
+  </channel>
+</rss>

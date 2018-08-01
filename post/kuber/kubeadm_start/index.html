@@ -91,6 +91,12 @@
       
         </li>
       
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
     </ul>
   </div>
 
@@ -354,7 +360,9 @@ docker load -i dns.tgz
 <ul>
 <li><p>切换命名空间</p>
 
-<pre><code>kubectl config set-context $(kubectl config current-context) --namespace=kube-system
+<pre><code>kubectl config use-context default
+
+kubectl config set-context $(kubectl config current-context) --namespace=kube-system
 kubectl config view | grep namespace:
 </code></pre></li>
 </ul>

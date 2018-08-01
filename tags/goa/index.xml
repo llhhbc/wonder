@@ -23,5 +23,14 @@
 先从第一个例子开始  第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了  // adder/design/design.go var _ = API(&amp;quot;adder&amp;quot;, func() { //api定义说明，一个文件只可以有一个api Title(&amp;quot;The adder API&amp;quot;) Description(&amp;quot;A teaser for goa&amp;quot;) Host(&amp;quot;localhost:8080&amp;quot;) Scheme(&amp;quot;http&amp;quot;) }) var _ = Resource(&amp;quot;operands&amp;quot;, func() { //资源说明，resource对应一个service Action(&amp;quot;add&amp;quot;, func() { //动作说明，api请求动作 Routing(GET(&amp;quot;add/:left/:right&amp;quot;)) //定义访问地址格式 Description(&amp;quot;add returns the sum of the left and right parameters in the response body&amp;quot;) Params(func() { //定义请求url中参数说明 Param(&amp;quot;left&amp;quot;, Integer, &amp;quot;Left operand&amp;quot;) Param(&amp;quot;right&amp;quot;, Integer, &amp;quot;Right operand&amp;quot;) }) Response(OK, &amp;quot;text/plain&amp;quot;) //定义应答报文样式 }) })   根据design文件生成代码  goagen bootstrap -d github.</description>
     </item>
     
+    <item>
+      <title>goadesign 学习之dsl</title>
+      <link>http://wonder.zxcsoft.com/post/goa/goa_dsl/</link>
+      <pubDate>Sun, 22 Jul 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/goa/goa_dsl/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

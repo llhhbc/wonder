@@ -93,6 +93,12 @@
       
         </li>
       
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
     </ul>
   </div>
 
@@ -206,6 +212,183 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_myapp/">kuber应用搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/dreammap">dreammap</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  dreammap搭建 1. 应用打包docker容器 1.1 前端界面  dockerfile  from nginx:1.15.2-alpine COPY wonder-dream /usr/share/nginx/html EXPOSE 80   build.sh  function build(){ cp -rp ../dist/wonder-dream . docker rmi wonderdream:v0.0.1 docker build -t wonderdream:v0.0.1 . } function run(){ docker run -itd -p 8091:80 wonderdream:v0.0.1 } function tar(){ docker save -o wonder_ng.tgz wonderdream:v0.0.1 } $1   kuber部署yaml，这里就用service实现了访问，没有做单独的ingress  apiVersion: v1 kind: Service metadata: name: wonderng labels: app: wonderng spec: type: LoadBalancer ports: - port: 80 name: http selector: app: wonderng --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: wonderdream-v0.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_myapp/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/traefik/">traefik服务搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/traefik">traefik</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
+1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &quot;&quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/traefik/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/linux/nginx/">nginx配置</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/nginx">nginx</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">kuber单机部署</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
+安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  安装etcd  生成根证书  { &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 4096 }, &quot;names&quot;: [ { &quot;O&quot;: &quot;wonder&quot;, &quot;OU&quot;: &quot;wonder Security&quot;, &quot;L&quot;: &quot;Sh&quot;, &quot;ST&quot;: &quot;Sh&quot;, &quot;C&quot;: &quot;CN&quot; } ], &quot;CN&quot;: &quot;wonder-root-ca&quot; }  自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP 'echo &quot;export PATH=\$PATH:/opt/kubernetes/bin/&quot; &gt;&gt; ~/.bash_profile' done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_use/">goadesign 学习之adder</a></h2>
 
     <div class="post-meta">
@@ -247,6 +430,47 @@
   <footer>
     <a href="http://wonder.zxcsoft.com/post/goa/goa_use/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_dsl/">goadesign 学习之dsl</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  
+  </p>
+
   
 </article>
 
@@ -432,212 +656,6 @@ main 大致过了一遍，对整个有点了解，再回看目录下的文件：
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/es/esuse/">es 基本使用</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/language/go/pprof/">golang pprof使用</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-28</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/pprof">pprof</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  启用pprof  带有http的服务，只需要引入 import _ &quot;net/http/pprof&quot; 就可以通过访问http://ip:port/debug/pprof 查看了
- 没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）
-  import ( _ &quot;net/http/pprof&quot; &quot;net/http&quot; ) func InitModel() { var ppaddr string if config.HasModuleInit() { ppaddr = config.StringDefault(&quot;ppaddr&quot;, &quot;&quot;) if ppaddr != &quot;&quot; { go http.ListenAndServe(ppaddr, nil) } } }  pprof使用 1.代码优化 curl http://ip:port/debug/pprof/profile &gt; /tmp/a.profile go tool pprof 可执行程序 /tmp/a.profile (pprof) top #可查看占用资源最多的函数  pprof各字段的含义依次是：  采样点执行时间 采样点落在该函数中的百分比 上一项的累积百分比 采样点落在该函数，以及被它调用的函数执行的总时间 采样点落在该函数，以及被它调用的函数中的百分比 函数名 文件名  pprof分析  / 访问根目录，里面有几个链接：
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/language/go/pprof/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/selfupd/memorybase/">记忆基数</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-16</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/memory">memory</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   记忆基数  1 粉笔 2 鸭子 3 耳朵 4 红旗 5 秤钩 6 口哨 7 锄头 8 葫芦 9 气球 10 老师 11 双截棍 12 不倒翁 13  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/language/python/pythi/">python 简单使用</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-11</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/python">python</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  ipynb
-jupyter notebook  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/">tensorFlow 入门</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-11</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/tensorflow">tensorflow</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
-conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
-tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&quot;hello, tensorflow&quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     
-  </p>
-
-  
-</article>
-
-  
 
   
 
@@ -646,7 +664,7 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
   
   <i class="fa fa-chevron-left"></i>
   
-  <span>&nbsp;1 / 3&nbsp;</span>
+  <span>&nbsp;1 / 4&nbsp;</span>
   
   <a href="http://wonder.zxcsoft.com/page/2/"><i class="fa fa-chevron-right"></i></a>
   

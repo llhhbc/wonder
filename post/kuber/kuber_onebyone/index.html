@@ -91,6 +91,12 @@
       
         </li>
       
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
     </ul>
   </div>
 
@@ -228,9 +234,14 @@
 <li>准备工作</li>
 <li>关闭selunix</li>
 <li>关闭swap</li>
+<li>作为node的结点，要安装docker（包括master和node共用的）</li>
+</ol>
 
-<li><p>作为node的结点，要安装docker（包括master和node共用的）</p></li>
+<pre><code class="language-sh">  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm
+  yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm
+</code></pre>
 
+<ol>
 <li><p>设置主机名
 &gt; sh etc/set_hosts.sh</p></li>
 

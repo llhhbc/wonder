@@ -93,6 +93,12 @@
       
         </li>
       
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
     </ul>
   </div>
 
@@ -203,6 +209,243 @@
 </div>
 
 <div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm   设置主机名 &gt; sh etc/set_hosts.sh
+ 安装etcd &gt; sh rpms/install_etcd.sh
+ 安装etcd证书 &gt; sh keys/etcd/install_etc_key.sh
+ 修改etcd配置 &gt; sh etc/set_etcd.sh
+ 启动etcd &gt; sh run/start_etcd.sh
+ 安装kube 程序 &gt; sh rpms/install_kuber.sh
+ 安装kuber证书 &gt; sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置 &gt; #设置master结点 &gt; sh etc/kube_cfg/set_kuber_cfg.sh &gt; #设置node结点 &gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &gt; #如果master也作为node结点，则运行 &gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube &gt; sh run/start_kube.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">kuberadm start</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kuberadm">kuberadm</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
+通过kubeadm安装 参考 官方文档
+1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
+ firewall-cmd &ndash;state 查看状态
+ systemctl stop firewalld.service # 停止firewall
+ systemctl disable firewalld.service # 禁止firewall开机启动
+  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kube_help/">kube问题汇总</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   虚拟机建议用virutalbox
+当时istio的bookinfo无法部署： reviews-v2-7bdf9b96b6-khg7s 老是会报错，提示无法创建目录，没权限，后来查是虚拟机sandbox版本太低，导致的一个bug，文件无法删除也无法修改
+ virtualbox建议用nat 网络的方式，自己添加一个网卡，作为虚拟机集群的网络
+然后每个主机在加一个hostonly的网卡，用于主机访问虚拟机
+ 硬盘没空间：
+突然发现pod状态变成了：Evicted，还有挂起的，然后 通过 kubelet describe命令查看，发现是node空间满了，无法部署了：我看空间用了80%
+ 时间不同步：
+时间不同步时，会出现 Unable to authenticate the request due to an error: x509: certificate has expired or is not yet valid 我同步机器时间后，问题解决。。。
+ token不一致：
+配置文件bootstrap.kubeconfig中token不一致，会导致这个错 failed to run Kubelet: cannot create certificate signing request: Unauthorized
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/source_list/">open source list</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/open-source">open source</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   开源项目整理  kubernetes istio knative  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/learn-md/">Learn markdown</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/markdown">markdown</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  标题  利用=（最高阶标题） 和 - （第二阶标题） 在行首插入1到6个#，对应标题1到6阶  区块使用  在每行前面，或者段落最前面加上&gt; 表示区块引用,如：   aa
+ aa dsafas
+  列表  用星号、加号或减号来表示无序列表 用数字加英文句点（不在乎数字是几）表示有序列表，数字会重新自动生成  代码区块  缩进4个空格或者一个制表符，就是代码区块 如果段内有一小段代码，可以用`号包起来，如  printf();   如果代码中也有`号，可以用多个来标记开始和结束如：  printf(&quot;`&quot;);   引用一段代码, 如：引用部分c++代码  int a=1; int b=2; int c= a+b;  分隔线  在一行中用3个以上的星号、减号、底线来建立一个分隔线  链接  链接文字用[方括号]来标记，后面紧接着用圆括号闰插入网上链接 如：test link 链接标记： 两个方括号 test link 前一个是链接文字，后一个是标记，然后在后面标记这个id  强调  使用星号、底线 作为标志强调字词的符号 （用一个*或_包围的字词会转成EM标签，用两个会转成strong this is em this is strong  图片  添加图片 !
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/learn-md/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
   
     <article>
   <header>
@@ -382,7 +625,7 @@
   
     <article>
   <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/prometheus/prometheus-src/"></a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/"></a></h2>
 
     <div class="post-meta">
 
@@ -402,9 +645,13 @@
   </header>
 
   <p>
-  
+  oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,'99,999.999') total_bytes, to_char(b.bytes/1024/1024,'99,999.999') free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,'99,999.999') use_bytes, to_char((1 - b.bytes/a.bytes)*100,'99.99') || '%'use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,'99,999.999') total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,'99,999.999') free_bytes, to_char(d.bytes_used/1024/1024,'99,999.999') use_bytes, to_char(d.bytes_used*100/c.bytes,'99.99') || '%'use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.
   </p>
 
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
   
 </article>
 
@@ -417,9 +664,9 @@
   
   <a href="http://wonder.zxcsoft.com/page/2/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;3 / 3&nbsp;</span>
+  <span>&nbsp;3 / 4&nbsp;</span>
   
-  <i class="fa fa-chevron-right"></i>
+  <a href="http://wonder.zxcsoft.com/page/4/"><i class="fa fa-chevron-right"></i></a>
   
 </nav>
 

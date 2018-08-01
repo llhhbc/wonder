@@ -3,7 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://wonder.zxcsoft.com/post/kuber/kuber_myapp/</loc>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/post/kuber/traefik/</loc>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/post/linux/nginx/</loc>
+    <lastmod>2018-07-26T19:01:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</loc>
+    <lastmod>2018-07-25T20:00:49+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/post/goa/goa_use/</loc>
+    <lastmod>2018-07-22T20:01:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/post/goa/goa_dsl/</loc>
     <lastmod>2018-07-22T20:01:00+08:00</lastmod>
   </url>
   
@@ -127,6 +152,10 @@
   </url>
   
   <url>
+    <loc>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</loc>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</loc>
   </url>
   
@@ -145,6 +174,12 @@
   <url>
     <loc>http://wonder.zxcsoft.com/tags/development/</loc>
     <lastmod>2018-04-26T10:38:52+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://wonder.zxcsoft.com/tags/dreammap/</loc>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -210,13 +245,13 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/tags/kubernetes/</loc>
-    <lastmod>2018-04-27T09:01:00+08:00</lastmod>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://wonder.zxcsoft.com/tags/linux/</loc>
-    <lastmod>2018-04-27T09:01:00+08:00</lastmod>
+    <lastmod>2018-07-26T19:01:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -233,6 +268,12 @@
   </url>
   
   <url>
+    <loc>http://wonder.zxcsoft.com/tags/nginx/</loc>
+    <lastmod>2018-07-26T19:01:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/tags/open-source/</loc>
     <lastmod>2018-04-26T10:38:52+08:00</lastmod>
     <priority>0</priority>
@@ -240,7 +281,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/post/</loc>
-    <lastmod>2018-07-22T20:01:00+08:00</lastmod>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -286,8 +327,14 @@
   </url>
   
   <url>
+    <loc>http://wonder.zxcsoft.com/tags/traefik/</loc>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/</loc>
-    <lastmod>2018-07-22T20:01:00+08:00</lastmod>
+    <lastmod>2018-07-29T16:46:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
