@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/docker/</link>
+    <description>Recent content in Docker on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 01 Aug 2018 20:46:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>docker源码分析</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/docker-src/</link>
+      <pubDate>Wed, 01 Aug 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/docker-src/</guid>
+      <description> docker源码分析 读《docker源码分析》整理
+docker架构  docker有如下模块：
+ DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的立伯系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   </description>
+    </item>
+    
+  </channel>
+</rss>

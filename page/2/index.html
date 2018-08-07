@@ -212,6 +212,275 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_use/">goadesign 学习之adder</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  goadesign 学习  一次接触中，了解到了goa，根据dsl做巧妙的翻译，自动完成统一代码的生成
+ github上搜索goadesign，可以看到他有的代码库，出于学习，我把它的样例库下载下来了，我决定从样例代码开始，结合官方的文档来学习
+先从第一个例子开始  第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了  // adder/design/design.go var _ = API(&quot;adder&quot;, func() { //api定义说明，一个文件只可以有一个api Title(&quot;The adder API&quot;) Description(&quot;A teaser for goa&quot;) Host(&quot;localhost:8080&quot;) Scheme(&quot;http&quot;) }) var _ = Resource(&quot;operands&quot;, func() { //资源说明，resource对应一个service Action(&quot;add&quot;, func() { //动作说明，api请求动作 Routing(GET(&quot;add/:left/:right&quot;)) //定义访问地址格式 Description(&quot;add returns the sum of the left and right parameters in the response body&quot;) Params(func() { //定义请求url中参数说明 Param(&quot;left&quot;, Integer, &quot;Left operand&quot;) Param(&quot;right&quot;, Integer, &quot;Right operand&quot;) }) Response(OK, &quot;text/plain&quot;) //定义应答报文样式 }) })   根据design文件生成代码  goagen bootstrap -d github.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/goa/goa_use/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_dsl/">goadesign 学习之dsl</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   Ready go 1. goroutine  goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的 golang采用的是一种多对多的方案，m个用户线程对应n个系统线程 golang有3个角色：  M：代表系统线程，由操作系统管理 G：goroutine的实体，包括的调用栈，重要的调度信息 P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列   
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/readbook">readbook</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   微服务的特征  业务独立性 轭人自主性 单一职责 轻量级通信
+ 服务作为组件
+ 围绕业务组织团队
+ 关注产品而非项目
+ 技术多样性
+ 业务数据独立
+ 基础设施自动化
+ 演进式架构
+  构建微服务考虑的问题  任务拆分
+尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务
+ 同一时间聚焦一个任务 能对每次完成的部分做持续集成 整体的进度容易追踪  一般任务分为如下几个过程： * 服务实现 * 代码测试与静态检查 * Docker镜像构建 * docker镜像部署 * 功能迭代 * 日志聚合 * 监控与告警 * 持续集成与交付
+  微服务设计 开发  独立代码库 服务说明文件  服务介绍 服务维护者 服务可用期 定义环境：生产环境、类生产环境、测试环境 开发说明：如果搭建开发环境、如何运行服务、如何定位问题 测试说明：测试策略、如何运行测试、如果查看测试结果 构建说明：集成访问的url、集成流程描述、构建的部署包 部署说明：如何部署到不同环境、部署后功能验证 运维说明：日志聚合的访问、告警信息的访问、监控信息的访问  代码所有权归团队：不能让代码只有一个人熟悉 有效的代码版本管理 代码静态检查工具 代码易于本地运行  测试  接口测试 测试的有效性  构建  每个服务都是一个可独立部署的业务单元  部署  部署环境说明  运维  监控 告警 日志聚合  微服务之前的通讯  同步通讯、异步通讯 rpc rest：资源、表述、状态转移、统一接口  get用来获取资源 post来新建资源 put来更新资源 delete来删除资源  hal  基于rest，但把每个资源分成三部分：状态、链接、子资源  消息队列  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-06-29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   caddy  caddy是个网站搭建工具  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-06-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/gorm">gorm</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
+ 源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
+ 1. main  定义了DB结构：
+ Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
+后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
+main 大致过了一遍，对整个有点了解，再回看目录下的文件：
+1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6. join_table_handler 定义了n*n的表的关系接口 7.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/es/esuse/">es 基本使用</a></h2>
 
     <div class="post-meta">
@@ -371,270 +640,6 @@
 jupyter notebook  
   </p>
 
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/">tensorFlow 入门</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-11</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/tensorflow">tensorflow</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
-conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
-tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&quot;hello, tensorflow&quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/allmywonder/">学习汇总</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-05-10</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/all">all</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  学习汇总 语言学习  go c php python java  go  kubernetes etcd istio tensorflow hugo grafana influxdb consul prometheus appdash nomad hystrix &ndash; gin
- kit
- hydra
-  php  laravel  python  tensorflow pytorch deepmind lab  js  nodejs codecombat  想做的事  读懂v8，用go来实现 使用tensorflow，完成智能识别 训练记忆力 es做为存储，d3来展示，完成思维图的整理与知识分析 使用kuber完成思维系统的搭建  工具收藏 linux shell on-my-zsh spf13-vim
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/es/esstart/">es 入门</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
-启动es cd elasticsearch-6.2.4/bin ./elasticsearch
-验证启动状态 curl http://127.0.0.1:9200
-### 安装中文分词 &gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d ' { &quot;mappings&quot;: { &quot;articles&quot;: { &quot;properties&quot;: { &quot;title&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;description&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;tags&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;date&quot;: {&quot;type&quot; : &quot;date&quot;}, &quot;categories&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;}, &quot;context&quot;: {&quot;type&quot; : &quot;text&quot;, &quot;analyzer&quot;: &quot;ik_max_word&quot;, &quot;search_analyzer&quot;: &quot;ik_max_word&quot;} } } } } '  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">kbuernetes 学习</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Kubernetes基本概念 Pod Pod是一组容器集合，他们共享IPC、Network 和 UTC namespace 例：
-apiVersion: v1 kind: Pod metadata: name: nginx labels: app: nginx spec: containers: - name: nginx image: nginx ports: - containerPort: 80  Node 运行pod的主机
-Namespace 管理一组资源和对象
-Service 应用服务的抽象，通过labels为应用提供负载均衡和服务发现。匹配labels为Pod IP和端口列表组成endpoints，由kube-proxy负责将服务IP负载均衡到这些endpoints上。 每个Service都会自动分配一个culster IP（仅在集群内部可访问的虚拟地址）和DNS名，其它容器可以通过该地址或DNS来访问服务
-apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 name: http targetPort: 80 protocol: TCP selector: app: nginx  Label 是识别Kurbernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，经常是很多对象（如Pods）都使用相同的label来标志具体的应用（如负载均衡时结点为的选择） label选择支持如下模式： * 等式： app=nginx 或 env!= production * 集合: env in (production, qa) * 多个label（他们之间是AND的关系）： app=nginx,env=test
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/learn_kuber/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/socket">socket</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
- SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
- SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
- SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
-  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/istio/">istio初尝试</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/istio">istio</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  说明  参考 http://istio.doczh.cn/
- 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &ldquo;install/kubernetes/istio.yaml&rdquo; 的错误，删除后再重新执行一遍就好了
- 部署bookinfo kubectl apply -f &lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}') #测试地址访问 curl -o /dev/null -s -w &quot;%{http_code}\n&quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 

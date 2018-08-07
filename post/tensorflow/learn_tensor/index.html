@@ -234,24 +234,44 @@
 
 <h4 id="pyenv搭建">pyenv搭建</h4>
 
-<p>1.安装pyenv
-1.安装pip  virtualenv
-1.创建虚拟环境
+<ol>
+<li>安装pyenv</li>
+<li>安装pip  virtualenv</li>
+
+<li><p>创建虚拟环境</p>
+
+<p><code>
 python3 -m venv ./env
-1.切换环境
-. env/bin/activate</p>
+</code></p></li>
+
+<li><p>切换环境</p>
+
+<p><code>
+. env/bin/activate
+</code></p></li>
+</ol>
 
 <h4 id="conda搭建">conda搭建</h4>
 
-<p>1.安装anaconda3
-1.创建虚拟环境
-<code>conda create --name py3 python=3</code>
-1.环境切换
-<code>source activate py3</code></p>
+<ol>
+<li>安装anaconda3</li>
+
+<li><p>创建虚拟环境</p>
+
+<p><code>
+conda create --name py3 python=3
+</code></p></li>
+
+<li><p>环境切换</p>
+
+<p><code>
+source activate py3
+</code></p></li>
+</ol>
 
 <h2 id="tensorflow安装-下面操作都在python3环境下操作">tensorflow安装(下面操作都在python3环境下操作)</h2>
 
-<pre><code class="language-shell">##我本地环境如下搭建
+<pre><code class="language-sh">##我本地环境如下搭建
 # conda create --name mytensor python=3.6
 # source activate mytensor
 # source deactivate   #退出环境

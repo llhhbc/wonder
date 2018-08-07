@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="rss tools">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>rss tools &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>rss tools</h1>
+  <h2>rss tools</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-04</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/rss">rss</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h3 id="rss-开源服务搭建-基于kuber-coredns-traefik">rss 开源服务搭建，基于kuber+coredns+traefik</h3>
+
+<h4 id="1-下载镜像">1.下载镜像</h4>
+
+<pre><code class="language-sh">docker pull miniflux/miniflux:2.0.10
+docker pull postgres:11-alpine
+</code></pre>
+
+<h4 id="2-部署pg">2.部署pg</h4>
+
+<h5 id="1-创建本地存储">1. 创建本地存储</h5>
+
+<pre><code class="language-yaml">  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: local-pv-1
+    labels:
+      type: local
+  spec:
+    capacity:
+      storage: 10Gi
+    accessModes:
+      - ReadWriteOnce
+    hostPath:
+      path: /data/pv/1
+</code></pre>
+
+<h5 id="2-创建存储使用申明">2. 创建存储使用申明</h5>
+
+<ul>
+<li>pvc到pv的绑定是，自动完成的，并且绑定后就是一对一的绑定，不会再改变。绑定考虑的是空间大小，如果没有合适的，会挂起，直到有合适的存储。<code>kubectl  get pvc</code> 能看到具体的绑定情况</li>
+<li>pvc的大小可以比pv小，用来实现存储大小的控制</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-pv-claim
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+</code></pre>
+
+<h5 id="3-创建应用">3. 创建应用</h5>
+
+<pre><code class="language-yaml">apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pg-11
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pg-11
+    spec:
+      containers:
+      - name: pg
+        image: postgres:11-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: wonder
+          # 虽然pgdata目录没变，但要设置，目的是为了触发initdb调用
+          name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: pg-pv-storage
+          mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+      - name: pg-pv-storage
+        persistentVolumeClaim:
+          claimName: pg-pv-claim
+</code></pre>
+
+<h5 id="4-创建数据库">4. 创建数据库</h5>
+
+<pre><code class="language-sh">
+#docker exec -it ...  sh  登录到pg上
+
+psql -U postgres -W  #连接数据库
+
+create user miniflux password 'miniflux';
+ALTER USER miniflux WITH SUPERUSER;   ##因为要创建hstore
+CREATE database miniflux owner = &quot;miniflux&quot; encoding = 'UTF8' TABLESPACE = &quot;pg_default&quot;;
+
+# ok 数据库初始化完成
+</code></pre>
+
+<h5 id="5-创建数据库服务">5. 创建数据库服务</h5>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: pgsvr
+  labels:
+    app: pg-11
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: pg-11
+  clusterIP: None
+</code></pre>
+
+<h4 id="3-部署miniflux">3. 部署miniflux</h4>
+
+<h5 id="1-部署应用">1. 部署应用</h5>
+
+<p>miniflux文档：<a href="https://docs.miniflux.app/en/latest/configuration.html">https://docs.miniflux.app/en/latest/configuration.html</a></p>
+
+<pre><code class="language-yaml">apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: miniflux
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: miniflux-2.0.10
+    spec:
+      containers:
+      - name: pg
+        image: miniflux/miniflux:2.0.10
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          value: postgres://miniflux:miniflux@pgsvr/miniflux?sslmode=disable
+</code></pre>
+
+<h5 id="2-创建表">2. 创建表</h5>
+
+<pre><code class="language-sh">#docker exec -it ... sh  #登录到minifluk对应的容器上
+
+#创建需要的表和基础数据
+/usr/local/bin/miniflux -migrate
+
+#创建用户
+/usr/local/bin/miniflux -create-admin
+
+
+</code></pre>
+
+<h5 id="3-部署服务">3. 部署服务</h5>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: minifluxsvr
+  labels:
+    app: minifluxsvr
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: miniflux-2.0.10
+</code></pre>
+
+<h5 id="4-配置traefik代理">4. 配置traefik代理</h5>
+
+<pre><code class="language-yaml">apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: miniflux
+spec:
+  rules:
+  - host: miniflux.wonder
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: minifluxsvr
+          servicePort: 8080
+</code></pre>
+
+<p>如果配置有误，会在traefik界面中显示，并在对应pod的日志中能看到具体的错误</p>
+
+<h4 id="4-总结">4. 总结</h4>
+
+<ul>
+<li>存储通过pvc管理，和系统的lvg管理很像，之后扩展也会很方便，增加pvc就可以了</li>
+<li>ingress中，代理的目录path，如果设置的/a，会传递到对应的pod中，这个是我目前觉得不太灵活的地方，nginx是可以转换上下文的，而这里我暂时还没找到办法。所以我的想法就是nginx在最外层来做上下文、域名的转换。这里面还是用域名来分开，内部域名是够用的。miniflux能定制化访问前缀，只需要添加环境变更：BASE_URL就可以了</li>
+<li>通过coredns，容器访问服务是非常方便的，通过服务名就可以访问，解决了ip的问题，越来越想分析kuber的源代码了，不过现在还不是时候，我还只见树木，现在进去会迷失的</li>
+</ul>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/kuber/docker-src/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/kuber/docker-src/">docker源码分析</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">kuber log analysis</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

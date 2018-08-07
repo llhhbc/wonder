@@ -7,10 +7,42 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 29 Jul 2018 16:46:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Aug 2018 10:46:49 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kuber log analysis</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</guid>
+      <description>kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
+1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
+ td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &amp;lt;source&amp;gt; @type http @id input_http port 42185 tag http.test &amp;lt;/source&amp;gt; # 配置将收到的日志输入到控制台 &amp;lt;match **&amp;gt; @type stdout @id output_stdout &amp;lt;/match&amp;gt; # 配置将日志写入es &amp;lt;match http.test&amp;gt; @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.</description>
+    </item>
+    
+    <item>
+      <title>rss tools</title>
+      <link>http://wonder.zxcsoft.com/post/tools/rss_tools/</link>
+      <pubDate>Sat, 04 Aug 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/tools/rss_tools/</guid>
+      <description>rss 开源服务搭建，基于kuber+coredns+traefik 1.下载镜像 docker pull miniflux/miniflux:2.0.10 docker pull postgres:11-alpine  2.部署pg 1. 创建本地存储 apiVersion: v1 kind: PersistentVolume metadata: name: local-pv-1 labels: type: local spec: capacity: storage: 10Gi accessModes: - ReadWriteOnce hostPath: path: /data/pv/1  2. 创建存储使用申明  pvc到pv的绑定是，自动完成的，并且绑定后就是一对一的绑定，不会再改变。绑定考虑的是空间大小，如果没有合适的，会挂起，直到有合适的存储。kubectl get pvc 能看到具体的绑定情况 pvc的大小可以比pv小，用来实现存储大小的控制  apiVersion: v1 kind: PersistentVolumeClaim metadata: name: pg-pv-claim labels: app: postgres spec: accessModes: - ReadWriteOnce resources: requests: storage: 10Gi  3. 创建应用 apiVersion: extensions/v1beta1 kind: Deployment metadata: name: pg-11 spec: replicas: 1 template: metadata: labels: app: pg-11 spec: containers: - name: pg image: postgres:11-alpine imagePullPolicy: IfNotPresent ports: - containerPort: 5432 env: - name: POSTGRES_PASSWORD value: wonder # 虽然pgdata目录没变，但要设置，目的是为了触发initdb调用 name: PGDATA value: /var/lib/postgresql/data/pgdata volumeMounts: - name: pg-pv-storage mountPath: /var/lib/postgresql/data/pgdata volumes: - name: pg-pv-storage persistentVolumeClaim: claimName: pg-pv-claim  4.</description>
+    </item>
+    
+    <item>
+      <title>docker源码分析</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/docker-src/</link>
+      <pubDate>Wed, 01 Aug 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/docker-src/</guid>
+      <description> docker源码分析 读《docker源码分析》整理
+docker架构  docker有如下模块：
+ DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的立伯系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   </description>
+    </item>
     
     <item>
       <title>kuber应用搭建</title>
@@ -29,7 +61,26 @@
       <guid>http://wonder.zxcsoft.com/post/kuber/traefik/</guid>
       <description>Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
 1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
-  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: default   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: default --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: default labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
+    </item>
+    
+    <item>
+      <title>docker 安装 oracle</title>
+      <link>http://wonder.zxcsoft.com/post/oracle/docker_ora/</link>
+      <pubDate>Thu, 26 Jul 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/oracle/docker_ora/</guid>
+      <description>docker centos7中安装oracle 参考：
+ https://blog.csdn.net/sql_ican/article/details/77749981 #脚本测试是可用的 http://www.cnblogs.com/wq3435/p/6523840.html #ora配置说明可参考  注意问题 swap 问题 oracle安装要求swap空间的，所以docker对应的宿主机器上swap要开，因为docker &amp;ndash;privileged模式下用的是主机的swap空间，可在安装完成后，再关swap</description>
+    </item>
+    
+    <item>
+      <title>oracle问题分析</title>
+      <link>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</link>
+      <pubDate>Thu, 26 Jul 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</guid>
+      <description>oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char(b.bytes/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char((1 - b.bytes/a.bytes)*100,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(d.bytes_used/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char(d.bytes_used*100/c.bytes,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.</description>
     </item>
     
     <item>
@@ -42,13 +93,22 @@
     </item>
     
     <item>
+      <title>prometheus源码分析</title>
+      <link>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</link>
+      <pubDate>Thu, 26 Jul 2018 19:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</guid>
+      <description>待完善&amp;hellip;</description>
+    </item>
+    
+    <item>
       <title>kuber单机部署</title>
       <link>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</link>
       <pubDate>Wed, 25 Jul 2018 20:00:49 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</guid>
       <description>kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
-安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  安装etcd  生成根证书  { &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 4096 }, &amp;quot;names&amp;quot;: [ { &amp;quot;O&amp;quot;: &amp;quot;wonder&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;wonder Security&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot; } ], &amp;quot;CN&amp;quot;: &amp;quot;wonder-root-ca&amp;quot; }  自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP &#39;echo &amp;quot;export PATH=\$PATH:/opt/kubernetes/bin/&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&#39; done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .</description>
+1.安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  2.安装etcd  生成根证书  { &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 4096 }, &amp;quot;names&amp;quot;: [ { &amp;quot;O&amp;quot;: &amp;quot;wonder&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;wonder Security&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot; } ], &amp;quot;CN&amp;quot;: &amp;quot;wonder-root-ca&amp;quot; }  3.自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP &#39;echo &amp;quot;export PATH=\$PATH:/opt/kubernetes/bin/&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&#39; done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .</description>
     </item>
     
     <item>
@@ -117,11 +177,11 @@
       <guid>http://wonder.zxcsoft.com/post/gorm/gorm-src/</guid>
       <description>总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
  源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
-  main   定义了DB结构：
+ 1. main  定义了DB结构：
  Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
 后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
 main 大致过了一遍，对整个有点了解，再回看目录下的文件：
-1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6.</description>
+1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6. join_table_handler 定义了n*n的表的关系接口 7.</description>
     </item>
     
     <item>
@@ -169,9 +229,15 @@ jupyter notebook  </description>
       <pubDate>Fri, 11 May 2018 20:02:28 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/</guid>
-      <description> 环境搭建 pyenv搭建 1.安装pyenv 1.安装pip virtualenv 1.创建虚拟环境 python3 -m venv ./env 1.切换环境 . env/bin/activate
-conda搭建 1.安装anaconda3 1.创建虚拟环境 conda create --name py3 python=3 1.环境切换 source activate py3
-tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.constant(&amp;quot;hello, tensorflow&amp;quot;) sess = tf.Session() print(sess.run(hello))  简单入门  参考资料 中文社区     类型 描述 说明     session 会话 一次流程执行的会话，包含上下文信息   graph 描述计算过程 在session中启动，图形显示   tensor 数据 数据类型   op 操作 数据之间的操作   variable 变量 数据类型，运行中可改变，用于维护状态   feed 赋值 为op的tensor赋值   fetch 取值 从op的tensor中取值   constant 常量     </description>
+      <description>环境搭建 pyenv搭建  安装pyenv 安装pip virtualenv 创建虚拟环境
+ python3 -m venv ./env 
+ 切换环境
+ . env/bin/activate 
+  conda搭建  安装anaconda3 创建虚拟环境
+ conda create --name py3 python=3 
+ 环境切换
+ source activate py3 
+  tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如下搭建 # conda create --name mytensor python=3.6 # source activate mytensor # source deactivate #退出环境 pip install tensorflow pip install tensorlayer  验证环境安装 import tensorflow as tf hello = tf.</description>
     </item>
     
     <item>
@@ -192,10 +258,9 @@ tensorflow安装(下面操作都在python3环境下操作) ##我本地环境如�
       <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/es/esstart/</guid>
-      <description> es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch ```shell unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config  #修改集群名字和端口,数据目录等 vi elasticsearch.yml
-启动es cd elasticsearch-6.2.4/bin ./elasticsearch
-验证启动状态 curl http://127.0.0.1:9200
-### 安装中文分词 &amp;gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik &amp;gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip ### es简单使用 #### 创建一个index mapping（相当于一个表） ```shell curl -XPUT &#39;localhost:9200/wonderbook?pretty&#39; -H &#39;Content-type:application/json&#39; -d &#39; { &amp;quot;mappings&amp;quot;: { &amp;quot;articles&amp;quot;: { &amp;quot;properties&amp;quot;: { &amp;quot;title&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;description&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;tags&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;date&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;date&amp;quot;}, &amp;quot;categories&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;context&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;} } } } } &#39;  </description>
+      <description> es安装  官网下载 es https://www.elastic.co/downloads/elasticsearch  unzip elasticsearch-6.2.4.zip cd elasticsearch-6.2.4/config #修改集群名字和端口,数据目录等 vi elasticsearch.yml # 启动es cd elasticsearch-6.2.4/bin ./elasticsearch # 验证启动状态 curl http://127.0.0.1:9200  安装中文分词  参考 https://github.com/medcl/elasticsearch-analysis-ik
+./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip
+ es简单使用 创建一个index mapping（相当于一个表） curl -XPUT &#39;localhost:9200/wonderbook?pretty&#39; -H &#39;Content-type:application/json&#39; -d &#39; { &amp;quot;mappings&amp;quot;: { &amp;quot;articles&amp;quot;: { &amp;quot;properties&amp;quot;: { &amp;quot;title&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;description&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;tags&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;date&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;date&amp;quot;}, &amp;quot;categories&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;}, &amp;quot;context&amp;quot;: {&amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;, &amp;quot;analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;, &amp;quot;search_analyzer&amp;quot;: &amp;quot;ik_max_word&amp;quot;} } } } } &#39;  </description>
     </item>
     
     <item>
@@ -221,7 +286,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
  SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
  SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
  SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
-  </description>
+  ssh 代理隧道 #登录远端服务器，将远端服务的1521端口映射到本地的50001端口 ssh -b172.10.1.12 -L172.10.1.12:50001:127.0.0.1:1521 username@172.10.101.1 -CNf #将本地的9015端口映射到远端的9015端口：访问本地的9015就相当于本机访问远端的9015.数据转发 ssh -b172.10.1.12 -L172.10.1.12:9015:172.10.101.7:9015 username@127.0.0.1 -CNf #访问本机的9014，相当于通过101.1访问1.90的9014端口。 建立一个正向隧道 ssh -b172.10.1.12 -L:9014:11.0.1.90:9014 username@172.10.101.1 -CNf  </description>
     </item>
     
     <item>
@@ -241,15 +306,50 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/</guid>
-      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm   设置主机名 &amp;gt; sh etc/set_hosts.sh
- 安装etcd &amp;gt; sh rpms/install_etcd.sh
- 安装etcd证书 &amp;gt; sh keys/etcd/install_etc_key.sh
- 修改etcd配置 &amp;gt; sh etc/set_etcd.sh
- 启动etcd &amp;gt; sh run/start_etcd.sh
- 安装kube 程序 &amp;gt; sh rpms/install_kuber.sh
- 安装kuber证书 &amp;gt; sh keys/k8s/install_k8s_key.sh
- 修改kuber配置 &amp;gt; #设置master结点 &amp;gt; sh etc/kube_cfg/set_kuber_cfg.sh &amp;gt; #设置node结点 &amp;gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &amp;gt; #如果master也作为node结点，则运行 &amp;gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
- 启动kube &amp;gt; sh run/start_kube.</description>
+      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  设置主机名
+ sh etc/set_hosts.sh
+ 安装etcd
+ sh rpms/install_etcd.sh
+ 安装etcd证书
+ sh keys/etcd/install_etc_key.sh
+ 修改etcd配置
+ sh etc/set_etcd.sh
+ 启动etcd
+ sh run/start_etcd.sh
+ 安装kube 程序
+ sh rpms/install_kuber.sh
+ 安装kuber证书
+ sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置
+ #设置master结点
+sh etc/kube_cfg/set_kuber_cfg.sh
+#设置node结点
+sh etc/kube_cfg/set_kuber_node_cfg.sh
+#如果master也作为node结点，则运行
+sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube
+ sh run/start_kube.sh
+#在任意一台master上执行： 开启认证
+kubectl create clusterrolebinding kubelet-bootstrap &amp;ndash;clusterrole=system:node-bootstrapper &amp;ndash;user=kubelet-bootstrap</description>
+    </item>
+    
+    <item>
+      <title>区块链共识算法学习</title>
+      <link>http://wonder.zxcsoft.com/post/qkl/qkl_sf/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/qkl/qkl_sf/</guid>
+      <description> 等完善&amp;hellip; </description>
+    </item>
+    
+    <item>
+      <title>银行卡密钥相关</title>
+      <link>http://wonder.zxcsoft.com/post/des/des_pin/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
+      <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
     </item>
     
     <item>
@@ -292,7 +392,7 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       <pubDate>Thu, 26 Apr 2018 10:38:52 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/source_list/</guid>
-      <description> 开源项目整理  kubernetes istio knative  </description>
+      <description> 开源项目整理  kubernetes istio knative  rss reader open source  miniflux https://github.com/miniflux/miniflux winds https://github.com/GetStream/Winds  </description>
     </item>
     
     <item>
@@ -339,33 +439,6 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       
       <guid>http://wonder.zxcsoft.com/post/use-hugo/</guid>
       <description> hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &amp;quot;init&amp;quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://wonder.zxcsoft.com/post/des/des_pin/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
-      <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://wonder.zxcsoft.com/post/oracle/oracle_ora/</guid>
-      <description>oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char(b.bytes/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char((1 - b.bytes/a.bytes)*100,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,&#39;99,999.999&#39;) total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,&#39;99,999.999&#39;) free_bytes, to_char(d.bytes_used/1024/1024,&#39;99,999.999&#39;) use_bytes, to_char(d.bytes_used*100/c.bytes,&#39;99.99&#39;) || &#39;%&#39;use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://wonder.zxcsoft.com/post/prometheus/prometheus-src/</guid>
-      <description></description>
     </item>
     
   </channel>

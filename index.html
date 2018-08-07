@@ -212,6 +212,136 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">kuber log analysis</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
+1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
+ td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &lt;source&gt; @type http @id input_http port 42185 tag http.test &lt;/source&gt; # 配置将收到的日志输入到控制台 &lt;match **&gt; @type stdout @id output_stdout &lt;/match&gt; # 配置将日志写入es &lt;match http.test&gt; @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/tools/rss_tools/">rss tools</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-04</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/rss">rss</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  rss 开源服务搭建，基于kuber+coredns+traefik 1.下载镜像 docker pull miniflux/miniflux:2.0.10 docker pull postgres:11-alpine  2.部署pg 1. 创建本地存储 apiVersion: v1 kind: PersistentVolume metadata: name: local-pv-1 labels: type: local spec: capacity: storage: 10Gi accessModes: - ReadWriteOnce hostPath: path: /data/pv/1  2. 创建存储使用申明  pvc到pv的绑定是，自动完成的，并且绑定后就是一对一的绑定，不会再改变。绑定考虑的是空间大小，如果没有合适的，会挂起，直到有合适的存储。kubectl get pvc 能看到具体的绑定情况 pvc的大小可以比pv小，用来实现存储大小的控制  apiVersion: v1 kind: PersistentVolumeClaim metadata: name: pg-pv-claim labels: app: postgres spec: accessModes: - ReadWriteOnce resources: requests: storage: 10Gi  3. 创建应用 apiVersion: extensions/v1beta1 kind: Deployment metadata: name: pg-11 spec: replicas: 1 template: metadata: labels: app: pg-11 spec: containers: - name: pg image: postgres:11-alpine imagePullPolicy: IfNotPresent ports: - containerPort: 5432 env: - name: POSTGRES_PASSWORD value: wonder # 虽然pgdata目录没变，但要设置，目的是为了触发initdb调用 name: PGDATA value: /var/lib/postgresql/data/pgdata volumeMounts: - name: pg-pv-storage mountPath: /var/lib/postgresql/data/pgdata volumes: - name: pg-pv-storage persistentVolumeClaim: claimName: pg-pv-claim  4.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/tools/rss_tools/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/docker-src/">docker源码分析</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/docker">docker</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   docker源码分析 读《docker源码分析》整理
+docker架构  docker有如下模块：
+ DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的立伯系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_myapp/">kuber应用搭建</a></h2>
 
     <div class="post-meta">
@@ -291,12 +421,95 @@
   <p>
   Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
 1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
-  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &quot;&quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &quot;&quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: default   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: default --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: default labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.
   </p>
 
   
   <footer>
     <a href="http://wonder.zxcsoft.com/post/kuber/traefik/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/oracle/docker_ora/">docker 安装 oracle</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  docker centos7中安装oracle 参考：
+ https://blog.csdn.net/sql_ican/article/details/77749981 #脚本测试是可用的 http://www.cnblogs.com/wq3435/p/6523840.html #ora配置说明可参考  注意问题 swap 问题 oracle安装要求swap空间的，所以docker对应的宿主机器上swap要开，因为docker &ndash;privileged模式下用的是主机的swap空间，可在安装完成后，再关swap
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/">oracle问题分析</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,'99,999.999') total_bytes, to_char(b.bytes/1024/1024,'99,999.999') free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,'99,999.999') use_bytes, to_char((1 - b.bytes/a.bytes)*100,'99.99') || '%'use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,'99,999.999') total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,'99,999.999') free_bytes, to_char(d.bytes_used/1024/1024,'99,999.999') use_bytes, to_char(d.bytes_used*100/c.bytes,'99.99') || '%'use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -345,6 +558,47 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/prometheus/prometheus-src/">prometheus源码分析</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/prometheus">prometheus</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  待完善&hellip;
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">kuber单机部署</a></h2>
 
     <div class="post-meta">
@@ -376,281 +630,12 @@
 
   <p>
   kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
-安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  安装etcd  生成根证书  { &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 4096 }, &quot;names&quot;: [ { &quot;O&quot;: &quot;wonder&quot;, &quot;OU&quot;: &quot;wonder Security&quot;, &quot;L&quot;: &quot;Sh&quot;, &quot;ST&quot;: &quot;Sh&quot;, &quot;C&quot;: &quot;CN&quot; } ], &quot;CN&quot;: &quot;wonder-root-ca&quot; }  自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP 'echo &quot;export PATH=\$PATH:/opt/kubernetes/bin/&quot; &gt;&gt; ~/.bash_profile' done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .
+1.安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  2.安装etcd  生成根证书  { &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 4096 }, &quot;names&quot;: [ { &quot;O&quot;: &quot;wonder&quot;, &quot;OU&quot;: &quot;wonder Security&quot;, &quot;L&quot;: &quot;Sh&quot;, &quot;ST&quot;: &quot;Sh&quot;, &quot;C&quot;: &quot;CN&quot; } ], &quot;CN&quot;: &quot;wonder-root-ca&quot; }  3.自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP 'echo &quot;export PATH=\$PATH:/opt/kubernetes/bin/&quot; &gt;&gt; ~/.bash_profile' done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .
   </p>
 
   
   <footer>
     <a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_use/">goadesign 学习之adder</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-22</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  goadesign 学习  一次接触中，了解到了goa，根据dsl做巧妙的翻译，自动完成统一代码的生成
- github上搜索goadesign，可以看到他有的代码库，出于学习，我把它的样例库下载下来了，我决定从样例代码开始，结合官方的文档来学习
-先从第一个例子开始  第一个是加法服务，adder目录只有两个go文件，其中一个还在报错（其实是程序自动生成的文件，只是里面有自己定制的代码，所以保留了  // adder/design/design.go var _ = API(&quot;adder&quot;, func() { //api定义说明，一个文件只可以有一个api Title(&quot;The adder API&quot;) Description(&quot;A teaser for goa&quot;) Host(&quot;localhost:8080&quot;) Scheme(&quot;http&quot;) }) var _ = Resource(&quot;operands&quot;, func() { //资源说明，resource对应一个service Action(&quot;add&quot;, func() { //动作说明，api请求动作 Routing(GET(&quot;add/:left/:right&quot;)) //定义访问地址格式 Description(&quot;add returns the sum of the left and right parameters in the response body&quot;) Params(func() { //定义请求url中参数说明 Param(&quot;left&quot;, Integer, &quot;Left operand&quot;) Param(&quot;right&quot;, Integer, &quot;Right operand&quot;) }) Response(OK, &quot;text/plain&quot;) //定义应答报文样式 }) })   根据design文件生成代码  goagen bootstrap -d github.
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/goa/goa_use/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/goa/goa_dsl/">goadesign 学习之dsl</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-22</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/goa">goa</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/language/go/quest/">golang 总结</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-18</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   Ready go 1. goroutine  goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的 golang采用的是一种多对多的方案，m个用户线程对应n个系统线程 golang有3个角色：  M：代表系统线程，由操作系统管理 G：goroutine的实体，包括的调用栈，重要的调度信息 P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列   
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/book/micro/">读《微服务架构与实践》总结</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-17</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/readbook">readbook</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   微服务的特征  业务独立性 轭人自主性 单一职责 轻量级通信
- 服务作为组件
- 围绕业务组织团队
- 关注产品而非项目
- 技术多样性
- 业务数据独立
- 基础设施自动化
- 演进式架构
-  构建微服务考虑的问题  任务拆分
-尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务
- 同一时间聚焦一个任务 能对每次完成的部分做持续集成 整体的进度容易追踪  一般任务分为如下几个过程： * 服务实现 * 代码测试与静态检查 * Docker镜像构建 * docker镜像部署 * 功能迭代 * 日志聚合 * 监控与告警 * 持续集成与交付
-  微服务设计 开发  独立代码库 服务说明文件  服务介绍 服务维护者 服务可用期 定义环境：生产环境、类生产环境、测试环境 开发说明：如果搭建开发环境、如何运行服务、如何定位问题 测试说明：测试策略、如何运行测试、如果查看测试结果 构建说明：集成访问的url、集成流程描述、构建的部署包 部署说明：如何部署到不同环境、部署后功能验证 运维说明：日志聚合的访问、告警信息的访问、监控信息的访问  代码所有权归团队：不能让代码只有一个人熟悉 有效的代码版本管理 代码静态检查工具 代码易于本地运行  测试  接口测试 测试的有效性  构建  每个服务都是一个可独立部署的业务单元  部署  部署环境说明  运维  监控 告警 日志聚合  微服务之前的通讯  同步通讯、异步通讯 rpc rest：资源、表述、状态转移、统一接口  get用来获取资源 post来新建资源 put来更新资源 delete来删除资源  hal  基于rest，但把每个资源分成三部分：状态、链接、子资源  消息队列  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-29</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   caddy  caddy是个网站搭建工具  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/gorm">gorm</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
- 源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
-  main   定义了DB结构：
- Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
-后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
-main 大致过了一遍，对整个有点了解，再回看目录下的文件：
-1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6.
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>

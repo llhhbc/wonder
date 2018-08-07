@@ -245,11 +245,11 @@
   <p>
   总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
  源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
-  main   定义了DB结构：
+ 1. main  定义了DB结构：
  Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
 后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
 main 大致过了一遍，对整个有点了解，再回看目录下的文件：
-1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6.
+1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6. join_table_handler 定义了n*n的表的关系接口 7.
   </p>
 
   

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Des on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/des/</link>
+    <description>Recent content in Des on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 26 Apr 2018 20:46:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/des/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>银行卡密钥相关</title>
+      <link>http://wonder.zxcsoft.com/post/des/des_pin/</link>
+      <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/des/des_pin/</guid>
+      <description>pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98</description>
+    </item>
+    
+  </channel>
+</rss>

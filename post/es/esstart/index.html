@@ -233,34 +233,36 @@
 <h3 id="es安装">es安装</h3>
 
 <ul>
-<li>官网下载 es <a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a>
-```shell
-unzip elasticsearch-6.2.4.zip
-cd elasticsearch-6.2.4/config</li>
+<li>官网下载 es <a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a></li>
 </ul>
 
-<p>#修改集群名字和端口,数据目录等
-vi elasticsearch.yml</p>
+<pre><code class="language-sh">unzip elasticsearch-6.2.4.zip
+cd elasticsearch-6.2.4/config
 
-<h1 id="启动es">启动es</h1>
+#修改集群名字和端口,数据目录等
+vi elasticsearch.yml
 
-<p>cd elasticsearch-6.2.4/bin
-./elasticsearch</p>
+# 启动es
+cd elasticsearch-6.2.4/bin
+./elasticsearch
 
-<h1 id="验证启动状态">验证启动状态</h1>
+# 验证启动状态
+curl http://127.0.0.1:9200
+</code></pre>
 
-<p>curl <a href="http://127.0.0.1:9200">http://127.0.0.1:9200</a></p>
+<h3 id="安装中文分词">安装中文分词</h3>
 
-<pre><code>### 安装中文分词
-&gt; 参考 https://github.com/medcl/elasticsearch-analysis-ik
+<blockquote>
+<p>参考 <a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
 
-&gt; ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip
+<p>./bin/elasticsearch-plugin install <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip">https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip</a></p>
+</blockquote>
 
+<h3 id="es简单使用">es简单使用</h3>
 
-### es简单使用
-#### 创建一个index mapping（相当于一个表）
-```shell
-curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d '
+<h4 id="创建一个index-mapping-相当于一个表">创建一个index mapping（相当于一个表）</h4>
+
+<pre><code class="language-sh">curl -XPUT 'localhost:9200/wonderbook?pretty' -H 'Content-type:application/json' -d '
 {
 &quot;mappings&quot;: {
 	&quot;articles&quot;: {

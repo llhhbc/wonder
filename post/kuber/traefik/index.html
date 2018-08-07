@@ -281,7 +281,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: traefik-ingress-controller
-  namespace: kube-system
+  namespace: default
 </code></pre>
 
 <ul>
@@ -293,13 +293,13 @@ traefik本身也是一种服务，和其它服务一样，80是工作端口（�
 kind: ServiceAccount
 metadata:
   name: traefik-ingress-controller
-  namespace: kube-system
+  namespace: default
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: traefik-ingress-controller
-  namespace: kube-system
+  namespace: default
   labels:
     k8s-app: traefik-ingress-lb
 spec:
@@ -332,7 +332,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: traefik-ingress-service
-  namespace: kube-system
+  namespace: default
 spec:
   selector:
     k8s-app: traefik-ingress-lb
@@ -355,7 +355,7 @@ kind: Ingress
 metadata:
   name: wonderng
   ## 命名空间要和traefik一样，否则无法正常工作 
-  namespace: kube-system
+  namespace: default
   annotations:
     traefik.ingress.kubernetes.io/preserve-host: &quot;true&quot;
 spec:
@@ -385,7 +385,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: wonderng
-  namespace: kube-system
+  namespace: default
 spec:
   rules:
   - host: a.wonder
@@ -412,13 +412,13 @@ kubectl get pods -o wide  #可查看容器的ip，我里面配置的两个服务
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://wonder.zxcsoft.com/post/linux/nginx/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/oracle/docker_ora/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/linux/nginx/">nginx配置</a>
+      <a href="http://wonder.zxcsoft.com/post/oracle/docker_ora/">docker 安装 oracle</a>
     </nav>
     
   </div>

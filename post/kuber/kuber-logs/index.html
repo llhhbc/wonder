@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="kuber log analysis">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>kuber log analysis &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>kuber log analysis</h1>
+  <h2>kuber log analysis</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="kubernetes日志管理">kubernetes日志管理</h2>
+
+<p>参考资料：<a href="https://logz.io/blog/kubernetes-log-analysis/">https://logz.io/blog/kubernetes-log-analysis/</a></p>
+
+<h3 id="1-安装fluentd">1. 安装fluentd</h3>
+
+<ul>
+<li><p>参考官方文档：<a href="https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos">https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos</a></p></li>
+
+<li><p>td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包</p></li>
+</ul>
+
+<pre><code class="language-sh">
+curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
+
+#启动td-agent
+systemctl start td-agent
+
+#安装td-agent es插件
+
+sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document
+
+
+
+</code></pre>
+
+<h3 id="2-配置说明">2. 配置说明</h3>
+
+<ul>
+<li>配置td-agent： 备份 <code>/etc/td-agent/td-agent.conf</code></li>
+</ul>
+
+<pre><code class="language-conf">## 增加一个测试的日志输入，用于测试解析日志并写入es
+&lt;source&gt;
+  @type http
+  @id input_http
+  port 42185
+  tag http.test
+&lt;/source&gt;
+
+# 配置将收到的日志输入到控制台
+&lt;match **&gt;
+  @type stdout
+  @id output_stdout
+&lt;/match&gt;
+
+# 配置将日志写入es
+&lt;match http.test&gt;
+  @type elasticsearch
+  logstash_format true
+  host localhost
+  port 9200
+  #hosts host1:port1,host2:port2,host3:port3
+  # or
+  #hosts https://customhost.com:443/path,https://username:password@host-failover.com:443
+  index_name fluentd.${tag}.%Y%m%d
+  ## 用%{}来限定，当用户名或密码有特殊符号时使用
+  #hosts https://%{j+hn}:%{passw@rd}@host1:443/elastic/,http://host2
+&lt;/match&gt;
+
+&lt;system&gt;
+  log_level debug
+&lt;/system&gt;
+
+</code></pre>
+
+<ul>
+<li>source标签定义了数据来源，类型type有两种，http和forward（对应tcp），</li>
+<li>tag是给数据加标签，在数据分类处理时，标签用于给数据归类</li>
+<li>match是根据匹配的标签，给数据做处理：type和对应的处理插件相关</li>
+<li>filter的使用和match功能相似，但filter是可以多个叠加，如果有3个filter，数据会依次经过这3个filter处理，得到最终的输出</li>
+<li>system里面定义的是配置参数，包括日志级别等</li>
+<li>label定义的是一套规则的集合，用于给source来使用，命名需要以@开头</li>
+<li>匹配说明： <code>a.*</code>匹配a.b,但不匹配a.b.c， <code>a.**</code>匹配所有a开头的，{X,y,Z}匹配当中的任意一个</li>
+</ul>
+
+<h3 id="3-测试服务配置">3. 测试服务配置</h3>
+
+<pre><code class="language-sh">curl http://localhost:42185/debug.a? -d 'json={&quot;a&quot;:&quot;b&quot;}'
+
+#日志文件/var/log/td-agent/td-agent.log能看到对应输出：
+#2018-08-06 18:14:51.434990526 +0800 debug.a: {&quot;a&quot;:&quot;b&quot;}
+
+curl http://localhost:42185/debug.a/b? -d 'json={&quot;a&quot;:&quot;b&quot;}'
+#2018-08-06 18:17:41.018904116 +0800 debug.a.b: {&quot;a&quot;:&quot;b&quot;}
+
+
+</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/tools/rss_tools/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/tools/rss_tools/">rss tools</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

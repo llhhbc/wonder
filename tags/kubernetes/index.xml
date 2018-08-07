@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 29 Jul 2018 16:46:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Aug 2018 10:46:49 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kuber log analysis</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</guid>
+      <description>kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
+1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
+ td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &amp;lt;source&amp;gt; @type http @id input_http port 42185 tag http.test &amp;lt;/source&amp;gt; # 配置将收到的日志输入到控制台 &amp;lt;match **&amp;gt; @type stdout @id output_stdout &amp;lt;/match&amp;gt; # 配置将日志写入es &amp;lt;match http.test&amp;gt; @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.</description>
+    </item>
     
     <item>
       <title>kuber应用搭建</title>
@@ -29,7 +41,7 @@
       <guid>http://wonder.zxcsoft.com/post/kuber/traefik/</guid>
       <description>Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
 1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
-  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: kube-system   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: kube-system --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &amp;quot;&amp;quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: default   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: default --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: default labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.</description>
     </item>
     
     <item>
@@ -39,7 +51,7 @@
       
       <guid>http://wonder.zxcsoft.com/post/kuber/kuber_sign/</guid>
       <description>kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
-安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  安装etcd  生成根证书  { &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 4096 }, &amp;quot;names&amp;quot;: [ { &amp;quot;O&amp;quot;: &amp;quot;wonder&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;wonder Security&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot; } ], &amp;quot;CN&amp;quot;: &amp;quot;wonder-root-ca&amp;quot; }  自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP &#39;echo &amp;quot;export PATH=\$PATH:/opt/kubernetes/bin/&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&#39; done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .</description>
+1.安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  2.安装etcd  生成根证书  { &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 4096 }, &amp;quot;names&amp;quot;: [ { &amp;quot;O&amp;quot;: &amp;quot;wonder&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;wonder Security&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;Sh&amp;quot;, &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot; } ], &amp;quot;CN&amp;quot;: &amp;quot;wonder-root-ca&amp;quot; }  3.自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP &#39;echo &amp;quot;export PATH=\$PATH:/opt/kubernetes/bin/&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&#39; done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .</description>
     </item>
     
     <item>
@@ -72,15 +84,32 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/</guid>
-      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm   设置主机名 &amp;gt; sh etc/set_hosts.sh
- 安装etcd &amp;gt; sh rpms/install_etcd.sh
- 安装etcd证书 &amp;gt; sh keys/etcd/install_etc_key.sh
- 修改etcd配置 &amp;gt; sh etc/set_etcd.sh
- 启动etcd &amp;gt; sh run/start_etcd.sh
- 安装kube 程序 &amp;gt; sh rpms/install_kuber.sh
- 安装kuber证书 &amp;gt; sh keys/k8s/install_k8s_key.sh
- 修改kuber配置 &amp;gt; #设置master结点 &amp;gt; sh etc/kube_cfg/set_kuber_cfg.sh &amp;gt; #设置node结点 &amp;gt; sh etc/kube_cfg/set_kuber_node_cfg.sh &amp;gt; #如果master也作为node结点，则运行 &amp;gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh
- 启动kube &amp;gt; sh run/start_kube.</description>
+      <description>准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  设置主机名
+ sh etc/set_hosts.sh
+ 安装etcd
+ sh rpms/install_etcd.sh
+ 安装etcd证书
+ sh keys/etcd/install_etc_key.sh
+ 修改etcd配置
+ sh etc/set_etcd.sh
+ 启动etcd
+ sh run/start_etcd.sh
+ 安装kube 程序
+ sh rpms/install_kuber.sh
+ 安装kuber证书
+ sh keys/k8s/install_k8s_key.sh
+ 修改kuber配置
+ #设置master结点
+sh etc/kube_cfg/set_kuber_cfg.sh
+#设置node结点
+sh etc/kube_cfg/set_kuber_node_cfg.sh
+#如果master也作为node结点，则运行
+sh etc/kube_cfg/set_kuber_master_node_cfg.sh
+ 启动kube
+ sh run/start_kube.sh
+#在任意一台master上执行： 开启认证
+kubectl create clusterrolebinding kubelet-bootstrap &amp;ndash;clusterrole=system:node-bootstrapper &amp;ndash;user=kubelet-bootstrap</description>
     </item>
     
     <item>

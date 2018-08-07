@@ -234,69 +234,131 @@
 <li>准备工作</li>
 <li>关闭selunix</li>
 <li>关闭swap</li>
-<li>作为node的结点，要安装docker（包括master和node共用的）</li>
-</ol>
+
+<li><p>作为node的结点，要安装docker（包括master和node共用的）</p>
 
 <pre><code class="language-sh">  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm
   yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm
-</code></pre>
+</code></pre></li>
 
-<ol>
-<li><p>设置主机名
-&gt; sh etc/set_hosts.sh</p></li>
+<li><p>设置主机名</p>
 
-<li><p>安装etcd
-&gt; sh rpms/install_etcd.sh</p></li>
+<blockquote>
+<p>sh etc/set_hosts.sh</p>
+</blockquote></li>
 
-<li><p>安装etcd证书
-&gt; sh keys/etcd/install_etc_key.sh</p></li>
+<li><p>安装etcd</p>
 
-<li><p>修改etcd配置
-&gt; sh etc/set_etcd.sh</p></li>
+<blockquote>
+<p>sh rpms/install_etcd.sh</p>
+</blockquote></li>
 
-<li><p>启动etcd
-&gt; sh run/start_etcd.sh</p></li>
+<li><p>安装etcd证书</p>
 
-<li><p>安装kube 程序
-&gt; sh rpms/install_kuber.sh</p></li>
+<blockquote>
+<p>sh keys/etcd/install_etc_key.sh</p>
+</blockquote></li>
 
-<li><p>安装kuber证书
-&gt; sh keys/k8s/install_k8s_key.sh</p></li>
+<li><p>修改etcd配置</p>
 
-<li><p>修改kuber配置
-&gt; #设置master结点
-&gt; sh etc/kube_cfg/set_kuber_cfg.sh
-&gt; #设置node结点
-&gt; sh etc/kube_cfg/set_kuber_node_cfg.sh
-&gt; #如果master也作为node结点，则运行
-&gt; sh etc/kube_cfg/set_kuber_master_node_cfg.sh</p></li>
+<blockquote>
+<p>sh etc/set_etcd.sh</p>
+</blockquote></li>
 
-<li><p>启动kube
-&gt; sh run/start_kube.sh
-&gt; #在任意一台master上执行：  开启认证
-&gt; kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap
-&gt; #如果master上要启动作为node，则
-&gt; sh run/start_kube_master_node.sh</p></li>
+<li><p>启动etcd</p>
+
+<blockquote>
+<p>sh run/start_etcd.sh</p>
+</blockquote></li>
+
+<li><p>安装kube 程序</p>
+
+<blockquote>
+<p>sh rpms/install_kuber.sh</p>
+</blockquote></li>
+
+<li><p>安装kuber证书</p>
+
+<blockquote>
+<p>sh keys/k8s/install_k8s_key.sh</p>
+</blockquote></li>
+
+<li><p>修改kuber配置</p>
+
+<blockquote>
+<p>#设置master结点</p>
+
+<p>sh etc/kube_cfg/set_kuber_cfg.sh</p>
+
+<p>#设置node结点</p>
+
+<p>sh etc/kube_cfg/set_kuber_node_cfg.sh</p>
+
+<p>#如果master也作为node结点，则运行</p>
+
+<p>sh etc/kube_cfg/set_kuber_master_node_cfg.sh</p>
+</blockquote></li>
+
+<li><p>启动kube</p>
+
+<blockquote>
+<p>sh run/start_kube.sh</p>
+
+<p>#在任意一台master上执行：  开启认证</p>
+
+<p>kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap</p>
+
+<p>#如果master上要启动作为node，则</p>
+
+<p>sh run/start_kube_master_node.sh</p>
+</blockquote></li>
+
+<li><p>安装core dns</p></li>
 </ol>
+
+<pre><code class="language-sh">	git clone https://github.com/coredns/deployment.git
+	cd deployment/kubernetes
+
+	sed 's/CLUSTER_DOMAIN/cluster.local/g;s/CLUSTER_DNS_IP/10.254.0.1/g' coredns.yaml.sed &gt; /tmp/coredns.yaml
+
+	kubectl create -f /tmp/coredns.yaml
+
+</code></pre>
 
 <h3 id="注意事项">注意事项</h3>
 
 <ol>
-<li><p>更新证书
-&gt; #当生成的证书中ip少加了，需要更新证书时，修改 keys/k8s/kubernetes-csr.json后，重新执行如下：
-&gt; sh keys/k8s/install_k8s_key.sh
-&gt; sh etc/kube_cfg/set_kuber_cfg.sh
-&gt; sh etc/kube_cfg/set_kuber_node_cfg.sh
-&gt; #由于证书变更了，所以需要重新授权认证（在任意一个master上执行）
-&gt; kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap
-&gt; kubectl get csr   #检查需要同意证书下发的
-&gt; kubectl certificate approve 结点名   #信任结点
-&gt; kubectl describe csr  #可查看谁发起的请求     当认证长时间未同意，会再次发起，这个时候可能就有两条</p></li>
+<li><p>更新证书</p>
 
-<li><p>api说明
-&gt; #kube master 部署后，访问kube-apiserver：<a href="http://api服务地址和端口/swagger-ui/">http://api服务地址和端口/swagger-ui/</a> 可查看接口说明
-&gt; <a href="https://kubernetes.io/docs/reference/">https://kubernetes.io/docs/reference/</a>  #kube官网同样有说明
-&gt; <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#clusterrole-v1-rbac-authorization-k8s-io">https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#clusterrole-v1-rbac-authorization-k8s-io</a></p></li>
+<blockquote>
+<p>#当生成的证书中ip少加了，需要更新证书时，修改 keys/k8s/kubernetes-csr.json后，重新执行如下：</p>
+
+<p>sh keys/k8s/install_k8s_key.sh</p>
+
+<p>sh etc/kube_cfg/set_kuber_cfg.sh</p>
+
+<p>sh etc/kube_cfg/set_kuber_node_cfg.sh</p>
+
+<p>#由于证书变更了，所以需要重新授权认证（在任意一个master上执行）</p>
+
+<p>kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap</p>
+
+<p>kubectl get csr   #检查需要同意证书下发的</p>
+
+<p>kubectl certificate approve 结点名   #信任结点</p>
+
+<p>kubectl describe csr  #可查看谁发起的请求     当认证长时间未同意，会再次发起，这个时候可能就有两条</p>
+</blockquote></li>
+
+<li><p>api说明</p>
+
+<blockquote>
+<p>#kube master 部署后，访问kube-apiserver：<a href="http://api服务地址和端口/swagger-ui/">http://api服务地址和端口/swagger-ui/</a> 可查看接口说明</p>
+
+<p><a href="https://kubernetes.io/docs/reference/">https://kubernetes.io/docs/reference/</a>  #kube官网同样有说明</p>
+
+<p><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#clusterrole-v1-rbac-authorization-k8s-io">https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#clusterrole-v1-rbac-authorization-k8s-io</a></p>
+</blockquote></li>
 </ol>
 
 
@@ -304,13 +366,13 @@
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/qkl/qkl_sf/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">kuberadm start</a>
+      <a href="http://wonder.zxcsoft.com/post/qkl/qkl_sf/">区块链共识算法学习</a>
     </nav>
     
   </div>

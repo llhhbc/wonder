@@ -234,13 +234,13 @@
 
 <p>由于在阿里上只有一台，又不准备用minikube，所以单机部署一个</p>
 
-<h3 id="安装docker">安装docker</h3>
+<h3 id="1-安装docker">1.安装docker</h3>
 
 <pre><code class="language-sh">  wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm
   yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm
 </code></pre>
 
-<h3 id="安装etcd">安装etcd</h3>
+<h3 id="2-安装etcd">2.安装etcd</h3>
 
 <ul>
 <li>生成根证书</li>
@@ -264,7 +264,7 @@
 }
 </code></pre>
 
-<h4 id="自动化脚本配置如下">自动化脚本配置如下</h4>
+<h4 id="3-自动化脚本配置如下">3.自动化脚本配置如下</h4>
 
 <pre><code class="language-sh">#!/bin/zsh
 
@@ -478,6 +478,20 @@ $1
 
 </code></pre>
 
+<h4 id="4-安装core-dns">4.安装core dns</h4>
+
+<pre><code class="language-sh">git clone https://github.com/coredns/deployment.git
+cd deployment/kubernetes
+
+sed 's/CLUSTER_DOMAIN/cluster.local/g;s/CLUSTER_DNS_IP/10.254.0.2/g' coredns.yaml.sed &gt; /tmp/coredns.yaml
+
+kubectl create -f /tmp/coredns.yaml
+
+# 登录任意一个容器，nslookup 服务名，测试dns是否正常
+</code></pre>
+
+<h4 id="5-安装dashboard">5.安装dashboard</h4>
+
 
   
 <div class="prev-next-post pure-g">
@@ -499,13 +513,13 @@ $1
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="http://wonder.zxcsoft.com/post/linux/nginx/">nginx配置</a>
+      <a href="http://wonder.zxcsoft.com/post/prometheus/prometheus-src/">prometheus源码分析</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="http://wonder.zxcsoft.com/post/linux/nginx/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/prometheus/prometheus-src/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
