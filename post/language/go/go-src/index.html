@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="go源码学习">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>go源码学习 &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>go源码学习</h1>
+  <h2>go源码学习</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="启动过程">启动过程</h2>
+
+<ul>
+<li>初始化参数
+设置argc，argv</li>
+<li>初始化系统
+设置maxproc</li>
+
+<li><p>初始化调度器</p>
+
+<ul>
+<li>初始化栈分配器stack</li>
+<li>初始化内存分配器malloc</li>
+
+<li><p>公共初始化</p></li>
+
+<li><p>处理命令行参数、环境变量：gorags，goenvs</p></li>
+
+<li><p>垃圾回收初始化gcinit</p></li>
+</ul></li>
+
+<li><p>runtime.main</p>
+
+<ul>
+<li>初始化runtime包中的所有init函数</li>
+<li>启动垃圾回收</li>
+<li>执行所有用户名中的init</li>
+<li>进入main.main，用户逻辑入口</li>
+</ul></li>
+</ul>
+
+<h2 id="内存分配">内存分配</h2>
+
+<ul>
+<li><p>go内存空间结构</p>
+
+<ul>
+<li>页所属 spans 512MB | gc标记位图 bitmap 32GB | 用户内存分配 arena 512GB  （后面的空间为可能的最大空间）</li>
+</ul></li>
+
+<li><p>分配器将内存为两种：span内存块，object内存对象</p></li>
+
+<li><p>使用tcmalloc来管理内存</p>
+
+<ul>
+<li>cache 每个线程都会绑定一个cache，用于无锁object分配</li>
+<li>central 为所有cache提供切分好的后备span</li>
+
+<li><p>heap 管理闲置的span，需要时向系统申请新内存</p></li>
+
+<li><p>优先使用cache来分配对象，如果不足，再从central中优先找现有的span检查是否有可用空间，再不足，才到heap中申请span</p></li>
+</ul></li>
+
+<li><p>内存分配</p>
+
+<ul>
+<li>golang编译器支持逃逸分析(escape analysis)，编译期通过构建调用图来分析局部变量是否会被外部引用，从而决定是否可直接分配在栈上</li>
+<li>编译参数 -gcflags &ldquo;-m&rdquo; 可输出编译优化信息</li>
+</ul></li>
+
+<li><p>内存回收</p>
+
+<ul>
+<li>以span为单元，检查span内的object是否全部释放，将原本就为空的span转移到central.nonempty，将收回的span交还给heap。同时会尝试合并相邻的空的span</li>
+</ul></li>
+
+<li><p>内存释放</p>
+
+<ul>
+<li>程序运行会启动一个监控任务：sysmon，每隔一段时间就会检查heap内闲置内存，如果闲置时间超过阈值，则释放其关联的物理内存（只是建议系统回收，但不代表系统就一定会回收）</li>
+</ul></li>
+</ul>
+
+<h2 id="垃圾回收">垃圾回收</h2>
+
+<ul>
+<li><p>三色标记和写屏障</p>
+
+<ul>
+<li>起初所有对象都是白色</li>
+<li>扫描所有可达对象，标记为灰色，放入待处理队列</li>
+<li>从队列中提取灰色对象，将其引用的对象标记为灰色放入队列，自身标记为黑色</li>
+<li>写屏障监视对象内存修改，重新标色或放回队列</li>
+<li>全部扫描和标记后，剩下白色就是待回收对象、黑色就是活跃对象</li>
+</ul></li>
+
+<li><p>控制器</p>
+
+<ul>
+<li>并发回收任务中，记录相关状态数据，动态调整运行策略，参与next_gc回收阈值设置，调整垃圾回收触发频率</li>
+</ul></li>
+
+<li><p>回收模式</p>
+
+<ul>
+<li>gcstoptheworld == 1 : gcForceMode 强制模式</li>
+<li>gcstoptheworld == 2 : gcForceBlockMode 强制块模式</li>
+<li>gcBackgroundMode 并发模式，只有这个是后台异步模式。当满足gc条件时，会唤醒，gc后会休眠
+
+<ul>
+<li>后台模式步骤： STW(stopTheWorld), WB(writeBarrierEnabled), BE(blackenEnabled)</li>
+<li>WB:1,BE:1, 并发扫描，标志灰色，对白色对象的引用修改被写屏障捕获</li>
+<li>第二轮标记</li>
+<li>BE = 0，stw冻结，完成最终标记</li>
+<li>wb = 0，并发清理</li>
+</ul></li>
+</ul></li>
+
+<li><p>标记</p>
+
+<ul>
+<li>标记的工作模式
+
+<ul>
+<li>gcMarkWorkerDedicatedMode 全力运行，直到并发标记任务结束</li>
+<li>gcMarkWorkerFractionalMode 可被抢占和调试</li>
+<li>gcMarkWorkerIdleMode 仅在空闲时参与标记任务</li>
+</ul></li>
+</ul></li>
+
+<li><p>监控</p>
+
+<ul>
+<li>监控服务sysmon每隔2分钟就会检查一次垃圾回收状态，如果超过2分钟未触发，就强制执行</li>
+</ul></li>
+
+<li><p>内存状态统计</p>
+
+<ul>
+<li>GODEBUG=&ldquo;gctrace=1&rdquo;  可输出垃圾回收信息</li>
+</ul></li>
+</ul>
+
+<h2 id="并发调度">并发调度</h2>
+
+<ul>
+<li>goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的</li>
+<li>golang采用的是一种多对多的方案，m个用户线程对应n个系统线程</li>
+
+<li><p>golang有3个角色：</p>
+
+<ul>
+<li>M：代表系统线程，由操作系统管理</li>
+<li>G：goroutine的实体，包括的调用栈，重要的调度信息</li>
+<li>P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列</li>
+</ul></li>
+
+<li><p>goroutine创建好后，会把对应的G放到P的本地队列中。如果本地队列已满，一次性转移半数到全局队列中。当本地队列和全局队列都为空，才会考虑去检查其它P任务队列</p></li>
+
+<li><p>M对应一个特殊的g0，当执行g时，会把栈复制到g0中，避免一个g被多个m执行时的冲突</p></li>
+
+<li><p>P为M提供cache，以便为执行者提供对象内存分配</p></li>
+
+<li><p>GODEBUG=&ldquo;schedtrace=1000&rdquo;  可查看sched信息</p></li>
+</ul>
+
+<h2 id="监控">监控</h2>
+
+<ul>
+<li>释放闲置超过5分钟的span物理内存</li>
+<li>如果超过2分钟没有垃圾回收，强制执行</li>
+<li>将长时间未处理的netpoll结果添加到任务队列</li>
+<li>向长时间运行的g任务发出抢占调度</li>
+<li>收回因syscall长时间阻塞的p</li>
+</ul>
+
+<h2 id="缓存池">缓存池</h2>
+
+<ul>
+<li>每个P都有一个私有缓存池，还有共享缓存池。优先使用私有缓存池，共享缓存池需要加锁访问，如果还没有，可从其它P中取共享缓存池，实在找不到，则自己新建一个缓存池</li>
+</ul>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/">kbuernetes docs 学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

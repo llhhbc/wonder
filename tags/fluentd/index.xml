@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fluentd on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/fluentd/</link>
+    <description>Recent content in Fluentd on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 05 Aug 2018 10:46:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/fluentd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>fluentd使用说明</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/fluentd/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/fluentd/</guid>
+      <description>fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&amp;lt;filter foo.bar&amp;gt; @type grep regexp1 message cool &amp;lt;/filter&amp;gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&amp;lt;record&amp;gt; NEW_FIELD NEW_VALUE &amp;lt;/record&amp;gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &amp;lt;filter foo.bar&amp;gt; @type record_transformer &amp;lt;record&amp;gt; hostname &amp;quot;#{Socket.gethostname}&amp;quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&amp;quot;total&amp;quot;] / record[&amp;quot;count&amp;quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&amp;quot;message&amp;quot;]} ## 给message域增加个前缀 &amp;lt;/record&amp;gt; &amp;lt;/filter&amp;gt;   filter_grep 报文筛选  &amp;lt;filter foo.</description>
+    </item>
+    
+    <item>
+      <title>kuber log analysis</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber-logs/</guid>
+      <description>kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
+1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
+ td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &amp;lt;source&amp;gt; @type http @id input_http port 42185 tag http.test &amp;lt;/source&amp;gt; # 配置将收到的日志输入到控制台 &amp;lt;match **&amp;gt; @type stdout @id output_stdout &amp;lt;/match&amp;gt; # 配置将日志写入es &amp;lt;match http.test&amp;gt; #一个source的tag只会匹配一个match，有多个时，不会都匹配 @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.</description>
+    </item>
+    
+  </channel>
+</rss>

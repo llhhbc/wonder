@@ -212,13 +212,68 @@
   
     <article>
   <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">kuber log analysis</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/go-src/">go源码学习</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-08-05</time>
+    <time>2018-08-26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  启动过程  初始化参数 设置argc，argv 初始化系统 设置maxproc 初始化调度器
+ 初始化栈分配器stack 初始化内存分配器malloc 公共初始化
+ 处理命令行参数、环境变量：gorags，goenvs
+ 垃圾回收初始化gcinit
+  runtime.main
+ 初始化runtime包中的所有init函数 启动垃圾回收 执行所有用户名中的init 进入main.main，用户逻辑入口   内存分配  go内存空间结构
+ 页所属 spans 512MB | gc标记位图 bitmap 32GB | 用户内存分配 arena 512GB （后面的空间为可能的最大空间）  分配器将内存为两种：span内存块，object内存对象
+ 使用tcmalloc来管理内存
+ cache 每个线程都会绑定一个cache，用于无锁object分配 central 为所有cache提供切分好的后备span heap 管理闲置的span，需要时向系统申请新内存
+ 优先使用cache来分配对象，如果不足，再从central中优先找现有的span检查是否有可用空间，再不足，才到heap中申请span
+  内存分配
+ golang编译器支持逃逸分析(escape analysis)，编译期通过构建调用图来分析局部变量是否会被外部引用，从而决定是否可直接分配在栈上 编译参数 -gcflags &ldquo;-m&rdquo; 可输出编译优化信息  内存回收
+ 以span为单元，检查span内的object是否全部释放，将原本就为空的span转移到central.nonempty，将收回的span交还给heap。同时会尝试合并相邻的空的span  内存释放
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/language/go/go-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/">kbuernetes docs 学习</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-23</time>
   </div>
 
   
@@ -242,10 +297,188 @@
   </header>
 
   <p>
+  kubernetes docs 学习  参考 http://docs.kubernetes.org.cn/251.html 对应源地址 https://kubernetes.feisky.xyz/zh/  kubernetes架构  etcd 保存整个集群的状态 apiserver 提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和发现等机制 controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等 scheduler负责资源的调度，按照预定的调度策略将pod调度到相应的机器上 kubelet 负责维护容器的生命周期，同时也负责volume（cvi）和网络（cni）的管理 container runtime负责镜像管理以及pod和容器的真正运行（cri） kube-proxy 负责为service提供cluster内部的服务发现和负载均衡  除了这些核心组件，还有些扩展的add-ons： * kube-dns负责为整个集群提供dns服务 * ingress controller为服务提供外网入口 * heapster提供资源监控 * dashboard提供gui * fedreation提供跨可用区的集群 * fluentd-elasticsearch提供集群日志采集、存储与查询
+kuber分层架构  核心层：kubernetes最核心的功能，对外提供api构建高层的应用，对内提供插件式应用执行环境 应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、dns解析等） 管理层：系统度量（如基础设置、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC，quota，psp，networkpolicy等） 接口层：kubectl命令行工具、客户端sdk以及集群联邦 生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分两个  kubernetes外部：日志、监控、配置管理、ci,cd,workflow,faas,ots应用,chatops kubernetes内部：cri,cni,cvi,镜像仓库，cloud provider,集群自身的配置和管理等   kubernetse的设计理念 api设计原则  所有api应该是声明式的（比如设置副本数为3，运行多次也没问题，而给副本数加1，运行多次就不对了） api对象是彼此互补而且可以组合的 高层api以操作意图为基础设计（从业务出发，而不是过早的从技术实现出发） 代层api根据高层api的控制需要设计（以需求为基础，尽量抵抗受技术实现影响的诱惑） 尽量避免简单封装，不要有在外部api无法显式知道的内部隐藏的机制（简单的封装实际没有提供新功能，反而增加对所封装api的依赖性。内部隐藏的机制不利于系统维护的设计方式 api操作复杂试与对象数量成正比 api对象状态不能依赖于网络连接状态（对象状态能应对网络不稳定） 尽量避免让操作机制依赖于全局状态，因为在分布式系统中要保证全局状态的同步是非常困难  控制机制设计原则  控制逻辑应该只依赖于当前状态 假设任何错误的可能，并做空错处理 尽量避免复杂状态机，控制逻辑不要依赖无法监控的内部状态 假设任何操作都可能被任何操作对象拒绝，甚至被错误解析（保证出现错误的时候，操作级别的错误不会影响到系统稳定性） 每个模块都可以在出错后自动恢复 每个模块都可以在必要时优雅的降级服务（划分清楚基本功能和高级功能，保证基本功能不会依赖高级功能，这样就保证了不会因为高级功能出现故障而导致整个模块崩溃）  kuber api对象  pod pod内的容器共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。比如，一个nginx容器用来发布软件，另一个容器专门用来从源仓库做同步 pod是所有业务类型的基础，k8s中业务主要分四类：  Deployment：长期伺服型（long-runing） Job：批处理型（batch） DaemonSet：节点后台支撑型（node-daemon） PetSet：有状态应用型（stateful application）    pod特征：  共享ipc、network、utc namespace的容器 所有pod内容器都可以访问共享的Volume，可以访问共享数据 pod一旦调度后就和node绑定，即使node挂掉也不会重新调度，推荐使用deployments、daemonsets等控制器来容错 优雅终止：pod删除的时候，先给其内的进程发送sigterm，等待一段时间（graceperiod）后才强制停止依然还在运行的进程 特权容器（通过SecurityContext配置）具有改变系统配置的权限（在网络插件中大量应用）    复制控制器（Replication Controller，RC） RC是k8s集群中最早的保证pod高可用的api对象，监控运行中的pod来保证集群中运行指定数目的pod副本。只适用于长期伺服型的业务类型
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/oracle/oracle_lock/">oracle锁表问题</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   查询oralce锁表 --查询锁表会话 SELECT s.username, decode(l.type,'TM','TABLE LOCK', 'TX','ROW LOCK', NULL) LOCK_LEVEL, o.owner,o.object_name,o.object_type, s.sid,s.serial#,s.terminal,s.machine,s.program,s.osuser FROM v$session s,v$lock l,dba_objects o WHERE l.sid = s.sid AND l.id1 = o.object_id(+) AND s.username is NOT Null --杀死事务 alter system kill session'SID,SERIAL#'; --查询锁表的sql语句 SELECT l.session_id sid, s.serial#, l.locked_mode, l.oracle_username, s.user#, l.os_user_name,s.machine, s.terminal,a.sql_text, a.action FROM v$sqlarea a,v$session s, v$locked_object l WHERE l.session_id = s.sid AND s.prev_sql_addr = a.address ORDER BY sid, s.serial#;  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/web/dart/">dart use</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/dart">dart</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/js">js</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/d3">d3</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   dart use d3.js import 'dart:html'; import 'package:js/js.dart' as js; void main() { var dee3 = js.context.d3; var dataset = js.array([ 5, 10, 15, 20, 25 ]); dee3.select(&quot;body&quot;).selectAll(&quot;p&quot;) .data(dataset) .enter() .append(&quot;p&quot;) .text((d, i, context) =&gt; d); }  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">fluentd使用说明</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/td-agent">td-agent</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&lt;filter foo.bar&gt; @type grep regexp1 message cool &lt;/filter&gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&lt;record&gt; NEW_FIELD NEW_VALUE &lt;/record&gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &lt;filter foo.bar&gt; @type record_transformer &lt;record&gt; hostname &quot;#{Socket.gethostname}&quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&quot;total&quot;] / record[&quot;count&quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&quot;message&quot;]} ## 给message域增加个前缀 &lt;/record&gt; &lt;/filter&gt;   filter_grep 报文筛选  &lt;filter foo.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">kuber log analysis</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
   kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
 1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
  td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
-  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &lt;source&gt; @type http @id input_http port 42185 tag http.test &lt;/source&gt; # 配置将收到的日志输入到控制台 &lt;match **&gt; @type stdout @id output_stdout &lt;/match&gt; # 配置将日志写入es &lt;match http.test&gt; @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &lt;source&gt; @type http @id input_http port 42185 tag http.test &lt;/source&gt; # 配置将收到的日志输入到控制台 &lt;match **&gt; @type stdout @id output_stdout &lt;/match&gt; # 配置将日志写入es &lt;match http.test&gt; #一个source的tag只会匹配一个match，有多个时，不会都匹配 @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.
   </p>
 
   
@@ -331,11 +564,15 @@
   </header>
 
   <p>
-   docker源码分析 读《docker源码分析》整理
-docker架构  docker有如下模块：
- DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的立伯系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   
+  docker源码分析 读《docker源码分析》整理
+容器说明  先有进程，后有容器 父进程通过fork创建子进程时，使用namespaces技术（CLONE_NEWNS,CLONE_NEWUTS,CLONE_NEWIPC,CLONE_PID,CLONE_NEWNET），实现子进程和父进程以及其它进程之间的命名空间的隔离 子进程创建完毕后，使用cgroups技术来处理进程，实现进程资源限制 这样，进程所处的“隔离”环境才真正建立，此时容器真正诞生  docker架构  docker有如下模块：
+ DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的文件系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   docker cli  启动过程： 加载配置、创建客户端、执行命令（访问docker server）  docker daemon  启动过程： 加载配置、创建engine、设置信号、加载内建函数（网络初始化函数、api服务处理函数、事件和日志处理函数、版本和registry授权和搜索函数）、goroutine创建daemon对象，加载功能函数，通知服务启动信号、创建serverapi的job，启动监听服务  单独分析创建daemon对象 &gt; 创建daemon对象，通过eng的Hack_SetGlobalVar将daemon指针保存在了map中，key为：httpapi.
   </p>
 
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/docker-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
   
 </article>
 
@@ -432,215 +669,6 @@ docker架构  docker有如下模块：
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/oracle/docker_ora/">docker 安装 oracle</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  docker centos7中安装oracle 参考：
- https://blog.csdn.net/sql_ican/article/details/77749981 #脚本测试是可用的 http://www.cnblogs.com/wq3435/p/6523840.html #ora配置说明可参考  注意问题 swap 问题 oracle安装要求swap空间的，所以docker对应的宿主机器上swap要开，因为docker &ndash;privileged模式下用的是主机的swap空间，可在安装完成后，再关swap
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/">oracle问题分析</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  oracle临时表空间满问题 --查询表空间使用情况 select * from ( Select a.tablespace_name, to_char(a.bytes/1024/1024,'99,999.999') total_bytes, to_char(b.bytes/1024/1024,'99,999.999') free_bytes, to_char(a.bytes/1024/1024 - b.bytes/1024/1024,'99,999.999') use_bytes, to_char((1 - b.bytes/a.bytes)*100,'99.99') || '%'use from (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a, (select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) b where a.tablespace_name = b.tablespace_name union all select c.tablespace_name, to_char(c.bytes/1024/1024,'99,999.999') total_bytes, to_char( (c.bytes-d.bytes_used)/1024/1024,'99,999.999') free_bytes, to_char(d.bytes_used/1024/1024,'99,999.999') use_bytes, to_char(d.bytes_used*100/c.bytes,'99.99') || '%'use from (select tablespace_name,sum(bytes) bytes from dba_temp_files group by tablespace_name) c, (select tablespace_name,sum(bytes_cached) bytes_used from v$temp_extent_pool group by tablespace_name) d where c.
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/oracle/oracle_ora/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/linux/nginx/">nginx配置</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/nginx">nginx</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/prometheus/prometheus-src/">prometheus源码分析</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/prometheus">prometheus</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  待完善&hellip;
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">kuber单机部署</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  kuber单机部署 由于在阿里上只有一台，又不准备用minikube，所以单机部署一个
-1.安装docker wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  2.安装etcd  生成根证书  { &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 4096 }, &quot;names&quot;: [ { &quot;O&quot;: &quot;wonder&quot;, &quot;OU&quot;: &quot;wonder Security&quot;, &quot;L&quot;: &quot;Sh&quot;, &quot;ST&quot;: &quot;Sh&quot;, &quot;C&quot;: &quot;CN&quot; } ], &quot;CN&quot;: &quot;wonder-root-ca&quot; }  3.自动化脚本配置如下 #!/bin/zsh . ./config/env function set_path(){ for IP in $MASTER;do ssh root@$IP 'echo &quot;export PATH=\$PATH:/opt/kubernetes/bin/&quot; &gt;&gt; ~/.bash_profile' done } function set_hosts(){ ##set hosts for IP in $MASTER $NODE;do scp .
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_sign/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
 
   
 
@@ -649,7 +677,7 @@ docker架构  docker有如下模块：
   
   <i class="fa fa-chevron-left"></i>
   
-  <span>&nbsp;1 / 4&nbsp;</span>
+  <span>&nbsp;1 / 5&nbsp;</span>
   
   <a href="http://wonder.zxcsoft.com/page/2/"><i class="fa fa-chevron-right"></i></a>
   

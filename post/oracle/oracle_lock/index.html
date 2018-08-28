@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="kuber log analysis">
+  <meta name="description" content="oracle锁表问题">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>kuber log analysis &middot; miracle of light</title>
+  <title>oracle锁表问题 &middot; miracle of light</title>
 
   
   
@@ -198,8 +198,8 @@
 
 
 <div class="header">
-  <h1>kuber log analysis</h1>
-  <h2>kuber log analysis</h2>
+  <h1>oracle锁表问题</h1>
+  <h2>oracle锁表问题</h2>
 </div>
 <div class="content">
 
@@ -207,7 +207,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-08-05</time>
+    <time>2018-08-21</time>
   </div>
 
   
@@ -220,9 +220,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/oracle">oracle</a>
     
   </div>
   
@@ -232,109 +230,34 @@
 
   
 
-<h2 id="kubernetes日志管理">kubernetes日志管理</h2>
+<h3 id="查询oralce锁表">查询oralce锁表</h3>
 
-<p>参考资料：<a href="https://logz.io/blog/kubernetes-log-analysis/">https://logz.io/blog/kubernetes-log-analysis/</a></p>
-
-<h3 id="1-安装fluentd">1. 安装fluentd</h3>
-
-<ul>
-<li><p>参考官方文档：<a href="https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos">https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos</a></p></li>
-
-<li><p>td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包</p></li>
-</ul>
-
-<pre><code class="language-sh">
-curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
-
-#启动td-agent
-systemctl start td-agent
-
-#安装td-agent es插件
-
-sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document
+<pre><code class="language-sql">--查询锁表会话
+SELECT  s.username,
+decode(l.type,'TM','TABLE LOCK',
+'TX','ROW LOCK',
+NULL) LOCK_LEVEL,
+o.owner,o.object_name,o.object_type,
+s.sid,s.serial#,s.terminal,s.machine,s.program,s.osuser
+FROM v$session s,v$lock l,dba_objects o
+WHERE l.sid = s.sid
+AND l.id1 = o.object_id(+)
+AND s.username is NOT Null
 
 
 
-</code></pre>
-
-<h3 id="2-配置说明">2. 配置说明</h3>
-
-<ul>
-<li>配置td-agent： 备份 <code>/etc/td-agent/td-agent.conf</code></li>
-</ul>
-
-<pre><code class="language-conf">## 增加一个测试的日志输入，用于测试解析日志并写入es
-&lt;source&gt;
-  @type http
-  @id input_http
-  port 42185
-  tag http.test
-&lt;/source&gt;
-
-# 配置将收到的日志输入到控制台
-&lt;match **&gt;
-  @type stdout
-  @id output_stdout
-&lt;/match&gt;
-
-# 配置将日志写入es
-&lt;match http.test&gt;    #一个source的tag只会匹配一个match，有多个时，不会都匹配
-  @type elasticsearch
-  logstash_format true
-  host localhost
-  port 9200
-  #hosts host1:port1,host2:port2,host3:port3
-  # or
-  #hosts https://customhost.com:443/path,https://username:password@host-failover.com:443
-  index_name fluentd.${tag}.%Y%m%d
-  ## 用%{}来限定，当用户名或密码有特殊符号时使用
-  #hosts https://%{j+hn}:%{passw@rd}@host1:443/elastic/,http://host2
-&lt;/match&gt;
-
-&lt;system&gt;
-  log_level debug
-&lt;/system&gt;
-
-</code></pre>
-
-<ul>
-<li>source标签定义了数据来源，类型type有两种，http和forward（对应tcp），</li>
-<li>tag是给数据加标签，在数据分类处理时，标签用于给数据归类</li>
-<li>match是根据匹配的标签，给数据做处理：type和对应的处理插件相关</li>
-<li>filter的使用和match功能相似，但filter是可以多个叠加，如果有3个filter，数据会依次经过这3个filter处理，得到最终的输出</li>
-<li>system里面定义的是配置参数，包括日志级别等</li>
-<li>label定义的是一套规则的集合，用于给source来使用，命名需要以@开头</li>
-<li>匹配说明： <code>a.*</code>匹配a.b,但不匹配a.b.c， <code>a.**</code>匹配所有a开头的，{X,y,Z}匹配当中的任意一个</li>
-</ul>
-
-<h3 id="3-测试服务配置">3. 测试服务配置</h3>
-
-<pre><code class="language-sh">curl http://localhost:42185/debug.a? -d 'json={&quot;a&quot;:&quot;b&quot;}'
-
-#日志文件/var/log/td-agent/td-agent.log能看到对应输出：
-#2018-08-06 18:14:51.434990526 +0800 debug.a: {&quot;a&quot;:&quot;b&quot;}
-
-curl http://localhost:42185/debug.a/b? -d 'json={&quot;a&quot;:&quot;b&quot;}'
-#2018-08-06 18:17:41.018904116 +0800 debug.a.b: {&quot;a&quot;:&quot;b&quot;}
+--杀死事务
+alter system kill session'SID,SERIAL#';
 
 
-</code></pre>
+--查询锁表的sql语句
+SELECT l.session_id sid, s.serial#, l.locked_mode, l.oracle_username, s.user#,
+l.os_user_name,s.machine, s.terminal,a.sql_text, a.action
+FROM v$sqlarea a,v$session s, v$locked_object l
+WHERE l.session_id = s.sid
+AND s.prev_sql_addr = a.address
+ORDER BY sid, s.serial#;
 
-<h2 id="4-本地文件监听配置">4. 本地文件监听配置</h2>
-
-<pre><code class="language-conf">&lt;source&gt;
-  @type tail
-  @id input_tail
-  path /var/log/a.log,/var/log/b.log,/var/log/msg/*.log
-  pos_file /var/log/a.log.pos
-  tag eslog.a
-  from_encoding utf-8
-  encoding utf-8
-  &lt;parse&gt;
-    @type none
-  &lt;/parse&gt;
-&lt;/source&gt;
 </code></pre>
 
 
@@ -342,13 +265,13 @@ curl http://localhost:42185/debug.a/b? -d 'json={&quot;a&quot;:&quot;b&quot;}'
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://wonder.zxcsoft.com/post/tools/rss_tools/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/web/dart/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://wonder.zxcsoft.com/post/tools/rss_tools/">rss tools</a>
+      <a href="http://wonder.zxcsoft.com/post/web/dart/">dart use</a>
     </nav>
     
   </div>
@@ -358,13 +281,13 @@ curl http://localhost:42185/debug.a/b? -d 'json={&quot;a&quot;:&quot;b&quot;}'
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">fluentd使用说明</a>
+      <a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/">kbuernetes docs 学习</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="http://wonder.zxcsoft.com/post/kuber/fluentd/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_docs/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

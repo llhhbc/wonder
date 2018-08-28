@@ -31,6 +31,24 @@
     </item>
     
     <item>
+      <title>D3</title>
+      <link>http://wonder.zxcsoft.com/tags/d3/</link>
+      <pubDate>Sun, 12 Aug 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/tags/d3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dart</title>
+      <link>http://wonder.zxcsoft.com/tags/dart/</link>
+      <pubDate>Sun, 12 Aug 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/tags/dart/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Des</title>
       <link>http://wonder.zxcsoft.com/tags/des/</link>
       <pubDate>Thu, 26 Apr 2018 20:46:49 +0800</pubDate>
@@ -76,6 +94,15 @@
     </item>
     
     <item>
+      <title>Fluentd</title>
+      <link>http://wonder.zxcsoft.com/tags/fluentd/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/tags/fluentd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Go</title>
       <link>http://wonder.zxcsoft.com/tags/go/</link>
       <pubDate>Wed, 25 Apr 2018 12:02:28 +0800</pubDate>
@@ -96,7 +123,7 @@
     <item>
       <title>Golang</title>
       <link>http://wonder.zxcsoft.com/tags/golang/</link>
-      <pubDate>Thu, 26 Jul 2018 19:01:00 +0800</pubDate>
+      <pubDate>Sun, 26 Aug 2018 20:02:28 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/tags/golang/</guid>
       <description></description>
@@ -148,6 +175,15 @@
     </item>
     
     <item>
+      <title>Js</title>
+      <link>http://wonder.zxcsoft.com/tags/js/</link>
+      <pubDate>Sun, 12 Aug 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/tags/js/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kuberadm</title>
       <link>http://wonder.zxcsoft.com/tags/kuberadm/</link>
       <pubDate>Thu, 26 Apr 2018 10:46:49 +0800</pubDate>
@@ -159,7 +195,7 @@
     <item>
       <title>Kubernetes</title>
       <link>http://wonder.zxcsoft.com/tags/kubernetes/</link>
-      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      <pubDate>Thu, 23 Aug 2018 19:01:00 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/tags/kubernetes/</guid>
       <description></description>
@@ -213,7 +249,7 @@
     <item>
       <title>Oracle</title>
       <link>http://wonder.zxcsoft.com/tags/oracle/</link>
-      <pubDate>Thu, 26 Jul 2018 20:46:49 +0800</pubDate>
+      <pubDate>Tue, 21 Aug 2018 20:46:49 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/tags/oracle/</guid>
       <description></description>
@@ -270,6 +306,15 @@
       <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
       
       <guid>http://wonder.zxcsoft.com/tags/socket/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Td Agent</title>
+      <link>http://wonder.zxcsoft.com/tags/td-agent/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/tags/td-agent/</guid>
       <description></description>
     </item>
     

@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Docker &middot; miracle of light</title>
+  <title>Fluentd &middot; miracle of light</title>
 
   
   
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/docker/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/fluentd/index.xml" />
   
 
   
@@ -107,7 +107,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/docker/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/fluentd/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -204,20 +204,20 @@
 
 
 <div class="header">
-  <h1>Docker</h1>
+  <h1>Fluentd</h1>
 </div>
 
 <div class="content">
   
     <article>
   <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/docker-src/">docker源码分析</a></h2>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">fluentd使用说明</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-08-01</time>
+    <time>2018-08-05</time>
   </div>
 
   
@@ -230,7 +230,11 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/docker">docker</a>
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/td-agent">td-agent</a>
     
   </div>
   
@@ -241,14 +245,63 @@
   </header>
 
   <p>
-  docker源码分析 读《docker源码分析》整理
-容器说明  先有进程，后有容器 父进程通过fork创建子进程时，使用namespaces技术（CLONE_NEWNS,CLONE_NEWUTS,CLONE_NEWIPC,CLONE_PID,CLONE_NEWNET），实现子进程和父进程以及其它进程之间的命名空间的隔离 子进程创建完毕后，使用cgroups技术来处理进程，实现进程资源限制 这样，进程所处的“隔离”环境才真正建立，此时容器真正诞生  docker架构  docker有如下模块：
- DockerClient 发起容器管理请求，请求最终发往DockerDaemon DockerDaemon  接收请求，所有的任务由engine来完成，每一项工作都以job形式存在 管理所有的容器 大致分为三部分：  docker server 它本身是一个名为serveapi的job 专门服务于docker client，接收并调试分发docker client发送的请求 通过gorilla/mux创建路由器，添加路由项 每一个请求，都会创建一个全新的goroutine来服务。 服务过程： 1. 读取请求内部 2. 解析请求 3. 匹配路由 4. 调用相应的handler来处理 5. 应答响应 engine 存储着容器信息，管理着大部分job的执行 负责完成docker daemon退出前的所有善后工作 job engine内部最基本的工作执行单元 job接口的设计，与unix进程相仿，有名称、运行时参数、环境变量、标准输入与输出、标准错误、返回状态等 job运行函数Run用来执行job本身   Docker Registry 存储容器镜像的仓库 容器创建时，用来初始化容器rootfs的文件系统内容，将大量的容器镜像汇集在一起，并为分散的daemon提供镜像服务 graph 容器镜像的保管者 driver 驱动模块，可以实现docker运行环境的定制，定制的维度主要有网络环境、存储方式以及容器执行方式 分为三类驱动： 1. graph driver 主要用于完成容器镜像的管理，包括下载、存储、上传，也包括本地构建的存储 2. network driver 容器网络环境的配置，包括创建网桥、分配网络接口资源，分配ip、端口并与宿主机做nat端口映射，设置容器防火墙策略等 3. exec driver 执行驱动，负责创建容器运行时的命名空间、容器使用资源的统计与限制、容器内部进程的真正运行等 libcontainer 独立的容器管理解决方案，抽象了linux的内核特性（namespace，cgroups，capababilities等），并提供完整明确的接口给docker daemon Docker Container 服务交付的最终体现   docker cli  启动过程： 加载配置、创建客户端、执行命令（访问docker server）  docker daemon  启动过程： 加载配置、创建engine、设置信号、加载内建函数（网络初始化函数、api服务处理函数、事件和日志处理函数、版本和registry授权和搜索函数）、goroutine创建daemon对象，加载功能函数，通知服务启动信号、创建serverapi的job，启动监听服务  单独分析创建daemon对象 &gt; 创建daemon对象，通过eng的Hack_SetGlobalVar将daemon指针保存在了map中，key为：httpapi.
+  fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&lt;filter foo.bar&gt; @type grep regexp1 message cool &lt;/filter&gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&lt;record&gt; NEW_FIELD NEW_VALUE &lt;/record&gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &lt;filter foo.bar&gt; @type record_transformer &lt;record&gt; hostname &quot;#{Socket.gethostname}&quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&quot;total&quot;] / record[&quot;count&quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&quot;message&quot;]} ## 给message域增加个前缀 &lt;/record&gt; &lt;/filter&gt;   filter_grep 报文筛选  &lt;filter foo.
   </p>
 
   
   <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/docker-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">kuber log analysis</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
+1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
+ td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &lt;source&gt; @type http @id input_http port 42185 tag http.test &lt;/source&gt; # 配置将收到的日志输入到控制台 &lt;match **&gt; @type stdout @id output_stdout &lt;/match&gt; # 配置将日志写入es &lt;match http.test&gt; #一个source的tag只会匹配一个match，有多个时，不会都匹配 @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/kuber-logs/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>

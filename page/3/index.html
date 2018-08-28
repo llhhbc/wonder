@@ -212,6 +212,222 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">gorm源码分析</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-06-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/gorm">gorm</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  总体分析  使用gorm的过程中，觉得它写的有意思，想了解下它的实现原理，所以就分析下源代码
+ 源码分析  由于这个是个库，并没有执行程序，看到目录下有main.go，所以就从这个开始
+ 1. main  定义了DB结构：
+ Value //是接口类型，可放任何数据 Error //是记录错误 RowsAffected //记录生效行数 //单个db私有属性 db //定义的公共接口（Exec，Prepare，Query，QueryRow） //暂时不明白为什么选这4个，从open中可看出，go标准库中的sql.DB是实现了这个接口的 blockGlobalUpdate //记录全局更新标志 //从BlockGlobalUpdate函数中可看出，这个标志为true时，update或者delete没有where时，会报错 logMode //日志开关 2打开，1关闭 logger //自定义日志接口(print) search //search结构指针（用来拼接sql语句的） values //map[string]interface{} 可保存任何东西的map，暂时不知道要保存什么 //全局db属性 parent //父DB对象 callbacks //回调结构指针（记录了creates,updates,deletes,queries,rowQueries,processors类型的回调函数切片） dialet //sql格式化接口（针对不同的数据库定制化的差异） singularTable //bool类型，暂时不知道干什么的   open函数，调用go标准库打开数据库连接，设置默认日志，默认回调函数，并根据数据库连接类型，设置sql格式对象，并调用ping测试连接
+后面就是一些DB的常规set和get方法，还有就是拼接sql的方法 * 通过set函数，可以看到，values里面保存的单个db中的修改化配置，clone的时候会复制过去，不是共用
+main 大致过了一遍，对整个有点了解，再回看目录下的文件：
+1. association 处理表关系的，针对外键 2. callback 开头的文件，处理回调函数的（等会重点看的） 3. dialect 开头的文件，处理各种数据库之前语法差异的 4. errors 定义了错误管理，所有的错误都在切片中 5. interface 定义了公共类的接口 6. join_table_handler 定义了n*n的表的关系接口 7.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/gorm/gorm-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/es/esuse/">es 基本使用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-06-25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/elastic">elastic</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/go/pprof/">golang pprof使用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/pprof">pprof</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  启用pprof  带有http的服务，只需要引入 import _ &quot;net/http/pprof&quot; 就可以通过访问http://ip:port/debug/pprof 查看了
+ 没有http服务的应用，或者不想在原端口启用的，可像我这样实现根据配置启用（config是我自定义的配置包）
+  import ( _ &quot;net/http/pprof&quot; &quot;net/http&quot; ) func InitModel() { var ppaddr string if config.HasModuleInit() { ppaddr = config.StringDefault(&quot;ppaddr&quot;, &quot;&quot;) if ppaddr != &quot;&quot; { go http.ListenAndServe(ppaddr, nil) } } }  pprof使用 1.代码优化 curl http://ip:port/debug/pprof/profile &gt; /tmp/a.profile go tool pprof 可执行程序 /tmp/a.profile (pprof) top #可查看占用资源最多的函数  pprof各字段的含义依次是：  采样点执行时间 采样点落在该函数中的百分比 上一项的累积百分比 采样点落在该函数，以及被它调用的函数执行的总时间 采样点落在该函数，以及被它调用的函数中的百分比 函数名 文件名  pprof分析  / 访问根目录，里面有几个链接：
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/language/go/pprof/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/selfupd/memorybase/">记忆基数</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/memory">memory</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   记忆基数  1 粉笔 2 鸭子 3 耳朵 4 红旗 5 秤钩 6 口哨 7 锄头 8 葫芦 9 气球 10 老师 11 双截棍 12 不倒翁 13  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/language/python/pythi/">python 简单使用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-05-11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/python">python</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  ipynb
+jupyter notebook  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/tensorflow/learn_tensor/">tensorFlow 入门</a></h2>
 
     <div class="post-meta">
@@ -436,250 +652,6 @@ apiVersion: v1 kind: Service metadata: name: nginx spec: ports: - port: 8078 nam
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/istio/">istio初尝试</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/istio">istio</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  说明  参考 http://istio.doczh.cn/
- 安装istio  kubectl apply -f install/kubernetes/istio.yaml #如果出现 unable to recognize &ldquo;install/kubernetes/istio.yaml&rdquo; 的错误，删除后再重新执行一遍就好了
- 部署bookinfo kubectl apply -f &lt;(istioctl kube-inject -f bookinfo.yaml) #获取访问地址 export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}') #测试地址访问 curl -o /dev/null -s -w &quot;%{http_code}\n&quot; http://${GATEWAY_URL}/productpage  1.1 验证路由访问 #所有用户都访问v1 istioctl create -f route-rule-all-v1.yaml #jason用户登录访问v2 istioctl create -f route-rule-reviews-test-v2.yaml  1.2 记录日志 ##保存如下信息为 new_telemetry.
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/istio/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">kuber手工搭建</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  准备工作 关闭selunix 关闭swap 作为node的结点，要安装docker（包括master和node共用的）
-wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.0.ce-3.el7.x86_64.rpm yum install docker-ce-18.06.0.ce-3.el7.x86_64.rpm  设置主机名
- sh etc/set_hosts.sh
- 安装etcd
- sh rpms/install_etcd.sh
- 安装etcd证书
- sh keys/etcd/install_etc_key.sh
- 修改etcd配置
- sh etc/set_etcd.sh
- 启动etcd
- sh run/start_etcd.sh
- 安装kube 程序
- sh rpms/install_kuber.sh
- 安装kuber证书
- sh keys/k8s/install_k8s_key.sh
- 修改kuber配置
- #设置master结点
-sh etc/kube_cfg/set_kuber_cfg.sh
-#设置node结点
-sh etc/kube_cfg/set_kuber_node_cfg.sh
-#如果master也作为node结点，则运行
-sh etc/kube_cfg/set_kuber_master_node_cfg.sh
- 启动kube
- sh run/start_kube.sh
-#在任意一台master上执行： 开启认证
-kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:node-bootstrapper &ndash;user=kubelet-bootstrap
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/kuber_onebyone/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/qkl/qkl_sf/">区块链共识算法学习</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/%E5%8C%BA%E5%9D%97%E9%93%BE">区块链</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   等完善&hellip; 
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/des/des_pin/">银行卡密钥相关</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/des">des</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  pin des PIN 明文：123456 磁卡上的PAN：1234 5678 9012 3456 78 截取下的PAN：6789 0123 4567 则用于PIN加密的PAN为：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 则PIN BLOCK为： 0x06 0x12 0x34 0x56 0xFF 0xFF 0xFF 0xFF 异或：0x00 0x00 0x67 0x89 0x01 0x23 0x45 0x67 结果为：0x06 0x12 0x53 0xDF 0xFE 0xDC 0xBA 0x98
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">kuberadm start</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kuberadm">kuberadm</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  kubernetes搭建比较复杂，所以选择先用kubeadm全自动来先试试手（奈何墙有点高，所以加了些插曲）
-通过kubeadm安装 参考 官方文档
-1. 准备环境 1.1 修改hostname  修改 /etc/hostname  1.2 关闭sellinux，关闭防火墙  setenforce 0 编辑/etc/selinux/config
- firewall-cmd &ndash;state 查看状态
- systemctl stop firewalld.service # 停止firewall
- systemctl disable firewalld.service # 禁止firewall开机启动
-  1.3 关闭swap swapoff -a 编辑 /etc/fstab 去掉swap配置（#号注释掉）  1.4 安装crictl (可选) go get github.com/kubernetes-incubator/cri-tools/cmd/crictl GOARCH=amd64 GOOS=linux go build  1.5 get docker image  运行kubeadm init 当提示请稍等后，检查/etc/kubernetes/manifests 目录下的yaml文件，里面会有需要的镜像和版本 通过hub.docker.com 中转，实现镜像的下载 具体方法请参考：kubeadm搭建（by mritd） 重新tag镜像(以下是我使用的，可直接pull后使用)
-  </p>
-
-  
-  <footer>
-    <a href="http://wonder.zxcsoft.com/post/kuber/kubeadm_start/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
 
   
 
@@ -688,7 +660,7 @@ kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:no
   
   <a href="http://wonder.zxcsoft.com/page/2/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;3 / 4&nbsp;</span>
+  <span>&nbsp;3 / 5&nbsp;</span>
   
   <a href="http://wonder.zxcsoft.com/page/4/"><i class="fa fa-chevron-right"></i></a>
   

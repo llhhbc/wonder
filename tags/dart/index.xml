@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dart on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/dart/</link>
+    <description>Recent content in Dart on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 12 Aug 2018 20:01:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/dart/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>dart use</title>
+      <link>http://wonder.zxcsoft.com/post/web/dart/</link>
+      <pubDate>Sun, 12 Aug 2018 20:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/web/dart/</guid>
+      <description> dart use d3.js import &#39;dart:html&#39;; import &#39;package:js/js.dart&#39; as js; void main() { var dee3 = js.context.d3; var dataset = js.array([ 5, 10, 15, 20, 25 ]); dee3.select(&amp;quot;body&amp;quot;).selectAll(&amp;quot;p&amp;quot;) .data(dataset) .enter() .append(&amp;quot;p&amp;quot;) .text((d, i, context) =&amp;gt; d); }  </description>
+    </item>
+    
+  </channel>
+</rss>

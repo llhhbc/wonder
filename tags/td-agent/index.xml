@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Td Agent on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/td-agent/</link>
+    <description>Recent content in Td Agent on miracle of light</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 05 Aug 2018 10:46:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://wonder.zxcsoft.com/tags/td-agent/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>fluentd使用说明</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/fluentd/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/fluentd/</guid>
+      <description>fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&amp;lt;filter foo.bar&amp;gt; @type grep regexp1 message cool &amp;lt;/filter&amp;gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&amp;lt;record&amp;gt; NEW_FIELD NEW_VALUE &amp;lt;/record&amp;gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &amp;lt;filter foo.bar&amp;gt; @type record_transformer &amp;lt;record&amp;gt; hostname &amp;quot;#{Socket.gethostname}&amp;quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&amp;quot;total&amp;quot;] / record[&amp;quot;count&amp;quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&amp;quot;message&amp;quot;]} ## 给message域增加个前缀 &amp;lt;/record&amp;gt; &amp;lt;/filter&amp;gt;   filter_grep 报文筛选  &amp;lt;filter foo.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 05 Aug 2018 10:46:49 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 23 Aug 2018 19:01:00 +0800</lastBuildDate>
     
 	<atom:link href="http://wonder.zxcsoft.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kbuernetes docs 学习</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/kuber_docs/</link>
+      <pubDate>Thu, 23 Aug 2018 19:01:00 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/kuber_docs/</guid>
+      <description>kubernetes docs 学习  参考 http://docs.kubernetes.org.cn/251.html 对应源地址 https://kubernetes.feisky.xyz/zh/  kubernetes架构  etcd 保存整个集群的状态 apiserver 提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和发现等机制 controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等 scheduler负责资源的调度，按照预定的调度策略将pod调度到相应的机器上 kubelet 负责维护容器的生命周期，同时也负责volume（cvi）和网络（cni）的管理 container runtime负责镜像管理以及pod和容器的真正运行（cri） kube-proxy 负责为service提供cluster内部的服务发现和负载均衡  除了这些核心组件，还有些扩展的add-ons： * kube-dns负责为整个集群提供dns服务 * ingress controller为服务提供外网入口 * heapster提供资源监控 * dashboard提供gui * fedreation提供跨可用区的集群 * fluentd-elasticsearch提供集群日志采集、存储与查询
+kuber分层架构  核心层：kubernetes最核心的功能，对外提供api构建高层的应用，对内提供插件式应用执行环境 应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、dns解析等） 管理层：系统度量（如基础设置、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC，quota，psp，networkpolicy等） 接口层：kubectl命令行工具、客户端sdk以及集群联邦 生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分两个  kubernetes外部：日志、监控、配置管理、ci,cd,workflow,faas,ots应用,chatops kubernetes内部：cri,cni,cvi,镜像仓库，cloud provider,集群自身的配置和管理等   kubernetse的设计理念 api设计原则  所有api应该是声明式的（比如设置副本数为3，运行多次也没问题，而给副本数加1，运行多次就不对了） api对象是彼此互补而且可以组合的 高层api以操作意图为基础设计（从业务出发，而不是过早的从技术实现出发） 代层api根据高层api的控制需要设计（以需求为基础，尽量抵抗受技术实现影响的诱惑） 尽量避免简单封装，不要有在外部api无法显式知道的内部隐藏的机制（简单的封装实际没有提供新功能，反而增加对所封装api的依赖性。内部隐藏的机制不利于系统维护的设计方式 api操作复杂试与对象数量成正比 api对象状态不能依赖于网络连接状态（对象状态能应对网络不稳定） 尽量避免让操作机制依赖于全局状态，因为在分布式系统中要保证全局状态的同步是非常困难  控制机制设计原则  控制逻辑应该只依赖于当前状态 假设任何错误的可能，并做空错处理 尽量避免复杂状态机，控制逻辑不要依赖无法监控的内部状态 假设任何操作都可能被任何操作对象拒绝，甚至被错误解析（保证出现错误的时候，操作级别的错误不会影响到系统稳定性） 每个模块都可以在出错后自动恢复 每个模块都可以在必要时优雅的降级服务（划分清楚基本功能和高级功能，保证基本功能不会依赖高级功能，这样就保证了不会因为高级功能出现故障而导致整个模块崩溃）  kuber api对象  pod pod内的容器共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。比如，一个nginx容器用来发布软件，另一个容器专门用来从源仓库做同步 pod是所有业务类型的基础，k8s中业务主要分四类：  Deployment：长期伺服型（long-runing） Job：批处理型（batch） DaemonSet：节点后台支撑型（node-daemon） PetSet：有状态应用型（stateful application）    pod特征：  共享ipc、network、utc namespace的容器 所有pod内容器都可以访问共享的Volume，可以访问共享数据 pod一旦调度后就和node绑定，即使node挂掉也不会重新调度，推荐使用deployments、daemonsets等控制器来容错 优雅终止：pod删除的时候，先给其内的进程发送sigterm，等待一段时间（graceperiod）后才强制停止依然还在运行的进程 特权容器（通过SecurityContext配置）具有改变系统配置的权限（在网络插件中大量应用）    复制控制器（Replication Controller，RC） RC是k8s集群中最早的保证pod高可用的api对象，监控运行中的pod来保证集群中运行指定数目的pod副本。只适用于长期伺服型的业务类型</description>
+    </item>
+    
+    <item>
+      <title>fluentd使用说明</title>
+      <link>http://wonder.zxcsoft.com/post/kuber/fluentd/</link>
+      <pubDate>Sun, 05 Aug 2018 10:46:49 +0800</pubDate>
+      
+      <guid>http://wonder.zxcsoft.com/post/kuber/fluentd/</guid>
+      <description>fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&amp;lt;filter foo.bar&amp;gt; @type grep regexp1 message cool &amp;lt;/filter&amp;gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&amp;lt;record&amp;gt; NEW_FIELD NEW_VALUE &amp;lt;/record&amp;gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &amp;lt;filter foo.bar&amp;gt; @type record_transformer &amp;lt;record&amp;gt; hostname &amp;quot;#{Socket.gethostname}&amp;quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&amp;quot;total&amp;quot;] / record[&amp;quot;count&amp;quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&amp;quot;message&amp;quot;]} ## 给message域增加个前缀 &amp;lt;/record&amp;gt; &amp;lt;/filter&amp;gt;   filter_grep 报文筛选  &amp;lt;filter foo.</description>
+    </item>
     
     <item>
       <title>kuber log analysis</title>
@@ -21,7 +43,7 @@
       <description>kubernetes日志管理 参考资料：https://logz.io/blog/kubernetes-log-analysis/
 1. 安装fluentd  参考官方文档：https://docs.fluentd.org/v1.0/articles/install-by-rpm#redhat-/-centos
  td-agent是对fluentd的封装，并加入了管理工具，比如java有集成的应用包
-  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &amp;lt;source&amp;gt; @type http @id input_http port 42185 tag http.test &amp;lt;/source&amp;gt; # 配置将收到的日志输入到控制台 &amp;lt;match **&amp;gt; @type stdout @id output_stdout &amp;lt;/match&amp;gt; # 配置将日志写入es &amp;lt;match http.test&amp;gt; @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.</description>
+  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh #启动td-agent systemctl start td-agent #安装td-agent es插件 sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch --no-document  2. 配置说明  配置td-agent： 备份 /etc/td-agent/td-agent.conf  ## 增加一个测试的日志输入，用于测试解析日志并写入es &amp;lt;source&amp;gt; @type http @id input_http port 42185 tag http.test &amp;lt;/source&amp;gt; # 配置将收到的日志输入到控制台 &amp;lt;match **&amp;gt; @type stdout @id output_stdout &amp;lt;/match&amp;gt; # 配置将日志写入es &amp;lt;match http.test&amp;gt; #一个source的tag只会匹配一个match，有多个时，不会都匹配 @type elasticsearch logstash_format true host localhost port 9200 #hosts host1:port1,host2:port2,host3:port3 # or #hosts https://customhost.</description>
     </item>
     
     <item>

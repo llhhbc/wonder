@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>kbuernetes docs 学习 &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>kbuernetes docs 学习</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-23</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="kubernetes-docs-学习">kubernetes docs 学习</h2>
+
+<ul>
+<li>参考 <a href="http://docs.kubernetes.org.cn/251.html">http://docs.kubernetes.org.cn/251.html</a></li>
+<li>对应源地址 <a href="https://kubernetes.feisky.xyz/zh/">https://kubernetes.feisky.xyz/zh/</a></li>
+</ul>
+
+<h3 id="kubernetes架构">kubernetes架构</h3>
+
+<ul>
+<li>etcd 保存整个集群的状态</li>
+<li>apiserver 提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和发现等机制</li>
+<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等</li>
+<li>scheduler负责资源的调度，按照预定的调度策略将pod调度到相应的机器上</li>
+<li>kubelet 负责维护容器的生命周期，同时也负责volume（cvi）和网络（cni）的管理</li>
+<li>container runtime负责镜像管理以及pod和容器的真正运行（cri）</li>
+<li>kube-proxy 负责为service提供cluster内部的服务发现和负载均衡</li>
+</ul>
+
+<p>除了这些核心组件，还有些扩展的add-ons：
+* kube-dns负责为整个集群提供dns服务
+* ingress controller为服务提供外网入口
+* heapster提供资源监控
+* dashboard提供gui
+* fedreation提供跨可用区的集群
+* fluentd-elasticsearch提供集群日志采集、存储与查询</p>
+
+<h4 id="kuber分层架构">kuber分层架构</h4>
+
+<ul>
+<li>核心层：kubernetes最核心的功能，对外提供api构建高层的应用，对内提供插件式应用执行环境</li>
+<li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、dns解析等）</li>
+<li>管理层：系统度量（如基础设置、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC，quota，psp，networkpolicy等）</li>
+<li>接口层：kubectl命令行工具、客户端sdk以及集群联邦</li>
+<li>生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分两个
+
+<ul>
+<li>kubernetes外部：日志、监控、配置管理、ci,cd,workflow,faas,ots应用,chatops</li>
+<li>kubernetes内部：cri,cni,cvi,镜像仓库，cloud provider,集群自身的配置和管理等</li>
+</ul></li>
+</ul>
+
+<h4 id="kubernetse的设计理念">kubernetse的设计理念</h4>
+
+<h5 id="api设计原则">api设计原则</h5>
+
+<ol>
+<li>所有api应该是声明式的（比如设置副本数为3，运行多次也没问题，而给副本数加1，运行多次就不对了）</li>
+<li>api对象是彼此互补而且可以组合的</li>
+<li>高层api以操作意图为基础设计（从业务出发，而不是过早的从技术实现出发）</li>
+<li>代层api根据高层api的控制需要设计（以需求为基础，尽量抵抗受技术实现影响的诱惑）</li>
+<li>尽量避免简单封装，不要有在外部api无法显式知道的内部隐藏的机制（简单的封装实际没有提供新功能，反而增加对所封装api的依赖性。内部隐藏的机制不利于系统维护的设计方式</li>
+<li>api操作复杂试与对象数量成正比</li>
+<li>api对象状态不能依赖于网络连接状态（对象状态能应对网络不稳定）</li>
+<li>尽量避免让操作机制依赖于全局状态，因为在分布式系统中要保证全局状态的同步是非常困难</li>
+</ol>
+
+<h5 id="控制机制设计原则">控制机制设计原则</h5>
+
+<ol>
+<li>控制逻辑应该只依赖于当前状态</li>
+<li>假设任何错误的可能，并做空错处理</li>
+<li>尽量避免复杂状态机，控制逻辑不要依赖无法监控的内部状态</li>
+<li>假设任何操作都可能被任何操作对象拒绝，甚至被错误解析（保证出现错误的时候，操作级别的错误不会影响到系统稳定性）</li>
+<li>每个模块都可以在出错后自动恢复</li>
+<li>每个模块都可以在必要时优雅的降级服务（划分清楚基本功能和高级功能，保证基本功能不会依赖高级功能，这样就保证了不会因为高级功能出现故障而导致整个模块崩溃）</li>
+</ol>
+
+<h4 id="kuber-api对象">kuber api对象</h4>
+
+<ol>
+<li>pod
+pod内的容器共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。比如，一个nginx容器用来发布软件，另一个容器专门用来从源仓库做同步</li>
+<li>pod是所有业务类型的基础，k8s中业务主要分四类：
+
+<ol>
+<li>Deployment：长期伺服型（long-runing）</li>
+<li>Job：批处理型（batch）</li>
+<li>DaemonSet：节点后台支撑型（node-daemon）</li>
+<li>PetSet：有状态应用型（stateful application）</li>
+</ol></li>
+</ol>
+
+<ul>
+<li>pod特征：
+
+<ol>
+<li>共享ipc、network、utc namespace的容器</li>
+<li>所有pod内容器都可以访问共享的Volume，可以访问共享数据</li>
+<li>pod一旦调度后就和node绑定，即使node挂掉也不会重新调度，推荐使用deployments、daemonsets等控制器来容错</li>
+<li>优雅终止：pod删除的时候，先给其内的进程发送sigterm，等待一段时间（graceperiod）后才强制停止依然还在运行的进程</li>
+<li>特权容器（通过SecurityContext配置）具有改变系统配置的权限（在网络插件中大量应用）</li>
+</ol></li>
+</ul>
+
+<ol>
+<li><p>复制控制器（Replication Controller，RC）
+RC是k8s集群中最早的保证pod高可用的api对象，监控运行中的pod来保证集群中运行指定数目的pod副本。只适用于长期伺服型的业务类型</p></li>
+
+<li><p>副本集（Replica Set，RS）
+RS是新一代RC，提供同样的高可用能力，区别是能支持更多各类的匹配模式</p></li>
+
+<li><p>部署（Deployment）
+部署表示用户对k8s集群的一次更新操作。可以是创建一个新服务、更新一个新服务、滚动升级一个服务。滚动升级一个服务，实际是创建一个新的RS，然后逐渐将新RS中的副本数增加到理想状态，再将旧的RS中副本数减小为0。
+deployment为pod和rs提供声明式更新。只需要在deployment中描述你想要的目的状态是什么，deployment controller就会帮你将pod和rs的实际状态改变到你的目标状态。</p></li>
+
+<li><p>服务（Service）
+RC、RS和Deployment只保证了支持服务的pod的数量，而对外提供服务的是service。每个service对应一个集群内部的有效的虚拟ip，集群中的微服务的负载均衡是由kuber-proxy实现的，是一个分布式的代理服务器，每个节点上都有一个
+kuberntest的负载均衡大致分为以下几种：</p>
+
+<ul>
+<li>Service：直接用service提供cluster内部负载均衡，并借助cloud provider提供的LB提供外部访问</li>
+<li>Ingress Controller：还是用service和cluster内部负载均衡，但通过自定义的LB提供外部访问</li>
+<li>Service LoadBalancer：把load balancer直接跑在容器中，实现bare metal的service LoadBalancer</li>
+<li>Custom LoadBalancer：自定义负载均衡，并替代kube-proxy
+service有四种类型：</li>
+<li>ClusterIP：默认类型，自动分配一个仅cluster内部可以访问的虚拟IP</li>
+<li>NodePort：在clusterIP基础上为service在每台机器上绑定一个端口，这样就可以通过NodeIP:NodePort来访问服务</li>
+<li>LoadBalancer：在NodePort的基础上，借助cloud provider创建一个外部的负载均衡器，并将请求转发到NodeIP:NodePort</li>
+<li>ExternalName：将服务通过NDS CNAME记录方式转发到指定的域名（通过spec.externlName设定）。需要kube-dns版本在1.7以上
+各种类型的service对源ip的处理方法不同：</li>
+<li>clusterIP service：使用iptables模式，集群内部的源ip会保留（不做snat）。如果client和server pod在同一个node上，则源ip就是client pod的ip，如果在不同的node上，则源ip取决于网络插件处理方式。</li>
+<li>NodePort Service：源ip会做snat，server pod看到的源ip是node ip。可以给service加上annotation：service.beta.kubernetes.io/external-traffic=OnlyLocal，让service只代理本地endpoint的请求，从而保留源ip</li>
+<li>LoadBalancer Service：源ip会做snat，server pod看到的源ip是node ip</li>
+</ul></li>
+
+<li><p>任务（job）
+job是用来控制批处理型任务的api对象，job管理的pod根据用户的设置，把任务成功完成就自动退出。完成标志根据不同的spec.completions策略而不同：</p>
+
+<ul>
+<li>单pod型任务有一个pod成功就标志完成</li>
+<li>定数成功型任务保证有N个任务全部成功</li>
+<li>工作队列型任务根据应用确认的全局成功而标志成功
+kubernetes支持几种Job：</li>
+<li>非并行Job：通常创建一个Pod直到其成功结束</li>
+<li>固定结束次数的Job：设置 .spec.completions ，创建多个Pod，直到 .spec.completions 个Pod成功结束</li>
+<li>带有工作队列的并行Job：设置 .spec.Parallelism 但不设置 .spec.completions，当所有Pod结束并且至少一个成功时，Job就认为是成功的</li>
+</ul></li>
+
+<li><p>后台支撑服务集（DaemonSet）
+后台支撑服务的核心关注点是集群中的节点，保证每个节点都有一个此类pod运行，节点可能是所有集群节点，也可能是通过nodeSelector选定的一些特定节点。典型的后台支持型服务包括：存储、日志和监控等在每个节点上支持k8s集群运行的服务
+指定node的选择方式：</p>
+
+<ul>
+<li>nodeSelector：只调度到匹配指定label的node上：<code>kubectl label nodes node-01 disktype=ssd</code> 给node打个标签：disktype=ssd</li>
+
+<li><p>nodeAffinity：功能更丰富的Node选择器</p>
+
+<ul>
+<li>requiredDuringSchedulingIgnoredDuringExecution：必需满足条件</li>
+</ul>
+
+<pre><code class="language-yaml">requiredDuringSchedulingIgnoredDuringExecution:
+  nodeSelectorTerms:
+  - matchExpressions:
+    - key: kubernetes.io/e2e-az-name
+      operator: In
+      values:
+      - e2e-az1
+      - e2e-az2
+
+</code></pre>
+
+<ul>
+<li>preferredDuringSchedulingIgnoredDuringExecution: 优选条件</li>
+</ul>
+
+<pre><code class="language-yaml">preferredDuringSchedulingIgnoredDuringExecution:
+- weight: 1
+  preference:
+    matchExpressions:
+    - key: another-node-label-key
+      operator: In
+      values:
+      - another-node-label-value
+
+</code></pre></li>
+
+<li><p>podAffinity：调度到满足条件的pod所在的Node上</p></li>
+</ul></li>
+
+<li><p>有状态服务集（PetSet）
+k8s在1.3版本中增加了PetSet功能。</p>
+
+<ul>
+<li>RC和RS主要是控制提供无状态服务的，所控制的pod名字是随机的，一个pod出故障，在另一个地方重启，名字变了和启动在哪都不重要，重要的只是pod的总数。而PetSet中，每个Pod的名字都是事先确定的，不能更改。</li>
+<li>RC和RS中的pod，一般不挂载存储（无人性特征，所有pod都一样），而PetSet中的pod，都挂载自己独立的存储，如果一个pod出现故障，在其他节点启动一个同名的pod，要挂载上原来pod的存储继续以它的状态提供服务</li>
+<li>适合PetSet的业务：数据库类型的服务mysql和pgsql，集群化管理服务zookeeper、etcd等有状态服务</li>
+</ul></li>
+
+<li><p>集群联邦（Federation）
+1.3中增加。
+云计算环境中，服务使用距离范围从近到远有：同主机、跨主机同可用区、跨可用区同地区、跨地区同服务商、跨云平台。k8s设计定位是单一集群在同一个地域内，因为同一地区的网络性能才能满足k8s调度和计算存储连接要求。联合集群服务就是为了提供跨地区（region）跨服务商k8s集群服务而设计的
+每个k8s Federation有自己的分布式存储、api server和controller manager。</p></li>
+
+<li><p>存储卷（Volume）
+k8s的存储卷生命同期和作用范围是一个pod（只有pod删除时，volume才会清理，emptyDir类型的存储就会丢失），每个pod中声明的存储卷由pod中所有容器共享。
+Volume生命周期：</p>
+
+<ol>
+<li>Provisioning：即pv的创建</li>
+<li>Binding：将PV分配给PVC</li>
+<li>Using：pod通过pvc使用该Volume</li>
+<li>Releasing：pod释放volume并删除pvc</li>
+<li>Reclaiming：回收pv，可以保留pv以便下次使用，也可以直接删除
+pv的访问模式（accessModes）有三种：</li>
+<li>ReadWriteOnce（RWO）：最基本的方式，可读可写，但只支持被单个pod挂载</li>
+<li>ReadOnlyMany（ROX）：以只读方式被多个pod挂载</li>
+<li>ReadWriteMany（RWX）：以读写方式被多个pod共享。不是每一种存储都支持这三种，rwx支持的还比较少，比较常用的是nfs。pvc绑定pv时，通常根据两个条件来绑定：一个是存储的大小，一个是访问模式
+pv的回收策略（persistentVolumeReclaimPolicy)：</li>
+<li>Retain：不清理Volume（需要手动清理）</li>
+<li>Recycle：删除数据（只有nfs和hostpath支持）</li>
+<li>Delete：删除存储资源（只有aws ebs,gce pd,azure disk,cinder支持）</li>
+</ol></li>
+
+<li><p>持久存储卷（Persistent Volume，PV）和持久存储卷声明（Persistent Volume Claim，PVC）
+pv是资源的提供者，pvc是资源的使用者，根据业务服务的需求变化而变化。</p></li>
+</ol>
+
+<ul>
+<li>两个容器通过subPath来共用pvc
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+name: my-site
+spec:
+containers:
+
+<ul>
+<li>name: mysql
+image: mysql
+volumeMounts:
+
+<ul>
+<li>mountPath: /var/lib/mysql
+name: site-data
+subPath: mysql</li>
+</ul></li>
+<li>name: php
+image: php
+volumeMounts:
+
+<ul>
+<li>mountPath: /var/www/html
+name: site-data
+subPath: html
+volumes:</li>
+</ul></li>
+<li>name: site-data
+persistentVolumeClaim:
+claimName: my-site-data
+```</li>
+</ul></li>
+</ul>
+
+<ol>
+<li>节点（Node）
+Node是pod运行所在的工作主机，可以是物理机也可以是虚拟机。上面运行kubelet管理节点上运行的容器。
+k8s只是管理node上的资源。
+node的检查是通过node controller来完成的。node controller负责：
+
+<ul>
+<li>维护node状态</li>
+<li>与cloud Provider同步node</li>
+<li>给node分配容器cidr</li>
+<li>删除带有NoExecute taint的node上的pod
+默认情况下，kubelet在启动时，会向master注册自己，并创建node资源
+每个Node都有如下状态：</li>
+<li>地址：包括hostname、外网ip和内网ip</li>
+<li>条件（Condition）：包括OutOfDisk,Ready,MemoryPressure,DiskPressure</li>
+<li>容量（Capacity）：Node上可用资源，包括cpu和内存和pod总数</li>
+<li>基本信息（Info）：包括内格版本、容器引擎版本、os类型等
+Taints和tolerations用于保证pod不被调度到不合适的node上，taint应用于node上，toleration则应用于pod上。
+可用taint给node加taints：</li>
+</ul></li>
+</ol>
+
+<pre><code class="language-sh">kubectl taint nodes node1 key1=value1:NoSchedule
+##node 维护模式(不可调度，但不影响其上正在运行的pod)
+kubectl cordon $NODENAME
+</code></pre>
+
+<ol>
+<li><p>密钥对象（Secret）
+用来保存和传递密码、密钥、认证凭证这些敏感信息的对象。
+secret有三种类型：</p>
+
+<ul>
+<li>service account：用来访问kuberntest API，由kubernetest自动创建，并会自动挂载到Pod的/run/secretes/kubernetes.io/serviceaccount目录中（每个容器的这个目录下可看到）</li>
+<li>opaque：base64编码格式的secret，用来存储密码、密钥等</li>
+<li>kubernetes.io/dockerconfigjson：用来存储私有docker registry的认证信息</li>
+</ul></li>
+
+<li><p>用户账户（User Account）和服务帐户（Service Account）
+用户帐户为人提供帐户服务，而服务账户为用什么进程和pod提供帐户标识。用户账户是跨namespaces的，而服务帐户与特定的namespaces是相关的。每个namespace都会自动创建一个default service account。Token controller检测service account的创建，并为它们创建secret。
+开启Service Account Admission Controller后：</p>
+
+<ul>
+<li>每个Pod在创建后，都会自动设置 spec.serviceAccount 为default</li>
+<li>验证Pod引用的service account 已经存在，否则拒绝创建</li>
+<li>如果Pod没有指定ImagePullSecrets，则把service account 的ImagePullSecrets加到Pod中</li>
+<li>每个container启动后都会挂载该service account的token和ca.crt到 /run/secretes/kubernetes.io/serviceaccount</li>
+</ul></li>
+</ol>
+
+<pre><code class="language-sh">#创建service account
+kubectl create serviceaccount myacct
+kubectl get serviceaccount myacct -o yaml
+
+#查看自动创建的secret
+kubectl get secret myacct-token-l9v7v -o yaml
+
+</code></pre>
+
+<p>创建角色并授权</p>
+
+<pre><code class="language-yaml"># This role allows to read pods in the namespace &quot;default&quot;
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+  - apiGroups: [&quot;&quot;] # The API group&quot;&quot; indicates the core API Group.
+    resources: [&quot;pods&quot;]
+    verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;]
+    nonResourceURLs: []
+---
+# This role binding allows &quot;myacct&quot; to read pods in the namespace &quot;default&quot;
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+  - kind: ServiceAccount # May be &quot;User&quot;, &quot;Group&quot; or &quot;ServiceAccount&quot;
+    name: myacct
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+</code></pre>
+
+<ol>
+<li><p>名字空间（Namespace）
+名字空间为k8s集群提供虚拟的隔离作用。初始有两个：默认名字空间default和系统名字空间kube-system。node和pv不属于任何namespace。pvc是属于某个特定的namespace的。events是否属于namespace取决于产生events的对象。
+删除一个namespace会自动删除所有属于该namespace的资源。初始的两个不能删除。</p></li>
+
+<li><p>RBAC访问授权（Role-based Access Control）
+1.3版本中增加。
+相对于基于属性的访问控制（Attribute-based Access Control，ABAC），RBAC引入的角色和角色绑定（RoleBinding）的抽象概念。</p></li>
+
+<li><p>StatefulSet
+StatefulSet是为了解决有状态服务的问题，应用场景包括：</p>
+
+<ul>
+<li>稳定的持久化存储，即pod重新调度后还是能访问到相同的持久化数据，基于pvc来实现</li>
+<li>稳定的网络标志，即pod重新调度后其PodName和HostName不变，基于Headless Service（即没有Cluster IP的Service）来实现</li>
+<li>有序部署，有序扩展，即Pod是有顺序的，在部署或者扩展的时候要依据定义的顺序依次依序进行，基于init containers来实现</li>
+<li>有序收缩，有序删除
+statefulSet由以下几个部分组成：</li>
+<li>用于定义网络标志（DNS domain）的Headless Service</li>
+<li>用于创建PersistentVolumes的volumeClaimTemplates</li>
+<li>定义具体应用的StatefulSet</li>
+</ul></li>
+</ol>
+
+<h3 id="kuber核心组件">kuber核心组件</h3>
+
+<h4 id="etcd">etcd</h4>
+
+<p>基于raft开发的分布式key-value存储，用于服务发现、共享配置以及一致性保障。
+主要功能：
+    * 基本的k-v存储
+    * 监听机制
+    * key的过期及续约机制，用于监控和服务发现
+    * 原子cas和cad，用于分布式锁和leader选举</p>
+
+<h4 id="api-server">api server</h4>
+
+<p>主要功能：
+    * 提供集群管理的rest api接口，包括认证授权、数据校验、集群状态变更等
+    * 提供其它模块之间的数据交互和通信的枢纽（其他模块通过api server 查询式修改数据，只有api server才直接操作etcd）
+可以通过/swaggerapi 查看Swagger API， /swagger.json查看OpenAPI
+开启 &ndash;enable-swagger-ui=true后还可以通过/swagger-ui访问 Swagger UI</p>
+
+<p>tsl认证： authentication, authorization,admission control.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/oracle/oracle_lock/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/oracle/oracle_lock/">oracle锁表问题</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="http://wonder.zxcsoft.com/post/language/go/go-src/">go源码学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://wonder.zxcsoft.com/post/language/go/go-src/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Tags &middot; miracle of light</title>
+  <title>Td Agent &middot; miracle of light</title>
 
   
   
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/td-agent/index.xml" />
   
 
   
@@ -107,7 +107,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/td-agent/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -204,198 +204,61 @@
 
 
 <div class="header">
-  <h1>Tags</h1>
+  <h1>Td Agent</h1>
 </div>
+
 <div class="content">
-  <ul>
+  
+    <article>
+  <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">fluentd使用说明</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-08-05</time>
+  </div>
+
+  
+
+  
+
   
   
-    <li>
-      <a href="kubernetes">kubernetes</a>
-      <span>&#40;11&#41;</span>
-    </li>
   
-    <li>
-      <a href="golang">golang</a>
-      <span>&#40;10&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/fluentd">fluentd</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/td-agent">td-agent</a>
+    
+  </div>
   
-    <li>
-      <a href="development">development</a>
-      <span>&#40;4&#41;</span>
-    </li>
   
-    <li>
-      <a href="go">go</a>
-      <span>&#40;3&#41;</span>
-    </li>
+
+</div>
+
+  </header>
+
+  <p>
+  fluentd配置说明  参考：https://docs.fluentd.org/v1.0/articles/filter-plugin-overview  filter配置说明  filter根据tag来匹配，可有多个filter对应同一个tag，处理按配置的顺序依次处理  筛选消息中包括cool的
+&lt;filter foo.bar&gt; @type grep regexp1 message cool &lt;/filter&gt;  目前自带的filter有4个  filter_record_transformer 报文转换  语法格式：
+&lt;record&gt; NEW_FIELD NEW_VALUE &lt;/record&gt;  tag的处理方法：
+//tag_parts[N] 表示tag的第N个部分 tag_prefix[0] = debug tag_suffix[0] = debug.my.app tag_prefix[1] = debug.my tag_suffix[1] = my.app tag_prefix[2] = debug.my.app tag_suffix[2] = app  &lt;filter foo.bar&gt; @type record_transformer &lt;record&gt; hostname &quot;#{Socket.gethostname}&quot; #给报文增加两个域：hostname，tag tag ${tag} avg ${record[&quot;total&quot;] / record[&quot;count&quot;]} ##增加一个avg域，计算报文中total和count的除数 message yay, ${record[&quot;message&quot;]} ## 给message域增加个前缀 &lt;/record&gt; &lt;/filter&gt;   filter_grep 报文筛选  &lt;filter foo.
+  </p>
+
   
-    <li>
-      <a href="oracle">oracle</a>
-      <span>&#40;3&#41;</span>
-    </li>
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/fluentd/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
   
-    <li>
-      <a href="elastic">elastic</a>
-      <span>&#40;2&#41;</span>
-    </li>
+</article>
+
   
-    <li>
-      <a href="fluentd">fluentd</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="goa">goa</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="hugo">hugo</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="linux">linux</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="all">all</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="caddy">caddy</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="d3">d3</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="dart">dart</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="des">des</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="docker">docker</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="dreammap">dreammap</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="gorm">gorm</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="grafana">grafana</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="https">https</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="istio">istio</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="js">js</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="kuberadm">kuberadm</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="markdown">markdown</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="memory">memory</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="nginx">nginx</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="open-source">open-source</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="pprof">pprof</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="prometheus">prometheus</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="python">python</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="readbook">readbook</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="rss">rss</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="socket">socket</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="td-agent">td-agent</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="tensorflow">tensorflow</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="traefik">traefik</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="%E5%8C%BA%E5%9D%97%E9%93%BE">区块链</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-  </ul>
 </div>
 
 </div>
