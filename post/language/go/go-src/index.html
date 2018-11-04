@@ -256,7 +256,7 @@
 <ul>
 <li>初始化runtime包中的所有init函数</li>
 <li>启动垃圾回收</li>
-<li>执行所有用户名中的init</li>
+<li>执行所有用户包中的init</li>
 <li>进入main.main，用户逻辑入口</li>
 </ul></li>
 </ul>
@@ -309,10 +309,10 @@
 <li><p>三色标记和写屏障</p>
 
 <ul>
-<li>起初所有对象都是白色</li>
+<li>起初所有对象都是白色（开启gc写屏蔽时，新分配的对象直接为黑色）</li>
 <li>扫描所有可达对象，标记为灰色，放入待处理队列</li>
 <li>从队列中提取灰色对象，将其引用的对象标记为灰色放入队列，自身标记为黑色</li>
-<li>写屏障监视对象内存修改，重新标色或放回队列</li>
+<li>写屏障监视对象内存修改，新分配的对象直接为黑色</li>
 <li>全部扫描和标记后，剩下白色就是待回收对象、黑色就是活跃对象</li>
 </ul></li>
 
@@ -368,22 +368,115 @@
 <ul>
 <li>goroutine 对应的用户态线程，而不是系统线程，调度是由golang自己来调度的</li>
 <li>golang采用的是一种多对多的方案，m个用户线程对应n个系统线程</li>
-
-<li><p>golang有3个角色：</p>
+<li>golang有3个角色：
 
 <ul>
 <li>M：代表系统线程，由操作系统管理</li>
 <li>G：goroutine的实体，包括的调用栈，重要的调度信息</li>
 <li>P：衔接M和G的调度上下文，由GOMAXPROCS决定，一般和核心数对应。每个P会将goroutine从一个就绪的队列中做pop操作，为了减小锁的竞争，通常情况下每个P会负责一个队列</li>
 </ul></li>
+<li>G并非执行体，只是保存任务状态，为任务执行提供所需的栈内存空间。G创建后，由P来管理</li>
+<li>M是系统线程，只有和P绑定后才会执行，否则只能休眠。M通过修改寄存器，将执行栈指向P所分配的G自带栈内存，并在此空间内分配堆栈帧，执行任务函数。当需要中途切换时，只要将相关寄存器值保存到G空间即可维持状态，任何M都可据此恢复执行。M仅负责执行，不持有状态。</li>
+<li>P控制执行过程，管理M执行G。P为M提供执行资源，比如对象分配内存、本地任务队列，M独享所绑定的P。</li>
+
+<li><p>如果M1在执行G1时，在对应的P1上分配的变量，然后G1保有了该变量地址，发生调度后，由M2来执行，M2通过G1依然可以找到P1上对应的地址。如果发生G抢占分配，将G1移到了P2上，由于G1依然可以访问P1上的地址，所以并不冲突。G1访问并不影响P1的运行，因为不会同时操作同一地址（在P1上，那块地址已经使用，不会再使用），而如果G1释放了，则由gc来回收，完成P1上空间的释放。</p></li>
 
 <li><p>goroutine创建好后，会把对应的G放到P的本地队列中。如果本地队列已满，一次性转移半数到全局队列中。当本地队列和全局队列都为空，才会考虑去检查其它P任务队列</p></li>
 
-<li><p>M对应一个特殊的g0，当执行g时，会把栈复制到g0中，避免一个g被多个m执行时的冲突</p></li>
+<li><p>M对应一个特殊的g0。如果M对应的G被暂停，放回P中时，M对应的G就会指向g0，相当于未绑定任何G。像一些管理类的执行（比如创建g，gc，就会直接用g0来运行，不会再创建G）</p></li>
 
 <li><p>P为M提供cache，以便为执行者提供对象内存分配</p></li>
 
 <li><p>GODEBUG=&ldquo;schedtrace=1000&rdquo;  可查看sched信息</p></li>
+</ul>
+
+<pre><code class="language-golang">type g struct {  //只简单列了部分
+	stack   stack //执行栈
+	sched   gobuf //用于保存执行现场
+	goid    int64 //唯一序号
+	gopc    unitptr //调用者 PC/IP
+	startpc unitptr //任务函数
+}
+</code></pre>
+
+<ul>
+<li>G 创建过程：
+
+<ol>
+<li>从当前P复用边表中获取空闲G对象</li>
+<li>如果获取失败，则新增G对象</li>
+<li>检查G的栈、状态</li>
+<li>计算所需空间大小，并对齐（包括返回参数所需要的栈大小）</li>
+<li>确定SP和参数入栈位置</li>
+<li>将执行参数拷贝入栈</li>
+<li>初始化用于保存执行现场区域sched。将goexit地址保存在sched.pc中</li>
+<li>初始化基本状态:gopc=callerpc, startpc=fn.fn</li>
+<li>设置唯一id：每次从全局计数器sched.goidgen中取一段放在P中，优先从本地分配</li>
+<li>将G放入待运行队列中</li>
+<li>如果当前不是main，并且没有在等待P的M，则尝试唤醒某个M出来执行任务</li>
+<li>创建完毕的G任务被优先放入P本地队列，等待执行</li>
+</ol></li>
+</ul>
+
+<pre><code class="language-golang">type m struct {  //只简单列了部分
+	g0        *g		//提供系统栈空间
+	mstartfn  func()	//启动函数
+	curg      *g		//当前运行的G
+	p         puintptr	//绑定的P
+	nextp     puintptr	//临时存放P
+	spinning  bool		//自旋状态（等待P）
+	park      note		//休眠锁
+	schedlink muintptr	//链表
+	mcache    *mcache   //缓存，绑定P时设置
+}
+</code></pre>
+
+<ul>
+<li>M切换过程（当执行系统管理函数时）：
+
+<ol>
+<li>如果M当前g已经是g0，则无需切换</li>
+<li>将G状态保存到G自己的sched中</li>
+<li>将栈切换到g0.stack（修改SP）</li>
+<li>执行系统管理函数（比如创建g、gc）</li>
+<li>切换回G，恢复执行现场</li>
+</ol></li>
+<li>M必须绑定一个有效的P，nextp临时持有待绑定P对象。P为M提供cache，以便为执行者提供对象内存分配。</li>
+<li>M调度循环：
+
+<ul>
+<li>schedule
+
+<ul>
+<li>判断GC STW标志，如果gc中，则休眠</li>
+<li>如果开始gc标记，则进入GC MarkWorker工作模式</li>
+<li>从P的全局队列中获取G</li>
+<li>从P的本地队列获取G</li>
+<li>未获取到则休眠</li>
+<li>获取到后执行goroutine任务函数</li>
+</ul></li>
+<li>execute
+
+<ul>
+<li>设置curg=g, g.m=m  g和m相互绑定</li>
+<li>执行gogo
+
+<ul>
+<li>从g0栈切换到g栈，jmp指令进入G任务函数代码。（根据保存的g.sched来恢复寄存器）</li>
+</ul></li>
+</ul></li>
+<li>goroutine fn
+
+<ul>
+<li>JMP后执行对应函数</li>
+</ul></li>
+<li>goexit
+
+<ul>
+<li>G创建时，sched.pc保存的是goexit的地址，然后把这个地址入栈了，待JMP执行后，RET指令恢复PC/IP，将对应goexit，完成goexit的执行。</li>
+<li>goexit中，清理G状态，解除m和g的绑定，将G放回利用链表，重新进程调试循环。</li>
+</ul></li>
+</ul></li>
 </ul>
 
 <h2 id="监控">监控</h2>
@@ -399,7 +492,7 @@
 <h2 id="缓存池">缓存池</h2>
 
 <ul>
-<li>每个P都有一个私有缓存池，还有共享缓存池。优先使用私有缓存池，共享缓存池需要加锁访问，如果还没有，可从其它P中取共享缓存池，实在找不到，则自己新建一个缓存池</li>
+<li>每个P都有一个私有缓存池，还有共享缓存池。优先使用私有缓存池，共享缓存池需要加锁访问，如果还没有，可从其它P中取共享缓存，实在找不到，则自己新建一个缓存</li>
 </ul>
 
 

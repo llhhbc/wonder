@@ -23,7 +23,7 @@
  处理命令行参数、环境变量：gorags，goenvs
  垃圾回收初始化gcinit
   runtime.main
- 初始化runtime包中的所有init函数 启动垃圾回收 执行所有用户名中的init 进入main.main，用户逻辑入口   内存分配  go内存空间结构
+ 初始化runtime包中的所有init函数 启动垃圾回收 执行所有用户包中的init 进入main.main，用户逻辑入口   内存分配  go内存空间结构
  页所属 spans 512MB | gc标记位图 bitmap 32GB | 用户内存分配 arena 512GB （后面的空间为可能的最大空间）  分配器将内存为两种：span内存块，object内存对象
  使用tcmalloc来管理内存
  cache 每个线程都会绑定一个cache，用于无锁object分配 central 为所有cache提供切分好的后备span heap 管理闲置的span，需要时向系统申请新内存

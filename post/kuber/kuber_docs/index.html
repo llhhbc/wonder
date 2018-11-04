@@ -280,8 +280,8 @@
 <li>所有api应该是声明式的（比如设置副本数为3，运行多次也没问题，而给副本数加1，运行多次就不对了）</li>
 <li>api对象是彼此互补而且可以组合的</li>
 <li>高层api以操作意图为基础设计（从业务出发，而不是过早的从技术实现出发）</li>
-<li>代层api根据高层api的控制需要设计（以需求为基础，尽量抵抗受技术实现影响的诱惑）</li>
-<li>尽量避免简单封装，不要有在外部api无法显式知道的内部隐藏的机制（简单的封装实际没有提供新功能，反而增加对所封装api的依赖性。内部隐藏的机制不利于系统维护的设计方式</li>
+<li>低层api根据高层api的控制需要设计（以需求为基础，尽量抵抗受技术实现影响的诱惑）</li>
+<li>尽量避免简单封装，不要有在外部api无法显式知道的内部隐藏的机制（简单的封装实际没有提供新功能，反而增加对所封装api的依赖性。内部隐藏的机制不利于系统维护的设计方式）</li>
 <li>api操作复杂试与对象数量成正比</li>
 <li>api对象状态不能依赖于网络连接状态（对象状态能应对网络不稳定）</li>
 <li>尽量避免让操作机制依赖于全局状态，因为在分布式系统中要保证全局状态的同步是非常困难</li>
@@ -291,7 +291,7 @@
 
 <ol>
 <li>控制逻辑应该只依赖于当前状态</li>
-<li>假设任何错误的可能，并做空错处理</li>
+<li>假设任何错误的可能，并做差错处理</li>
 <li>尽量避免复杂状态机，控制逻辑不要依赖无法监控的内部状态</li>
 <li>假设任何操作都可能被任何操作对象拒绝，甚至被错误解析（保证出现错误的时候，操作级别的错误不会影响到系统稳定性）</li>
 <li>每个模块都可以在出错后自动恢复</li>
@@ -617,7 +617,97 @@ statefulSet由以下几个部分组成：</li>
 可以通过/swaggerapi 查看Swagger API， /swagger.json查看OpenAPI
 开启 &ndash;enable-swagger-ui=true后还可以通过/swagger-ui访问 Swagger UI</p>
 
-<p>tsl认证： authentication, authorization,admission control.</p>
+<p>tsl认证： authentication(认证), authorization(授权),admission control(准入控制)</p>
+
+<p>api aggregation： 允许在不修改k8s核心代码的同时扩展kubernetes API</p>
+
+<h4 id="kube-scheduler">kube-scheduler</h4>
+
+<p>负责分配调试pod到集群内的节点上，监听kube-apiserver，查询还未分配node的pod，然后根据调试策略为pod分配节点。</p>
+
+<h4 id="controller-manager">Controller Manager</h4>
+
+<p>由kube-controller-manager和cloud-controller-manager组成，是kubernetes的大脑，通过apiserver监控整个集群的状态，并确保集群处于预期的工作状态。
+kube-controller-manager由一系列的控制器组成
+* Replication Controller
+* Node Controller
+* CronJob Controller
+* Deamon Controller
+* Deployment Controller
+* Endpoint Controller
+* Garbage Collector
+* Namespace Controller
+* Job Controller
+* Pod AutoScaler
+* RelicaSet
+* Service Controller
+* ServiceAccount Controller
+* StatefulSet Controller
+* Volume Controller
+* Resouce quota Controller</p>
+
+<p>Metrics:
+    controller manager metrics 提供了控制器内部逻辑的性能度量：go语言运行时度量、etcd请求延时、云服务商API请求延时、云存储请求延时等。默认监听在10252端口，提供Prometheus格式的性能度量数据，可通过访问 <code>http://localhost:10252/metrics</code>来访问</p>
+
+<p>Informer：
+    kubernetes从1.7开始，所有需要监控资源变化情况的调用均推荐使用Informer，Informer提供了基于事件通知的只读缓存机制，可以注册资源变化的架设函数，并可以极大减少API的调用。</p>
+
+<h4 id="kubelet">Kubelet</h4>
+
+<p>每个节点都运行一个kubelet服务进程，默认监听10250端口，接收并执行master发来的指定，管理Pod及Pod中的容器。每个kubelet进程会在API Server上注册节点自身信息，定期向master节点汇报节点的资源使用情况，并通过cAdvisor监控节点和容器的资源。</p>
+
+<p>监听Pod过程：
+* kubelet通过API Server Client(kubelet启动时创建)使用Watch加List的方式监听&rdquo;/registry/nodes/$当前节点名&rdquo;和&rdquo;/registry/pods&rdquo;目录，将获取的信息同步到本地缓存中
+* kubelet监听etcd，所有针对Pod操作都将会被kubelet监听到。如果发现有新的绑定到本邛的Pod，则按照Pod清单的要求创建该Pod
+* 如果发现本地的Pod被修改，则kubelet会做出相应的修改。</p>
+
+<p>kubelet创建和修改Pod任务过程：
+* 为该Pod创建一个数据目录
+* 从API Server读取该Pod清单
+* 为该Pod挂载外部卷
+* 下载Pod用到的Secret
+* 检查已经在节点上运行的Pod，如果该pod没有容器或Pause容器没有启动，则先停止Pod里所有的容器的进程。如果Pod中有需要删除的容器，则删除这些容器
+* 用&rdquo;kubernetes/pause&rdquo;镜像为每个Pod创建一个容器。Pause容器用于接管Pod中所有其它容器的网络。每创建一个新的Pod，Kubelet都会先创建一个Pause容器，然后创建其它容器
+* 为Pod中每个容器做如下处理：
+    1. 为容器计算一个hash值，然后用容器的名字去docker查询对应的容器的hash值。如果找到容器，且两个hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两个相同，则不做任何处理
+    2. 如果容器被终止了，且容器没有指定的restartPolicy，则不做任何处理
+    3. 调用Docker Client下载容器镜像，调用Docker CLient运行容器</p>
+
+<p>kubelet定期调用容器中的LivenessProbe探针来诊断容器的健康状况：
+1. ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康
+2. TcpSocketAction：通过容器的IP地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康
+3. HTTPGetAction：通过容器的IP地址和端口及路径调用HTTP GET方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康</p>
+
+<p>cAdvisor是一个开源的分析容器资源使用率和必以特性的代理工具。集成在kubelet中，ui端口为4194</p>
+
+<p>kubelet内部组件
+* Kubelet API，包括10250端口的认证API，4194端口的cAdvisor API，10255端口的只读API，10248端口的健康检查API
+* syncLoop： 从API或manifest目录接收Pod更新，发送到podWorkers处理
+* 辅助的manager：cAdvisor、PLEG、volume Manager等
+* CRI：容器执行引擎接口，负责与container runtime shim通信
+* 容器执行引擎：如dockershim，rkt等
+* 网络插件：目前支持CNI和kubenet</p>
+
+<h4 id="kube-proxy">kube-proxy</h4>
+
+<p>每台机器上都运行一个kube-proxy服务，它监听API server中service和endpoint的变化情况，并通过iptables等来为经服务配置负载均衡（仅运行TCP和UDP）</p>
+
+<h4 id="kube-dns">kube-dns</h4>
+
+<p>为kubernets集群提供命名服务，一般通过addon的方式部署。</p>
+
+<h4 id="kubeclt">kubeclt</h4>
+
+<p>kubectl客户端命令工具</p>
+
+<pre><code class="language-sh"># 将本地8888 端口转发到 pod 的5000端口
+kubectl port-forward mypod 8888:5000
+# api server 代理
+kubectl proxy --port=8080
+# 可以通过 http://localhost:8080/api/ 来直接访问kubernetes API
+# 查询pod列表：
+curl http://localhost:8080/api/v1/namespaces/default/pods
+</code></pre>
 
 
   
