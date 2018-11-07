@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="keepalived心跳检测">
+  <meta name="generator" content="Hugo 0.41-DEV" />
+
+  <title>keepalived心跳检测 &middot; miracle of light</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://wonder.zxcsoft.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://wonder.zxcsoft.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://wonder.zxcsoft.com/">miracle</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://wonder.zxcsoft.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>keepalived心跳检测</h1>
+  <h2>keepalived心跳检测</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-11-05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/keepalived">keepalived</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="keepalived-心跳检测">keepalived 心跳检测</h2>
+
+<p>keepalived版本：1.4.5</p>
+
+<h3 id="流程说明">流程说明</h3>
+
+<ol>
+<li>keepalived启动后，会fork出两个子进程：一个用于心跳检测，一个用于vrrp主结点选取（本文暂不细说）</li>
+
+<li><p>心跳检测功能说明：读取keepalive.conf配置，解析vs（virtual server）rs(real server)，检测rs服务是否正常（创建sockert连接：只创建连接，连接成功就表示服务正常，不发心跳），服务正常，则配置ipvs</p></li>
+
+<li><p>keepalived任务调度说明（keepalived的心跳检测是单线程串行处理的）：</p>
+
+<ul>
+<li>keepalive心跳检测程序有这几个任务队列：event,child,ready,read,write,timer。队列的优先级从左到右从高到低（因为是串行处理，最先调度的优先级最高）。 心跳检测过程，只会涉及到timer,write,ready队列。</li>
+<li>所有的任务都是由主线程来调度的，调度方法为：
+
+<ol>
+<li>如果event中有任务，则直接从event中取出执行</li>
+<li>如果child中有任务，则直接从child中取出执行</li>
+<li>如果ready中有任务，则直接从ready中取出执行</li>
+<li>这里有一个至多1秒的休眠等待（遍历所有队列，取出离当前时间最近的任务的时间，和当前时间做差，如果大于1秒，则休眠1秒，如果小于，则按该时间休眠）</li>
+<li>如果read中有任务，并且当中的socket fd可读，则取出该任务放到ready队列中（所有满足条件的都会放入ready队列中）。如果当前任务的调度时间大于当前时间，则将任务设置为超时，放入ready队列中</li>
+<li>如果write中有任务，并且当中的socket fd可写，则取出该任务放到ready队列中（所有满足条件的都会放入ready队列中）。如果当前任务的调度时间大于当前时间，则将任务设置为超时，放入ready队列中</li>
+<li>如果timer中有任务，并且调度时间大于或等于当前时间，则取出该任务放到ready队列中（所有满足条件的都会放入ready队列中）</li>
+<li>取出ready中第一个任务并执行，没有取到任务则返回到第一步继续执行。</li>
+</ol></li>
+</ul></li>
+
+<li><p>单组心跳检测流程（配置文件加载完，一组心跳检测就会生成一个任务A放入timer队列中）：</p>
+
+<p><img src="http://wonder.zxcsoft.com/post/linux/keepalived/kp-01.png" alt="" /></p></li>
+
+<li><p>一次心跳检测，会有两个任务</p>
+
+<ul>
+<li>任务A：创建socket连接。根据等到的fd创建任务B放到writer队列中。</li>
+<li>任务B：读取socket fd连接状态，根据检测结果配置ipvs。创建一个新的任务A，放入timer队列中。</li>
+<li>一组心跳检测就相当于检测一只鸡生蛋的过程。读取完配置文件，发现有100组心跳检测，就好比有100只要检测的鸡（任务A），这个时候都放在鸡窝（timer队列）中，每只鸡上都挂了个时间：生蛋的时间（调度时间），时间到了才调度。详细说明一只鸡（一组心跳检测）的处理流程：
+
+<ul>
+<li>调度者扫描timer队列（当然还有其它队列），发现鸡上的时间到了，把鸡取出来，放到产房（ready队列）中（因为有可能有多个满足条件的，所以一次都放到ready队列中）</li>
+<li>调度者从ready队列中取出任务（当前是任务A），执行： 它完成下蛋，把蛋+检测方案（任务B）放到质检房（writer队列）中，同时写上超时时间（鸡蛋坏掉的时间）。</li>
+<li>调度者扫描writer队列，发现有蛋了，将它放到ready队列中（任务B）（所有满足条件的），同时检查超时时间，如果时间已经过了（鸡蛋坏了），则修改任务状态为超时。</li>
+<li>调度者从ready队列中取出任务（当前是任务B），执行： 先检查任务是不是超时，如果超时了，则直接认定检查失败。否则根据方案检测蛋，如果通过就更新该条ipvs，不通过就删除该条ipvs。然后再把鸡放回去（生成任务A&rsquo;），写下下一次下蛋时间（调度时间），放到timer队列中</li>
+</ul></li>
+</ul></li>
+
+<li><p>ipvs配置示例：</p></li>
+</ol>
+
+<pre><code class="language-sh">TCP  10.10.88.98:3306 wlc persistent 1800
+  -&gt; 10.244.1.222:3306            Masq    1      0          0         
+TCP  10.10.88.98:9104 wlc persistent 1800
+  -&gt; 10.244.1.222:9104            Masq    1      0          0
+</code></pre>
+
+<h3 id="问题说明">问题说明</h3>
+
+<p>程序配置更新了(配置文件中vs-rs的配置更新了)，keepalived也有不停的在更新配置文件的日志（keepalived已经收到信号重新加载了配置文件），但ipvs并没有生效（手工检查rs服务是正常的，但并没有vs-rs的ipvs配置）</p>
+
+<h3 id="问题跟踪">问题跟踪</h3>
+
+<ol>
+<li><p>由于日志打印太少，所以增加日志来帮助分析问题，流程图更新如下：</p>
+
+<p><img src="http://wonder.zxcsoft.com/post/linux/keepalived/kp-02.png" alt="" /></p></li>
+
+<li><p>加上日志后，测试，发现结果如下图所示：</p>
+
+<p><img src="http://wonder.zxcsoft.com/post/linux/keepalived/kp-03.png" alt="" /></p></li>
+
+<li><p>再次阅读代码，结合日志分析原因：（之前看流程，遗漏了细节，实际流程是这样）</p>
+
+<p><img src="http://wonder.zxcsoft.com/post/linux/keepalived/kp-04.png" alt="" /></p></li>
+
+<li><p>结合日志，因为只是单线程执行，所以日志的顺序就是执行的顺序。发现如下两个问题：</p>
+
+<ul>
+<li>从打印连接状态，到打印检测结果，两个之间的时间时隔超过3秒，结合代码，发现超时有可能是线程超时，gdb单步跟踪验证后，证实是该问题</li>
+<li>多个vs的连接状态的打印日志是连续在一起的，说明是一起进行连接尝试的，而它们共用的是一个超时时间（3秒），如果将它们检查间隔错开，可能有所改善</li>
+</ul></li>
+
+<li><p>这两个问题，用鸡和蛋的比喻是这样描述：</p>
+
+<ul>
+<li>100只鸡同时要下蛋，这个时候调度者会先把这100只鸡生蛋的任务一次性优先执行完，再一个个的去检测蛋，而这个时候有可能蛋就坏了（坏的时间比较短），所以，如果坏的时间比较长，就能避免这个问题。</li>
+<li>100只鸡同时下蛋，这个本身可以想办法让它错开，不要全同时下，如果它们能间隔1到2秒，就能避免相互之间的影响。</li>
+</ul></li>
+
+<li><p>针对上面两个问题，结合代码，做两个参数调整：</p>
+
+<ul>
+<li>将超时时间改大，改成15秒</li>
+<li>增加一个参数：warmup，程序随机生成0-60的随机数，并设置该时间，用于错开检测</li>
+</ul></li>
+
+<li><p>从周五开始，压力测试两天，未发生异常</p></li>
+</ol>
+
+<!--
+1. 由于压力测试期间，频繁的删除pod，导致资源异常，重启kubelet后解决，这期间由于服务大量变化，导致了CLOSE_WAIT，解决方法如下：
+
+
+```sh
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_fin_timeout = 15
+
+sysctl -p
+```
+-->
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://wonder.zxcsoft.com/post/language/go/go-src/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://wonder.zxcsoft.com/post/language/go/go-src/">go源码学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'llh';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://wonder.zxcsoft.com/js/ui.js"></script>
+
+
+
+
+
+
+</body>
+</html>
+

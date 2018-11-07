@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on miracle of light</title>
-    <link>http://wonder.zxcsoft.com/tags/linux/</link>
-    <description>Recent content in Linux on miracle of light</description>
+    <title>Keepalived on miracle of light</title>
+    <link>http://wonder.zxcsoft.com/tags/keepalived/</link>
+    <description>Recent content in Keepalived on miracle of light</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Mon, 05 Nov 2018 11:01:00 +0800</lastBuildDate>
     
-	<atom:link href="http://wonder.zxcsoft.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://wonder.zxcsoft.com/tags/keepalived/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -25,28 +25,6 @@
  一次心跳检测，会有两个任务
  任务A：创建socket连接。根据等到的fd创建任务B放到writer队列中。 任务B：读取socket fd连接状态，根据检测结果配置ipvs。创建一个新的任务A，放入timer队列中。 一组心跳检测就相当于检测一只鸡生蛋的过程。读取完配置文件，发现有100组心跳检测，就好比有100只要检测的鸡（任务A），这个时候都放在鸡窝（timer队列）中，每只鸡上都挂了个时间：生蛋的时间（调度时间），时间到了才调度。详细说明一只鸡（一组心跳检测）的处理流程：  调度者扫描timer队列（当然还有其它队列），发现鸡上的时间到了，把鸡取出来，放到产房（ready队列）中（因为有可能有多个满足条件的，所以一次都放到ready队列中） 调度者从ready队列中取出任务（当前是任务A），执行： 它完成下蛋，把蛋+检测方案（任务B）放到质检房（writer队列）中，同时写上超时时间（鸡蛋坏掉的时间）。 调度者扫描writer队列，发现有蛋了，将它放到ready队列中（任务B）（所有满足条件的），同时检查超时时间，如果时间已经过了（鸡蛋坏了），则修改任务状态为超时。 调度者从ready队列中取出任务（当前是任务B），执行： 先检查任务是不是超时，如果超时了，则直接认定检查失败。否则根据方案检测蛋，如果通过就更新该条ipvs，不通过就删除该条ipvs。然后再把鸡放回去（生成任务A&amp;rsquo;），写下下一次下蛋时间（调度时间），放到timer队列中   ipvs配置示例：
   TCP 10.10.88.98:3306 wlc persistent 1800 -&amp;gt; 10.244.1.222:3306 Masq 1 0 0 TCP 10.10.88.98:9104 wlc persistent 1800 -&amp;gt; 10.244.1.222:9104 Masq 1 0 0  问题说明 程序配置更新了(配置文件中vs-rs的配置更新了)，keepalived也有不停的在更新配置文件的日志（keepalived已经收到信号重新加载了配置文件），但ipvs并没有生效（手工检查rs服务是正常的，但并没有vs-rs的ipvs配置）</description>
-    </item>
-    
-    <item>
-      <title>nginx配置</title>
-      <link>http://wonder.zxcsoft.com/post/linux/nginx/</link>
-      <pubDate>Thu, 26 Jul 2018 19:01:00 +0800</pubDate>
-      
-      <guid>http://wonder.zxcsoft.com/post/linux/nginx/</guid>
-      <description> nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  </description>
-    </item>
-    
-    <item>
-      <title>linux下socket的复用</title>
-      <link>http://wonder.zxcsoft.com/post/linux/linux_socket/</link>
-      <pubDate>Fri, 27 Apr 2018 09:01:00 +0800</pubDate>
-      
-      <guid>http://wonder.zxcsoft.com/post/linux/linux_socket/</guid>
-      <description> linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
- SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
- SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
- SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
-  ssh 代理隧道 #登录远端服务器，将远端服务的1521端口映射到本地的50001端口 ssh -b172.10.1.12 -L172.10.1.12:50001:127.0.0.1:1521 username@172.10.101.1 -CNf #将本地的9015端口映射到远端的9015端口：访问本地的9015就相当于本机访问远端的9015.数据转发 ssh -b172.10.1.12 -L172.10.1.12:9015:172.10.101.7:9015 username@127.0.0.1 -CNf #访问本机的9014，相当于通过101.1访问1.90的9014端口。 建立一个正向隧道 ssh -b172.10.1.12 -L:9014:11.0.1.90:9014 username@172.10.101.1 -CNf  </description>
     </item>
     
   </channel>

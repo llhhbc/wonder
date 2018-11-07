@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://wonder.zxcsoft.com/post/linux/keepalived/keeplived/</loc>
+    <lastmod>2018-11-05T11:01:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/post/language/go/go-src/</loc>
     <lastmod>2018-08-26T20:02:28+08:00</lastmod>
   </url>
@@ -327,6 +332,12 @@
   </url>
   
   <url>
+    <loc>http://wonder.zxcsoft.com/tags/keepalived/</loc>
+    <lastmod>2018-11-05T11:01:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://wonder.zxcsoft.com/tags/kuberadm/</loc>
     <lastmod>2018-04-26T10:46:49+08:00</lastmod>
     <priority>0</priority>
@@ -340,7 +351,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/tags/linux/</loc>
-    <lastmod>2018-07-26T19:01:00+08:00</lastmod>
+    <lastmod>2018-11-05T11:01:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -376,7 +387,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/post/</loc>
-    <lastmod>2018-08-26T20:02:28+08:00</lastmod>
+    <lastmod>2018-11-05T11:01:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -447,7 +458,7 @@
   
   <url>
     <loc>http://wonder.zxcsoft.com/</loc>
-    <lastmod>2018-08-26T20:02:28+08:00</lastmod>
+    <lastmod>2018-11-05T11:01:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   

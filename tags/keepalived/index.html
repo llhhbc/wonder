@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.41-DEV" />
 
-  <title>Linux &middot; miracle of light</title>
+  <title>Keepalived &middot; miracle of light</title>
 
   
   
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/linux/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="miracle of light" href="http://wonder.zxcsoft.com/tags/keepalived/index.xml" />
   
 
   
@@ -107,7 +107,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/linux/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="http://wonder.zxcsoft.com/tags/keepalived/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -204,7 +204,7 @@
 
 
 <div class="header">
-  <h1>Linux</h1>
+  <h1>Keepalived</h1>
 </div>
 
 <div class="content">
@@ -256,92 +256,6 @@
   <footer>
     <a href="http://wonder.zxcsoft.com/post/linux/keepalived/keeplived/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/linux/nginx/">nginx配置</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-07-26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/nginx">nginx</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   nginx 正向代理配置 server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 80; location / { proxy_pass http://$http_host$request_uri; #设定代理服务器的协议和地址 proxy_set_header HOST $http_host; proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } } server { resolver 114.114.114.114; #指定DNS服务器IP地址 listen 443; location / { proxy_pass https://$host$request_uri; #设定代理服务器的协议和地址 proxy_buffers 256 4k; proxy_max_temp_file_size 0k; proxy_connect_timeout 30; proxy_send_timeout 60; proxy_read_timeout 60; proxy_next_upstream error timeout invalid_header http_502; } }  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/socket">socket</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
- SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
- SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
- SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
-  ssh 代理隧道 #登录远端服务器，将远端服务的1521端口映射到本地的50001端口 ssh -b172.10.1.12 -L172.10.1.12:50001:127.0.0.1:1521 username@172.10.101.1 -CNf #将本地的9015端口映射到远端的9015端口：访问本地的9015就相当于本机访问远端的9015.数据转发 ssh -b172.10.1.12 -L172.10.1.12:9015:172.10.101.7:9015 username@127.0.0.1 -CNf #访问本机的9014，相当于通过101.1访问1.90的9014端口。 建立一个正向隧道 ssh -b172.10.1.12 -L:9014:11.0.1.90:9014 username@172.10.101.1 -CNf  
-  </p>
-
   
 </article>
 

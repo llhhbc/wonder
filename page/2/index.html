@@ -212,6 +212,53 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/kuber/traefik/">traefik服务搭建</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-07-29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/traefik">traefik</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/kubernetes">kubernetes</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Traefik服务使用 尽管svc有了负载均衡功能，可以简单通过LoadBalance来实现，但功能相对简单，而且有多个服务的时候，不好统一管理，而traefik是一个反向代理，可以像nginx一样配置相应的服务代理功能，并增加了检查服务是否可用、pod状态等功能，动态的更新配置
+1.Traefik的部署  参考官方文档：https://docs.traefik.io/user-guide/kubernetes/
+  创建角色：因为traefik需要访问kuber来获取服务等的状态信息  kind: ClusterRole apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller rules: - apiGroups: - &quot;&quot; resources: - services - endpoints - secrets verbs: - get - list - watch - apiGroups: - extensions resources: - ingresses verbs: - get - list - watch --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: traefik-ingress-controller roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: traefik-ingress-controller subjects: - kind: ServiceAccount name: traefik-ingress-controller namespace: default   创建服务 traefik本身也是一种服务，和其它服务一样，80是工作端口（服务分发），8080是ui端口，可查看当前情况  apiVersion: v1 kind: ServiceAccount metadata: name: traefik-ingress-controller namespace: default --- kind: Deployment apiVersion: extensions/v1beta1 metadata: name: traefik-ingress-controller namespace: default labels: k8s-app: traefik-ingress-lb spec: replicas: 1 selector: matchLabels: k8s-app: traefik-ingress-lb template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: serviceAccountName: traefik-ingress-controller terminationGracePeriodSeconds: 60 containers: - image: traefik:v1.
+  </p>
+
+  
+  <footer>
+    <a href="http://wonder.zxcsoft.com/post/kuber/traefik/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/oracle/docker_ora/">docker 安装 oracle</a></h2>
 
     <div class="post-meta">
@@ -590,47 +637,6 @@
 尽早将开发、测试、部署、运维、监控的流水线打通，才能帮助团队更好的驾驭微服务
  同一时间聚焦一个任务 能对每次完成的部分做持续集成 整体的进度容易追踪  一般任务分为如下几个过程： * 服务实现 * 代码测试与静态检查 * Docker镜像构建 * docker镜像部署 * 功能迭代 * 日志聚合 * 监控与告警 * 持续集成与交付
   微服务设计 开发  独立代码库 服务说明文件  服务介绍 服务维护者 服务可用期 定义环境：生产环境、类生产环境、测试环境 开发说明：如果搭建开发环境、如何运行服务、如何定位问题 测试说明：测试策略、如何运行测试、如果查看测试结果 构建说明：集成访问的url、集成流程描述、构建的部署包 部署说明：如何部署到不同环境、部署后功能验证 运维说明：日志聚合的访问、告警信息的访问、监控信息的访问  代码所有权归团队：不能让代码只有一个人熟悉 有效的代码版本管理 代码静态检查工具 代码易于本地运行  测试  接口测试 测试的有效性  构建  每个服务都是一个可独立部署的业务单元  部署  部署环境说明  运维  监控 告警 日志聚合  微服务之前的通讯  同步通讯、异步通讯 rpc rest：资源、表述、状态转移、统一接口  get用来获取资源 post来新建资源 put来更新资源 delete来删除资源  hal  基于rest，但把每个资源分成三部分：状态、链接、子资源  消息队列  
-  </p>
-
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/tools/caddy-src/">caddy</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-06-29</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/caddy">caddy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/https">https</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   caddy  caddy是个网站搭建工具  
   </p>
 
   

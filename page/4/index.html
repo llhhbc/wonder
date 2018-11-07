@@ -212,6 +212,51 @@
   
     <article>
   <header>
+    <h2><a href="http://wonder.zxcsoft.com/post/linux/linux_socket/">linux下socket的复用</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-04-27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/socket">socket</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+   linux下端口复用 SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)  当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。
+ SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。
+ SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。
+ SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。
+  ssh 代理隧道 #登录远端服务器，将远端服务的1521端口映射到本地的50001端口 ssh -b172.10.1.12 -L172.10.1.12:50001:127.0.0.1:1521 username@172.10.101.1 -CNf #将本地的9015端口映射到远端的9015端口：访问本地的9015就相当于本机访问远端的9015.数据转发 ssh -b172.10.1.12 -L172.10.1.12:9015:172.10.101.7:9015 username@127.0.0.1 -CNf #访问本机的9014，相当于通过101.1访问1.90的9014端口。 建立一个正向隧道 ssh -b172.10.1.12 -L:9014:11.0.1.90:9014 username@172.10.101.1 -CNf  
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://wonder.zxcsoft.com/post/kuber/istio/">istio初尝试</a></h2>
 
     <div class="post-meta">
@@ -642,51 +687,6 @@ kubectl create clusterrolebinding kubelet-bootstrap &ndash;clusterrole=system:no
   <footer>
     <a href="http://wonder.zxcsoft.com/post/grafana/grafana-src/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://wonder.zxcsoft.com/post/hugo/use-hugo/">use hugo</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-04-25</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/go">go</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/golang">golang</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/hugo">hugo</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://wonder.zxcsoft.com/tags/development">development</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-   hugo的安装 go get github.com/gohugoio/hugo  基本使用  创建一个网站项目 hugo new site hello 安装一个theme hugo将数据和展示分开了，显示部分由theme来管理 原理如下：  项目下的数据，会由hugo按格式读取，并约定好模板中的变更名，由theme来显示出来 比如：.Data表示content下的页面信息 theme就是go用来渲染的模板，而项目下content下的就是它的数据来源（默认用这个目录），也支持用其它目录   发布github  github上新创建一个repository 修改本地baseurl为github的：https://llhhbc.github.io/wonder/ 上传代码：  hugo ##生成静态文件 cd public git init git add . git commit -m &quot;init&quot; git remote add github https://github.com/llhhbc/wonder.git git push github master   在repository 的设置（setting）中，找到github pages 在source中选择分支，点击save（会自动刷新，然后会提示访问地址）  
-  </p>
-
   
 </article>
 
